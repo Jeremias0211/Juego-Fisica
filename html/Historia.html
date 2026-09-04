@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Historia - Nuevo Hogar</title>
+
+    <link rel="stylesheet" href="../css/Historia.css">
+
+</head>
+
+
+<body>
+
+
+    <div id="pantallaHistoria">
+
+
+        <div class="historia">
+
+            <h2>
+                MISIÓN: EL ÉXODO DE LA HUMANIDAD
+            </h2>
+
+
+            <div class="texto-historia">
+
+                <p>
+                    AÑO 2142. LA TIERRA ESTÁ AL LÍMITE.
+                </p>
+
+                <p>
+                    EL CALENTAMIENTO GLOBAL Y LOS DESASTRES
+                    AMBIENTALES HAN HECHO NUESTRO HOGAR
+                    INHABITABLE.
+                </p>
+
+                <p>
+                    PARA SALVARNOS, LA OPERACIÓN ÉXODO DEBE
+                    ENCONTRAR UN NUEVO PLANETA HABITABLE.
+                </p>
+
+
+                <div class="objetivos">
+
+                    <p>VIAJA POR 6 PLANETAS. 🪐</p>
+
+                    <p>SUPERA DESAFÍOS FÍSICOS. 🌎</p>
+
+                    <p>
+                        COMPLETA LA MISIÓN,
+                        SALVA A LA HUMANIDAD. ✨
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <button class="continuar" id="continuar">
+                CONTINUAR
+            </button>
+
+        </div>
+
+
+        <div class="indicador oxigeno">
+
+            OXÍGENO
+
+            <div class="barra-indicador">
+
+                <div class="nivel oxigeno-nivel"></div>
+
+            </div>
+
+        </div>
+
+
+        <div class="indicador combustible">
+
+            COMBUSTIBLE
+
+            <div class="barra-indicador">
+
+                <div class="nivel combustible-nivel"></div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+    <script src="scrips.js"></script>
+
+
+    <script>
+
+    const continuar = document.getElementById("continuar");
+
+    continuar.addEventListener("click", () => {
+
+        window.location.href = "Niveles.html";
+
+    });
+
+</script>
+
+</body>
+
+</html>

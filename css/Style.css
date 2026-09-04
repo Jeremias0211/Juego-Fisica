@@ -1,0 +1,549 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+
+    background-image: url("../img//fondo.jpeg");
+    background-size: cover;
+    background-position: center;
+
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+
+/* =========================
+   JUGADOR
+========================= */
+
+.jugador {
+    position: absolute;
+
+    top: 25px;
+    left: 25px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    z-index: 20;
+}
+
+.avatar {
+    width: 55px;
+    height: 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 2px solid #8eeaff;
+    border-radius: 8px;
+
+    background: rgba(20, 50, 80, .8);
+
+    font-size: 28px;
+
+    box-shadow: 0 0 10px #4bdfff;
+}
+
+.nombre {
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.barra {
+    width: 125px;
+    height: 7px;
+
+    margin-top: 7px;
+
+    background: rgba(255,255,255,.25);
+
+    border-radius: 10px;
+}
+
+.progreso {
+    width: 55%;
+    height: 100%;
+
+    background: #3be8ff;
+
+    border-radius: 10px;
+
+    box-shadow: 0 0 10px #3be8ff;
+}
+
+
+/* =========================
+   CONTENIDO
+========================= */
+
+main {
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 600px;
+
+    text-align: center;
+
+    z-index: 5;
+}
+
+
+/* =========================
+   TITULO
+========================= */
+
+h1 {
+    margin-bottom: 70px;
+
+    font-size: 46px;
+    line-height: 1.05;
+
+    letter-spacing: 2px;
+
+    text-shadow:
+        0 0 5px white,
+        0 0 15px #8eeaff;
+}
+
+h1 span {
+    display: block;
+
+    margin-top: 10px;
+
+    color: #4ff6ff;
+
+    text-shadow:
+        0 0 5px white,
+        0 0 15px #00eaff,
+        0 0 30px #00eaff;
+}
+
+
+/* =========================
+   BOTON PRINCIPAL
+========================= */
+
+.comenzar {
+    width: 260px;
+    height: 100px;
+
+    border: 4px solid #7cecff;
+    border-radius: 35px;
+
+    background: linear-gradient(
+        #ffc14d,
+        #ff8a19
+    );
+
+    color: #06346c;
+
+    font-size: 25px;
+    font-weight: 900;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 0 10px white,
+        0 0 20px #ff9d2e,
+        0 0 35px #ff9d2e;
+
+    transition: .2s;
+}
+
+.comenzar span {
+    display: block;
+}
+
+.comenzar:hover {
+    transform: scale(1.05);
+
+    box-shadow:
+        0 0 15px white,
+        0 0 30px #ffb13b,
+        0 0 50px #ff9d2e;
+}
+
+
+/* =========================
+   BOTONES SECUNDARIOS
+========================= */
+
+.secundario {
+    display: block;
+
+    width: 190px;
+    height: 45px;
+
+    margin: 15px auto;
+
+    border: 2px solid #9aeaff;
+    border-radius: 25px;
+
+    background: rgba(15, 45, 75, .75);
+
+    color: white;
+
+    font-size: 21px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow: 0 0 8px rgba(100,220,255,.4);
+
+    transition: .2s;
+}
+
+.secundario:hover {
+    transform: scale(1.04);
+
+    background: rgba(60,150,200,.6);
+
+    box-shadow: 0 0 15px #58dcff;
+}
+
+
+
+/* =================================================
+   RESPONSIVE - CELULAR
+================================================= */
+
+@media (max-width: 600px) {
+
+    body {
+        width: 100%;
+        height: 100%;
+
+        overflow: hidden;
+    }
+
+
+    /* JUGADOR */
+
+    .jugador {
+        top: 12px;
+        left: 12px;
+
+        gap: 8px;
+    }
+
+    .avatar {
+        width: 40px;
+        height: 40px;
+
+        font-size: 19px;
+
+        border-width: 1px;
+    }
+
+    .nombre {
+        font-size: 11px;
+        letter-spacing: .5px;
+    }
+
+    .barra {
+        width: 80px;
+        height: 5px;
+
+        margin-top: 4px;
+    }
+
+
+    /* CONTENIDO */
+
+    main {
+        width: 90vw;
+
+        top: 50%;
+    }
+
+
+    /* TITULO */
+
+    h1 {
+        margin-bottom: 45px;
+
+        font-size: 27px;
+
+        letter-spacing: 1px;
+
+        line-height: 1.1;
+    }
+
+    h1 span {
+        margin-top: 6px;
+    }
+
+
+    /* BOTON PRINCIPAL */
+
+    .comenzar {
+        width: 190px;
+        height: 72px;
+
+        border-width: 3px;
+        border-radius: 25px;
+
+        font-size: 18px;
+    }
+
+
+    /* BOTONES SECUNDARIOS */
+
+    .secundario {
+        width: 145px;
+        height: 38px;
+
+        margin: 10px auto;
+
+        border-width: 1px;
+
+        font-size: 15px;
+    }
+
+
+    /* ICONOS */
+
+    .iconos {
+        width: 300px;
+        height: 150px;
+
+        top: 85px;
+    }
+
+
+    .iconos button {
+        width: 34px;
+        height: 34px;
+
+        border-width: 1px;
+
+        font-size: 14px;
+    }
+
+
+    /* IZQUIERDA */
+
+    .iconos button:nth-child(1) {
+        top: 20px;
+        left: 45px;
+    }
+
+    .iconos button:nth-child(2) {
+        top: 75px;
+        left: 5px;
+    }
+
+    .iconos button:nth-child(3) {
+        top: 130px;
+        left: 50px;
+    }
+
+
+    /* DERECHA */
+
+    .iconos button:nth-child(4) {
+        top: 20px;
+        right: 45px;
+    }
+
+    .iconos button:nth-child(5) {
+        top: 75px;
+        right: 5px;
+    }
+
+    .iconos button:nth-child(6) {
+        top: 130px;
+        right: 50px;
+    }
+
+
+    /* DESACTIVAR HOVER EN CELULAR */
+
+    .comenzar:hover {
+        transform: none;
+    }
+
+    .secundario:hover {
+        transform: none;
+    }
+
+    .iconos button:hover {
+        transform: none;
+    }
+}
+
+
+/* =================================================
+   CELULARES MUY PEQUEÑOS
+================================================= */
+
+@media (max-width: 380px) {
+
+    .jugador {
+        top: 8px;
+        left: 8px;
+    }
+
+    .avatar {
+        width: 35px;
+        height: 35px;
+
+        font-size: 17px;
+    }
+
+    .nombre {
+        font-size: 9px;
+    }
+
+    .barra {
+        width: 65px;
+        height: 4px;
+    }
+
+
+    main {
+        width: 94vw;
+    }
+
+
+    h1 {
+        margin-bottom: 40px;
+
+        font-size: 23px;
+    }
+
+
+    .comenzar {
+        width: 165px;
+        height: 62px;
+
+        font-size: 16px;
+
+        border-radius: 20px;
+    }
+
+
+    .secundario {
+        width: 130px;
+        height: 34px;
+
+        margin: 8px auto;
+
+        font-size: 13px;
+    }
+
+
+    .iconos {
+        width: 260px;
+        height: 130px;
+
+        top: 78px;
+    }
+
+
+    .iconos button {
+        width: 30px;
+        height: 30px;
+
+        font-size: 12px;
+    }
+
+
+    .iconos button:nth-child(1) {
+        top: 15px;
+        left: 38px;
+    }
+
+    .iconos button:nth-child(2) {
+        top: 65px;
+        left: 2px;
+    }
+
+    .iconos button:nth-child(3) {
+        top: 112px;
+        left: 42px;
+    }
+
+    .iconos button:nth-child(4) {
+        top: 15px;
+        right: 38px;
+    }
+
+    .iconos button:nth-child(5) {
+        top: 65px;
+        right: 2px;
+    }
+
+    .iconos button:nth-child(6) {
+        top: 112px;
+        right: 42px;
+    }
+}
+
+
+/* =================================================
+   CELULAR HORIZONTAL
+================================================= */
+
+@media (max-height: 500px) and (max-width: 900px) {
+
+    .jugador {
+        top: 8px;
+        left: 10px;
+    }
+
+
+    main {
+        top: 52%;
+
+        width: 70vw;
+    }
+
+
+    h1 {
+        margin-bottom: 25px;
+
+        font-size: 24px;
+    }
+
+
+    .comenzar {
+        width: 180px;
+        height: 55px;
+
+        font-size: 16px;
+    }
+
+
+    .secundario {
+        width: 140px;
+        height: 32px;
+
+        margin: 6px auto;
+
+        font-size: 13px;
+    }
+
+
+    .iconos {
+        top: 65px;
+
+        transform: translateX(-50%) scale(.8);
+
+        transform-origin: top center;
+    }
+}

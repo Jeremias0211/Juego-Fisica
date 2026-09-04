@@ -1,0 +1,543 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+
+/* =========================
+   PANTALLA HISTORIA
+========================= */
+
+#pantallaHistoria {
+
+    position: absolute;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-image: url("img/fondo-historia.jpeg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    margin: 0;
+}
+
+
+/* =========================
+   PANEL
+========================= */
+
+.historia {
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 500px;
+    min-height: 290px;
+
+    padding: 22px 25px 45px;
+
+    text-align: center;
+
+    background: rgba(8, 42, 60, 0.85);
+
+    border: 2px solid #62eaff;
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 0 8px #62eaff,
+        0 0 20px rgba(0, 234, 255, 0.6),
+        inset 0 0 25px rgba(0, 220, 255, 0.15);
+}
+
+
+/* =========================
+   TITULO
+========================= */
+
+.historia h2 {
+
+    margin-bottom: 20px;
+
+    color: #5ff5ff;
+
+    font-size: 25px;
+
+    text-shadow:
+        0 0 5px white,
+        0 0 12px #00eaff;
+}
+
+
+/* =========================
+   TEXTO
+========================= */
+
+.texto-historia {
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    line-height: 1.35;
+
+    text-shadow:
+        0 2px 3px black;
+}
+
+.texto-historia p {
+
+    margin-bottom: 13px;
+}
+
+
+/* =========================
+   BOTON
+========================= */
+
+.continuar {
+
+    position: absolute;
+
+    left: 50%;
+    bottom: -25px;
+
+    transform: translateX(-50%);
+
+    width: 205px;
+    height: 55px;
+
+    border: 3px solid #53f5ff;
+
+    border-radius: 18px;
+
+    background: rgba(10, 70, 85, 0.95);
+
+    color: #63f6ff;
+
+    font-size: 23px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 0 8px white,
+        0 0 18px #00eaff,
+        0 0 30px rgba(0, 234, 255, 0.8);
+
+    transition: 0.2s;
+}
+
+
+.continuar:hover {
+
+    transform: translateX(-50%) scale(1.05);
+
+    box-shadow:
+        0 0 12px white,
+        0 0 25px #00eaff,
+        0 0 40px rgba(0, 234, 255, 0.9);
+}
+
+
+/* =========================
+   INDICADORES
+========================= */
+
+.indicador {
+
+    position: absolute;
+
+    bottom: 55px;
+
+    width: 110px;
+
+    font-size: 10px;
+
+    color: #b8efff;
+}
+
+
+.oxigeno {
+    left: 27%;
+}
+
+
+.combustible {
+    right: 27%;
+}
+
+
+/* =========================
+   BARRAS
+========================= */
+
+.barra-indicador {
+
+    width: 90px;
+    height: 7px;
+
+    margin-top: 4px;
+
+    border: 1px solid #77eaff;
+
+    background: rgba(10, 30, 45, 0.7);
+}
+
+
+.nivel {
+
+    height: 100%;
+
+    background: #62eaff;
+
+    box-shadow:
+        0 0 7px #00eaff;
+}
+
+
+.oxigeno-nivel {
+    width: 90%;
+}
+
+
+.combustible-nivel {
+    width: 85%;
+}
+
+
+/* =================================================
+   RESPONSIVE - TABLETS
+================================================= */
+
+@media (max-width: 900px) {
+
+    .historia {
+
+        width: 70vw;
+        max-width: 500px;
+
+        min-height: 280px;
+
+        padding: 20px 22px 42px;
+    }
+
+
+    .historia h2 {
+
+        font-size: 23px;
+
+        margin-bottom: 17px;
+    }
+
+
+    .texto-historia {
+
+        font-size: 14px;
+    }
+
+
+    .texto-historia p {
+
+        margin-bottom: 11px;
+    }
+
+
+    .continuar {
+
+        width: 180px;
+        height: 50px;
+
+        font-size: 20px;
+
+        bottom: -23px;
+    }
+
+
+    .indicador {
+
+        bottom: 40px;
+    }
+
+
+    .oxigeno {
+        left: 18%;
+    }
+
+
+    .combustible {
+        right: 18%;
+    }
+}
+
+
+/* =================================================
+   RESPONSIVE - CELULARES
+================================================= */
+
+@media (max-width: 600px) {
+
+    body {
+
+        width: 100%;
+        height: 100%;
+
+        overflow: hidden;
+    }
+
+
+    #pantallaHistoria {
+
+        width: 100%;
+        height: 100%;
+
+        min-height: 100svh;
+    }
+
+
+    /* PANEL */
+
+    .historia {
+
+        width: 88vw;
+
+        min-height: auto;
+
+        padding: 18px 16px 40px;
+
+        border-width: 2px;
+
+        border-radius: 8px;
+    }
+
+
+    /* TITULO */
+
+    .historia h2 {
+
+        margin-bottom: 14px;
+
+        font-size: 19px;
+
+        line-height: 1.2;
+    }
+
+
+    /* TEXTO */
+
+    .texto-historia {
+
+        font-size: 12px;
+
+        line-height: 1.4;
+    }
+
+
+    .texto-historia p {
+
+        margin-bottom: 10px;
+    }
+
+
+    /* BOTON */
+
+    .continuar {
+
+        width: 155px;
+        height: 45px;
+
+        bottom: -21px;
+
+        border-width: 2px;
+
+        border-radius: 14px;
+
+        font-size: 17px;
+    }
+
+
+    /* INDICADORES */
+
+    .indicador {
+
+        bottom: 20px;
+
+        width: 90px;
+
+        font-size: 8px;
+    }
+
+
+    .oxigeno {
+        left: 8%;
+    }
+
+
+    .combustible {
+        right: 8%;
+    }
+
+
+    /* BARRAS */
+
+    .barra-indicador {
+
+        width: 75px;
+        height: 6px;
+
+        margin-top: 3px;
+    }
+}
+
+
+/* =================================================
+   RESPONSIVE - CELULARES MUY PEQUEÑOS
+================================================= */
+
+@media (max-width: 380px) {
+
+    .historia {
+
+        width: 92vw;
+
+        padding: 15px 12px 35px;
+    }
+
+
+    .historia h2 {
+
+        font-size: 17px;
+
+        margin-bottom: 11px;
+    }
+
+
+    .texto-historia {
+
+        font-size: 10px;
+
+        line-height: 1.35;
+    }
+
+
+    .texto-historia p {
+
+        margin-bottom: 8px;
+    }
+
+
+    .continuar {
+
+        width: 135px;
+        height: 40px;
+
+        bottom: -19px;
+
+        font-size: 15px;
+
+        border-radius: 12px;
+    }
+
+
+    .indicador {
+
+        bottom: 14px;
+
+        width: 75px;
+
+        font-size: 7px;
+    }
+
+
+    .oxigeno {
+        left: 5%;
+    }
+
+
+    .combustible {
+        right: 5%;
+    }
+
+
+    .barra-indicador {
+
+        width: 65px;
+        height: 5px;
+    }
+}
+
+
+/* =================================================
+   CELULAR HORIZONTAL
+================================================= */
+
+@media (max-height: 500px) and (max-width: 900px) {
+
+    .historia {
+
+        top: 48%;
+
+        width: 75vw;
+
+        min-height: auto;
+
+        padding: 12px 18px 30px;
+    }
+
+
+    .historia h2 {
+
+        font-size: 18px;
+
+        margin-bottom: 8px;
+    }
+
+
+    .texto-historia {
+
+        font-size: 11px;
+
+        line-height: 1.25;
+    }
+
+
+    .texto-historia p {
+
+        margin-bottom: 6px;
+    }
+
+
+    .continuar {
+
+        width: 140px;
+        height: 38px;
+
+        bottom: -18px;
+
+        font-size: 15px;
+    }
+
+
+    .indicador {
+
+        bottom: 8px;
+    }
+}

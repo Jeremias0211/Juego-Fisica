@@ -1,0 +1,692 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+
+    font-family: Arial, sans-serif;
+    color: white;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(30, 80, 120, 0.35),
+            rgba(0, 5, 20, 0.95)
+        ),
+        url("img/fondo-niveles.jpeg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+/* =========================
+   MAPA
+========================= */
+
+.mapa {
+    position: relative;
+
+    width: 100vw;
+    height: 100vh;
+}
+
+
+/* =========================
+   TITULO
+========================= */
+
+h1 {
+    position: absolute;
+
+    top: 30px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    font-size: 28px;
+    letter-spacing: 2px;
+
+    color: #6cefff;
+
+    text-shadow:
+        0 0 5px white,
+        0 0 15px #00eaff,
+        0 0 30px #00eaff;
+
+    z-index: 10;
+}
+
+
+/* =========================
+   RUTA
+========================= */
+
+.ruta {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    top: 0;
+    left: 0;
+
+    pointer-events: none;
+
+    z-index: 1;
+}
+
+
+/* =========================
+   NIVEL
+========================= */
+
+.nivel {
+    position: absolute;
+
+    width: 130px;
+
+    background: none;
+
+    border: none;
+
+    color: white;
+
+    cursor: pointer;
+
+    text-align: center;
+
+    z-index: 5;
+
+    transition: .25s;
+}
+
+
+/* =========================
+   PLANETAS
+========================= */
+
+.planeta {
+    width: 80px;
+    height: 80px;
+
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    font-size: 45px;
+
+    background:
+        radial-gradient(
+            circle at 30% 30%,
+            white,
+            #39bde8 20%,
+            #075080 55%,
+            #02152b 100%
+        );
+
+    border: 2px solid #61edff;
+
+    box-shadow:
+        0 0 10px white,
+        0 0 20px #00eaff,
+        0 0 35px rgba(0, 234, 255, .7);
+
+    transition: .25s;
+}
+
+
+/* =========================
+   TEXTO
+========================= */
+
+.nivel span {
+    display: block;
+
+    margin-top: 8px;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    color: white;
+
+    text-shadow:
+        0 0 5px black;
+}
+
+
+.nivel small {
+    display: block;
+
+    margin-top: 3px;
+
+    font-size: 9px;
+
+    color: #a8edff;
+
+    text-shadow:
+        0 0 5px black;
+}
+
+
+/* =========================
+   POSICIONES
+   ESPIRAL MÁS ABIERTA
+========================= */
+
+
+/* NIVEL 1 */
+
+.nivel1 {
+    left: 50%;
+    bottom: 5%;
+
+    transform: translateX(-50%);
+}
+
+
+/* NIVEL 2 */
+
+.nivel2 {
+    left: 21%;
+    bottom: 16%;
+}
+
+
+/* NIVEL 3 */
+
+.nivel3 {
+    left: 7%;
+    top: 48%;
+}
+
+
+/* NIVEL 4 */
+
+.nivel4 {
+    left: 17%;
+    top: 18%;
+}
+
+
+/* NIVEL 5 */
+
+.nivel5 {
+    left: 43%;
+    top: 9%;
+}
+
+
+/* NIVEL 6 */
+
+.nivel6 {
+    right: 20%;
+    top: 16%;
+}
+
+
+/* NIVEL 7 */
+
+.nivel7 {
+    right: 5%;
+    top: 43%;
+}
+
+
+/* NIVEL 8 */
+
+.nivel8 {
+    right: 18%;
+    bottom: 15%;
+}
+
+
+/* NIVEL 9 */
+
+.nivel9 {
+    left: 50%;
+    top: 42%;
+
+    transform: translateX(-50%);
+}
+
+
+/* =========================
+   HOVER
+========================= */
+
+.desbloqueado:hover {
+    transform: scale(1.08);
+}
+
+
+.nivel1.desbloqueado:hover {
+    transform: translateX(-50%) scale(1.08);
+}
+
+
+.nivel9.desbloqueado:hover {
+    transform: translateX(-50%) scale(1.08);
+}
+
+
+.desbloqueado:hover .planeta {
+    box-shadow:
+        0 0 15px white,
+        0 0 30px #00eaff,
+        0 0 55px #00eaff;
+}
+
+
+/* =========================
+   BLOQUEADOS
+========================= */
+
+.bloqueado {
+    cursor: not-allowed;
+
+    opacity: .55;
+}
+
+
+.bloqueado .planeta {
+    filter: grayscale(1);
+
+    box-shadow:
+        0 0 5px rgba(255,255,255,.3);
+}
+
+
+/* =========================
+   CANDADO
+========================= */
+
+.candado {
+    position: absolute;
+
+    top: 20px;
+    right: 10px;
+
+    width: 28px;
+    height: 28px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: rgba(20, 30, 40, .9);
+
+    border: 1px solid #aaa;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   VOLVER
+========================= */
+
+.volver {
+    position: absolute;
+
+    bottom: 25px;
+    left: 30px;
+
+    width: 100px;
+    height: 35px;
+
+    border: 1px solid #73eaff;
+
+    border-radius: 8px;
+
+    background: rgba(10, 50, 70, .8);
+
+    color: white;
+
+    cursor: pointer;
+
+    transition: .2s;
+}
+
+
+.volver:hover {
+    background: rgba(50, 130, 160, .8);
+
+    box-shadow:
+        0 0 12px #00eaff;
+}
+
+/* =========================
+   RESPONSIVE - TABLETS
+========================= */
+
+@media (max-width: 900px) {
+
+    h1 {
+        top: 25px;
+        font-size: 24px;
+        white-space: nowrap;
+    }
+
+    .nivel {
+        width: 110px;
+    }
+
+    .planeta {
+        width: 65px;
+        height: 65px;
+        font-size: 36px;
+    }
+
+    .nivel span {
+        font-size: 12px;
+    }
+
+    .nivel small {
+        font-size: 8px;
+    }
+
+    .candado {
+        width: 23px;
+        height: 23px;
+        font-size: 11px;
+        top: 15px;
+        right: 5px;
+    }
+
+
+    /* NIVEL 1 */
+    .nivel1 {
+        left: 50%;
+        bottom: 5%;
+    }
+
+    /* NIVEL 2 */
+    .nivel2 {
+        left: 16%;
+        bottom: 13%;
+    }
+
+    /* NIVEL 3 */
+    .nivel3 {
+        left: 3%;
+        top: 48%;
+    }
+
+    /* NIVEL 4 */
+    .nivel4 {
+        left: 13%;
+        top: 19%;
+    }
+
+    /* NIVEL 5 */
+    .nivel5 {
+        left: 40%;
+        top: 10%;
+    }
+
+    /* NIVEL 6 */
+    .nivel6 {
+        right: 16%;
+        top: 17%;
+    }
+
+    /* NIVEL 7 */
+    .nivel7 {
+        right: 2%;
+        top: 44%;
+    }
+
+    /* NIVEL 8 */
+    .nivel8 {
+        right: 14%;
+        bottom: 13%;
+    }
+
+    /* NIVEL 9 */
+    .nivel9 {
+        left: 50%;
+        top: 42%;
+    }
+
+}
+
+
+/* =========================
+   RESPONSIVE - CELULAR
+========================= */
+
+@media (max-width: 600px) {
+
+    body {
+        overflow: hidden;
+    }
+
+    .mapa {
+        width: 100vw;
+        height: 100vh;
+    }
+
+
+    /* TITULO */
+
+    h1 {
+        top: 18px;
+
+        width: 100%;
+
+        text-align: center;
+
+        font-size: 18px;
+
+        letter-spacing: 1px;
+    }
+
+
+    /* NIVELES */
+
+    .nivel {
+        width: 85px;
+    }
+
+
+    /* PLANETAS */
+
+    .planeta {
+        width: 55px;
+        height: 55px;
+
+        font-size: 29px;
+
+        border-width: 1px;
+
+        box-shadow:
+            0 0 7px white,
+            0 0 14px #00eaff,
+            0 0 22px rgba(0, 234, 255, .7);
+    }
+
+
+    /* TEXTO */
+
+    .nivel span {
+        margin-top: 5px;
+
+        font-size: 10px;
+    }
+
+    .nivel small {
+        margin-top: 2px;
+
+        font-size: 7px;
+    }
+
+
+    /* CANDADO */
+
+    .candado {
+        width: 20px;
+        height: 20px;
+
+        top: 10px;
+        right: 0;
+
+        font-size: 9px;
+    }
+
+
+    /* =========================
+       POSICIONES CELULAR
+    ========================= */
+
+
+    /* NIVEL 1 */
+
+    .nivel1 {
+        left: 50%;
+        bottom: 4%;
+    }
+
+
+    /* NIVEL 2 */
+
+    .nivel2 {
+        left: 8%;
+        bottom: 14%;
+    }
+
+
+    /* NIVEL 3 */
+
+    .nivel3 {
+        left: 1%;
+        top: 48%;
+    }
+
+
+    /* NIVEL 4 */
+
+    .nivel4 {
+        left: 8%;
+        top: 22%;
+    }
+
+
+    /* NIVEL 5 */
+
+    .nivel5 {
+        left: 37%;
+        top: 11%;
+    }
+
+
+    /* NIVEL 6 */
+
+    .nivel6 {
+        right: 8%;
+        top: 18%;
+    }
+
+
+    /* NIVEL 7 */
+
+    .nivel7 {
+        right: 1%;
+        top: 45%;
+    }
+
+
+    /* NIVEL 8 */
+
+    .nivel8 {
+        right: 7%;
+        bottom: 14%;
+    }
+
+
+   
+
+    /* =========================
+       BOTON VOLVER
+    ========================= */
+
+    .volver {
+        bottom: 15px;
+        left: 15px;
+
+        width: 85px;
+        height: 32px;
+
+        font-size: 11px;
+    }
+
+
+    /* =========================
+       HOVER DESACTIVADO
+       PARA PANTALLAS TACTILES
+    ========================= */
+
+    .desbloqueado:hover {
+        transform: none;
+    }
+
+    .nivel1.desbloqueado:hover {
+        transform: translateX(-50%);
+    }
+
+    .nivel9.desbloqueado:hover {
+        transform: translateX(-50%);
+    }
+
+}
+
+
+/* =========================
+   CELULARES MUY PEQUEÑOS
+========================= */
+
+@media (max-width: 380px) {
+
+    h1 {
+        font-size: 16px;
+    }
+
+    .nivel {
+        width: 75px;
+    }
+
+    .planeta {
+        width: 48px;
+        height: 48px;
+
+        font-size: 25px;
+    }
+
+    .nivel span {
+        font-size: 9px;
+    }
+
+    .nivel small {
+        font-size: 6px;
+    }
+
+    .candado {
+        width: 18px;
+        height: 18px;
+        font-size: 8px;
+    }
+
+}
