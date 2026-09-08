@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Nuevo Hogar - Registrarse</title>
+
+    <link rel="stylesheet"
+          href="../css/Registro.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- MARCO DE LA PANTALLA -->
+
+    <div class="marco">
+
+        <div class="esquina esquina-superior-izquierda"></div>
+        <div class="esquina esquina-superior-derecha"></div>
+        <div class="esquina esquina-inferior-izquierda"></div>
+        <div class="esquina esquina-inferior-derecha"></div>
+
+    </div>
+
+
+
+    <!-- CONTENIDO -->
+
+    <main class="registro-container">
+
+
+        <!-- =========================
+             LOGO
+        ========================== -->
+
+        <section class="logo">
+
+            <h1>NUEVO HOGAR</h1>
+
+            <div class="subtitulo">
+
+                <span>—</span>
+                MISIÓN ESPACIAL
+                <span>—</span>
+
+            </div>
+
+            <div class="flecha">
+                ▼
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             TITULO REGISTRO
+        ========================== -->
+
+        <section class="titulo-registro">
+
+            <div class="linea-titulo"></div>
+
+            <h2>REGISTRARSE</h2>
+
+            <div class="linea-titulo"></div>
+
+            <div class="flecha-registro">
+                ▼
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             FORMULARIO
+        ========================== -->
+
+        <section class="formulario">
+
+
+            <!-- USUARIO -->
+
+            <div class="campo">
+
+                <div class="icono">
+                    👤
+                </div>
+
+                <input
+                    type="text"
+                    id="usuario"
+                    placeholder="USUARIO"
+                    autocomplete="username"
+                >
+
+            </div>
+
+
+
+            <!-- CORREO -->
+
+            <div class="campo">
+
+                <div class="icono">
+                    ✉
+                </div>
+
+                <input
+                    type="email"
+                    id="correo"
+                    placeholder="CORREO ELECTRÓNICO"
+                    autocomplete="email"
+                >
+
+            </div>
+
+
+
+            <!-- CONTRASEÑA -->
+
+            <div class="campo">
+
+                <div class="icono">
+                    🔒
+                </div>
+
+                <input
+                    type="password"
+                    id="contrasena"
+                    placeholder="CONTRASEÑA"
+                    autocomplete="new-password"
+                >
+
+            </div>
+
+
+
+            <!-- CONFIRMAR CONTRASEÑA -->
+
+            <div class="campo">
+
+                <div class="icono">
+                    🔒
+                </div>
+
+                <input
+                    type="password"
+                    id="confirmarContrasena"
+                    placeholder="CONFIRMAR CONTRASEÑA"
+                    autocomplete="new-password"
+                >
+
+            </div>
+
+
+
+            <!-- CREAR CUENTA -->
+
+            <button
+                type="button"
+                class="btn-crear"
+                id="btnCrear">
+
+                CREAR CUENTA
+
+            </button>
+
+
+
+            <!-- SEPARADOR -->
+
+            <div class="separador">
+
+                <span>✦</span>
+
+            </div>
+
+
+
+            <!-- VOLVER AL LOGIN -->
+
+            <div class="volver-login">
+
+                <p>
+                    ¿YA TENÉS CUENTA?
+                </p>
+
+                <button
+                    type="button"
+                    id="btnLogin">
+
+                    — INICIAR SESIÓN —
+
+                </button>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+
+    <script src="../js/Registro.js"></script>
+
+</body>
+
+</html>

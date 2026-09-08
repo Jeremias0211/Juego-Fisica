@@ -1,0 +1,938 @@
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   BODY
+========================= */
+
+body {
+
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% 25%,
+            rgba(0, 180, 220, .10),
+            transparent 35%
+        ),
+        url("../img/fondo-historia.jpeg");
+
+    background-size: cover;
+    background-position: center;
+
+    font-family: Arial, sans-serif;
+
+    color: white;
+}
+
+
+/* =========================
+   ESTRELLAS
+========================= */
+
+body::before {
+
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background-image:
+        radial-gradient(circle, #55efff 1px, transparent 1px),
+        radial-gradient(circle, #ffffff 1px, transparent 1px),
+        radial-gradient(circle, #3deaff 1px, transparent 1px);
+
+    background-size:
+        180px 180px,
+        250px 250px,
+        320px 320px;
+
+    background-position:
+        20px 40px,
+        80px 120px,
+        150px 70px;
+
+    opacity: .45;
+}
+
+
+/* =========================
+   CONTENEDOR PRINCIPAL
+========================= */
+
+.login-container {
+
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    z-index: 2;
+
+    padding: 20px;
+}
+
+
+/* =========================
+   LOGO
+========================= */
+
+.logo {
+
+    width: 100%;
+
+    text-align: center;
+
+    margin-bottom: 30px;
+}
+
+
+/* =========================
+   IMAGEN DEL COHETE
+========================= */
+
+.cohete {
+
+    width: 330px;
+    height: 230px;
+
+    margin: 0 auto;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    animation: flotar 3s ease-in-out infinite;
+}
+
+
+.cohete img {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(0 0 8px #00eaff)
+        drop-shadow(0 0 20px #00eaff);
+}
+
+
+/* ANIMACIÓN */
+
+@keyframes flotar {
+
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================
+   TITULO
+========================= */
+
+.logo h1 {
+
+    font-size: 46px;
+
+    letter-spacing: 4px;
+
+    font-weight: 900;
+
+    color: #eeeeee;
+
+    text-shadow:
+        0 0 5px white,
+        0 0 12px #8eeaff,
+        0 0 25px rgba(0, 220, 255, .5);
+}
+
+
+/* =========================
+   SUBTITULO
+========================= */
+
+.subtitulo {
+
+    margin-top: 12px;
+
+    font-size: 22px;
+
+    letter-spacing: 8px;
+
+    color: #24eaff;
+
+    text-shadow:
+        0 0 8px #00eaff,
+        0 0 20px rgba(0, 230, 255, .6);
+}
+
+
+/* =========================
+   FLECHA
+========================= */
+
+.flecha {
+
+    margin-top: 18px;
+
+    font-size: 24px;
+
+    color: #00eaff;
+
+    text-shadow:
+        0 0 10px #00eaff,
+        0 0 20px #00eaff;
+}
+
+
+/* =========================
+   FORMULARIO
+========================= */
+
+.formulario {
+
+    width: 675px;
+
+    max-width: 90vw;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+}
+
+
+/* =========================
+   CAMPOS
+========================= */
+
+.campo {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 100px;
+
+    margin-bottom: 30px;
+
+    display: flex;
+
+    align-items: center;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(10, 35, 50, .75),
+            rgba(5, 25, 40, .85)
+        );
+
+    border: 2px solid #1ceaff;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 0 8px rgba(0, 230, 255, .7),
+        inset 0 0 20px rgba(0, 220, 255, .05);
+
+    clip-path: polygon(
+        20px 0,
+        calc(100% - 20px) 0,
+        100% 20px,
+        100% calc(100% - 20px),
+        calc(100% - 20px) 100%,
+        20px 100%,
+        0 calc(100% - 20px),
+        0 20px
+    );
+
+    transition: .25s;
+}
+
+
+/* DECORACIÓN SUPERIOR */
+
+.campo::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: -2px;
+
+    left: 42%;
+
+    width: 120px;
+
+    height: 4px;
+
+    background: #00eaff;
+
+    box-shadow:
+        0 0 8px #00eaff;
+}
+
+
+/* DECORACIÓN INFERIOR */
+
+.campo::after {
+
+    content: "";
+
+    position: absolute;
+
+    bottom: -2px;
+
+    left: 42%;
+
+    width: 120px;
+
+    height: 4px;
+
+    background: #00eaff;
+
+    box-shadow:
+        0 0 8px #00eaff;
+}
+
+
+/* AL SELECCIONAR */
+
+.campo:focus-within {
+
+    border-color: #8ff8ff;
+
+    box-shadow:
+        0 0 15px #00eaff,
+        0 0 35px rgba(0, 230, 255, .3),
+        inset 0 0 20px rgba(0, 220, 255, .08);
+
+    transform: scale(1.01);
+}
+
+
+/* =========================
+   ICONOS
+========================= */
+
+.icono {
+
+    width: 100px;
+
+    min-width: 100px;
+
+    text-align: center;
+
+    font-size: 38px;
+
+    color: #38eaff;
+
+    filter:
+        drop-shadow(0 0 7px #00eaff);
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+.campo input {
+
+    width: calc(100% - 100px);
+
+    height: 100%;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: #eeeeee;
+
+    font-size: 24px;
+
+    letter-spacing: 2px;
+
+    font-weight: 500;
+}
+
+
+.campo input::placeholder {
+
+    color: #d4dce0;
+
+    opacity: .95;
+}
+
+
+/* =========================
+   BOTÓN INGRESAR
+========================= */
+
+.btn-ingresar {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 100px;
+
+    border: 2px solid #1ceaff;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(15, 70, 90, .9),
+            rgba(10, 55, 75, .9)
+        );
+
+    color: #30edff;
+
+    font-size: 34px;
+
+    font-weight: 500;
+
+    letter-spacing: 3px;
+
+    cursor: pointer;
+
+    clip-path: polygon(
+        20px 0,
+        calc(100% - 20px) 0,
+        100% 20px,
+        100% calc(100% - 20px),
+        calc(100% - 20px) 100%,
+        20px 100%,
+        0 calc(100% - 20px),
+        0 20px
+    );
+
+    box-shadow:
+        0 0 10px rgba(0, 230, 255, .7),
+        inset 0 0 25px rgba(0, 220, 255, .08);
+
+    transition: .2s;
+}
+
+
+/* DECORACIÓN BOTÓN */
+
+.btn-ingresar::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: -2px;
+
+    left: 42%;
+
+    width: 120px;
+
+    height: 4px;
+
+    background: #00eaff;
+
+    box-shadow:
+        0 0 8px #00eaff;
+}
+
+
+.btn-ingresar::after {
+
+    content: "";
+
+    position: absolute;
+
+    bottom: -2px;
+
+    left: 42%;
+
+    width: 120px;
+
+    height: 4px;
+
+    background: #00eaff;
+
+    box-shadow:
+        0 0 8px #00eaff;
+}
+
+
+/* HOVER */
+
+.btn-ingresar:hover {
+
+    transform: scale(1.02);
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(20, 100, 125, .95),
+            rgba(15, 75, 100, .95)
+        );
+
+    box-shadow:
+        0 0 15px #00eaff,
+        0 0 35px rgba(0, 230, 255, .5);
+}
+
+
+.btn-ingresar:active {
+
+    transform: scale(.98);
+}
+
+
+/* =========================
+   SEPARADOR
+========================= */
+
+.separador {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin: 30px 0 25px;
+
+    color: #00eaff;
+
+    font-size: 28px;
+
+    text-shadow:
+        0 0 10px #00eaff;
+}
+
+
+.separador::before,
+.separador::after {
+
+    content: "";
+
+    height: 1px;
+
+    width: 40%;
+
+    background: #00dff5;
+
+    opacity: .5;
+
+    box-shadow:
+        0 0 8px #00eaff;
+}
+
+
+.separador span {
+
+    margin: 0 20px;
+}
+
+
+/* =========================
+   REGISTRO
+========================= */
+
+.registro {
+
+    text-align: center;
+}
+
+
+.registro p {
+
+    font-size: 20px;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 15px;
+
+    color: #e2e6e8;
+
+    text-shadow:
+        0 0 5px rgba(255,255,255,.4);
+}
+
+
+.registro button {
+
+    border: none;
+
+    background: transparent;
+
+    color: #20eaff;
+
+    font-size: 24px;
+
+    letter-spacing: 3px;
+
+    cursor: pointer;
+
+    text-shadow:
+        0 0 8px #00eaff,
+        0 0 18px rgba(0, 230, 255, .7);
+
+    transition: .2s;
+}
+
+
+.registro button:hover {
+
+    transform: scale(1.05);
+
+    color: white;
+
+    text-shadow:
+        0 0 10px white,
+        0 0 25px #00eaff;
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 900px) {
+
+    .logo h1 {
+        font-size: 38px;
+    }
+
+    .subtitulo {
+        font-size: 18px;
+        letter-spacing: 6px;
+    }
+
+    .cohete {
+        width: 260px;
+        height: 180px;
+    }
+
+    .formulario {
+        width: 600px;
+    }
+
+    .campo {
+        height: 85px;
+    }
+
+    .btn-ingresar {
+        height: 85px;
+    }
+
+    .campo {
+        margin-bottom: 22px;
+    }
+
+    .campo input {
+        font-size: 20px;
+    }
+
+    .btn-ingresar {
+        font-size: 29px;
+    }
+
+    .icono {
+        width: 80px;
+        min-width: 80px;
+        font-size: 30px;
+    }
+
+    .campo input {
+        width: calc(100% - 80px);
+    }
+}
+
+
+/* =========================
+   CELULAR
+========================= */
+
+@media (max-width: 600px) {
+
+    .login-container {
+        padding: 12px;
+    }
+
+
+    .logo {
+        margin-bottom: 20px;
+    }
+
+
+    .cohete {
+        width: 210px;
+        height: 140px;
+    }
+
+
+    .logo h1 {
+        font-size: 26px;
+        letter-spacing: 2px;
+    }
+
+
+    .subtitulo {
+        margin-top: 7px;
+        font-size: 12px;
+        letter-spacing: 4px;
+    }
+
+
+    .flecha {
+        margin-top: 10px;
+        font-size: 18px;
+    }
+
+
+    .formulario {
+        width: 92vw;
+        max-width: 450px;
+    }
+
+
+    .campo {
+
+        height: 65px;
+
+        margin-bottom: 18px;
+
+        border-radius: 12px;
+    }
+
+
+    .campo::before,
+    .campo::after,
+    .btn-ingresar::before,
+    .btn-ingresar::after {
+
+        width: 70px;
+
+        left: 40%;
+    }
+
+
+    .icono {
+
+        width: 60px;
+
+        min-width: 60px;
+
+        font-size: 22px;
+    }
+
+
+    .campo input {
+
+        width: calc(100% - 60px);
+
+        font-size: 15px;
+
+        letter-spacing: 1px;
+    }
+
+
+    .btn-ingresar {
+
+        height: 70px;
+
+        border-radius: 12px;
+
+        font-size: 22px;
+    }
+
+
+    .separador {
+
+        margin: 22px 0 18px;
+
+        font-size: 20px;
+    }
+
+
+    .separador span {
+
+        margin: 0 12px;
+    }
+
+
+    .registro p {
+
+        font-size: 13px;
+
+        margin-bottom: 10px;
+    }
+
+
+    .registro button {
+
+        font-size: 16px;
+
+        letter-spacing: 2px;
+    }
+}
+
+
+/* =========================
+   CELULARES MUY PEQUEÑOS
+========================= */
+
+@media (max-width: 380px) {
+
+    .logo h1 {
+        font-size: 22px;
+    }
+
+
+    .subtitulo {
+        font-size: 10px;
+    }
+
+
+    .cohete {
+        width: 180px;
+        height: 120px;
+    }
+
+
+    .campo {
+        height: 58px;
+    }
+
+
+    .btn-ingresar {
+        height: 60px;
+
+        font-size: 19px;
+    }
+
+
+    .icono {
+
+        width: 50px;
+
+        min-width: 50px;
+
+        font-size: 19px;
+    }
+
+
+    .campo input {
+
+        width: calc(100% - 50px);
+
+        font-size: 13px;
+    }
+}
+
+
+/* =========================
+   CELULAR HORIZONTAL
+========================= */
+
+@media (max-height: 500px) and (max-width: 900px) {
+
+    .login-container {
+
+        justify-content: flex-start;
+
+        overflow-y: auto;
+
+        padding-top: 10px;
+    }
+
+
+    .logo {
+        margin-bottom: 10px;
+    }
+
+
+    .cohete {
+
+        width: 140px;
+
+        height: 90px;
+    }
+
+
+    .logo h1 {
+        font-size: 20px;
+    }
+
+
+    .subtitulo {
+
+        font-size: 9px;
+
+        margin-top: 3px;
+    }
+
+
+    .flecha {
+        display: none;
+    }
+
+
+    .campo {
+
+        height: 55px;
+
+        margin-bottom: 12px;
+    }
+
+
+    .btn-ingresar {
+
+        height: 55px;
+
+        font-size: 18px;
+    }
+
+
+    .separador {
+
+        margin: 12px 0;
+    }
+}

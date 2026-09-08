@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Nuevo Hogar</title>
 
-<link rel="stylesheet" href="../css/Style.css">
+    <link rel="stylesheet" href="../css/Style.css">
 </head>
 
 <body>
 
+   
 
+    <!-- MENÚ PRINCIPAL -->
 
     <main>
 
@@ -19,7 +22,8 @@
             NUEVO HOGAR:
             <span>MISIÓN ESPACIAL</span>
         </h1>
-        
+
+
         <button class="comenzar" id="comenzar">
 
             <span>INICIAR</span>
@@ -40,7 +44,86 @@
     </main>
 
 
-    <script src="scrips.js"></script>
+    <!-- =========================
+         MENÚ DE OPCIONES
+    ========================== -->
+
+    <div class="menu-opciones" id="menuOpciones">
+
+        <h2>OPCIONES</h2>
+
+
+        <div class="opcion">
+
+            <label for="volumen">
+                VOLUMEN
+            </label>
+
+            <input
+                type="range"
+                id="volumen"
+                min="0"
+                max="100"
+                value="80"
+            >
+
+        </div>
+
+
+        <div class="opcion">
+
+            <label for="musica">
+                MÚSICA
+            </label>
+
+            <input
+                type="checkbox"
+                id="musica"
+                checked
+            >
+
+        </div>
+
+
+        <div class="opcion">
+
+            <label for="efectos">
+                EFECTOS
+            </label>
+
+            <input
+                type="checkbox"
+                id="efectos"
+                checked
+            >
+
+        </div>
+
+
+        <div class="controles">
+
+            <span>CONTROLES</span>
+
+            <p>
+                W / S → Mover
+            </p>
+
+            <p>
+                ESPACIO → Acción
+            </p>
+
+        </div>
+
+
+        <button class="cerrar-opciones" id="cerrarOpciones">
+            CERRAR
+        </button>
+
+    </div>
+
+
+    <script src="../scrips.js"></script>
 
 </body>
+
 </html>

@@ -1,0 +1,1318 @@
+/* =========================
+   RESET
+========================= */
+
+* {
+
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+
+}
+
+
+/* =========================
+   BODY
+========================= */
+
+body {
+
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+
+    background:
+
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(0, 200, 230, .08),
+            transparent 45%
+        ),
+
+        url("../img/fondo-historia.jpeg");
+
+    background-size: cover;
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+
+    font-family: Arial, sans-serif;
+
+    color: white;
+
+}
+
+
+/* =========================
+   ESTRELLAS
+========================= */
+
+body::before {
+
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background-image:
+
+        radial-gradient(
+            circle,
+            #4eefff 1px,
+            transparent 1px
+        ),
+
+        radial-gradient(
+            circle,
+            #ffffff 1px,
+            transparent 1px
+        ),
+
+        radial-gradient(
+            circle,
+            #28dff5 1px,
+            transparent 1px
+        );
+
+    background-size:
+
+        190px 190px,
+        260px 260px,
+        330px 330px;
+
+    background-position:
+
+        20px 30px,
+        100px 120px,
+        180px 80px;
+
+    opacity: .45;
+
+    z-index: 0;
+
+}
+
+
+/* =========================
+   MARCO FUTURISTA
+========================= */
+
+.marco {
+
+    position: fixed;
+
+    inset: 28px;
+
+    border: 1px solid rgba(0, 225, 255, .35);
+
+    pointer-events: none;
+
+    z-index: 1;
+
+}
+
+
+/* =========================
+   ESQUINAS DEL MARCO
+========================= */
+
+.esquina {
+
+    position: absolute;
+
+    width: 35px;
+    height: 35px;
+
+    border-color: #16eaff;
+
+    border-style: solid;
+
+    box-shadow:
+        0 0 6px rgba(0, 230, 255, .7);
+
+}
+
+
+/* SUPERIOR IZQUIERDA */
+
+.esquina-superior-izquierda {
+
+    top: -1px;
+    left: -1px;
+
+    border-width: 2px 0 0 2px;
+
+    clip-path: polygon(
+        0 0,
+        100% 0,
+        0 100%
+    );
+
+}
+
+
+/* SUPERIOR DERECHA */
+
+.esquina-superior-derecha {
+
+    top: -1px;
+    right: -1px;
+
+    border-width: 2px 2px 0 0;
+
+    clip-path: polygon(
+        0 0,
+        100% 0,
+        100% 100%
+    );
+
+}
+
+
+/* INFERIOR IZQUIERDA */
+
+.esquina-inferior-izquierda {
+
+    bottom: -1px;
+    left: -1px;
+
+    border-width: 0 0 2px 2px;
+
+    clip-path: polygon(
+        0 0,
+        0 100%,
+        100% 100%
+    );
+
+}
+
+
+/* INFERIOR DERECHA */
+
+.esquina-inferior-derecha {
+
+    bottom: -1px;
+    right: -1px;
+
+    border-width: 0 2px 2px 0;
+
+    clip-path: polygon(
+        100% 0,
+        100% 100%,
+        0 100%
+    );
+
+}
+
+
+/* =========================
+   CONTENEDOR
+========================= */
+
+.registro-container {
+
+    position: relative;
+
+    width: 100%;
+
+    min-height: 100vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    padding-top: 85px;
+
+    z-index: 2;
+
+}
+
+
+/* =========================
+   LOGO
+========================= */
+
+.logo {
+
+    text-align: center;
+
+    margin-bottom: 35px;
+
+}
+
+
+/* TITULO */
+
+.logo h1 {
+
+    font-size: 58px;
+
+    font-weight: 900;
+
+    letter-spacing: 6px;
+
+    color: #f0f3f4;
+
+    text-shadow:
+
+        0 0 5px white,
+        0 0 12px #d9faff,
+        0 0 25px rgba(0, 225, 255, .5);
+
+}
+
+
+/* SUBTITULO */
+
+.subtitulo {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 28px;
+
+    margin-top: 14px;
+
+    color: #1deaff;
+
+    font-size: 24px;
+
+    letter-spacing: 10px;
+
+    text-shadow:
+
+        0 0 8px #00eaff,
+        0 0 18px rgba(0, 230, 255, .7);
+
+}
+
+
+.subtitulo span {
+
+    letter-spacing: 0;
+
+}
+
+
+/* FLECHA */
+
+.flecha {
+
+    margin-top: 15px;
+
+    font-size: 20px;
+
+    color: #00eaff;
+
+    text-shadow:
+
+        0 0 8px #00eaff,
+        0 0 15px #00eaff;
+
+}
+
+
+/* =========================
+   TITULO REGISTRO
+========================= */
+
+.titulo-registro {
+
+    position: relative;
+
+    width: 500px;
+
+    max-width: 80vw;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 25px;
+
+    margin-bottom: 25px;
+
+}
+
+
+.titulo-registro h2 {
+
+    color: #e8f2f4;
+
+    font-size: 30px;
+
+    font-weight: 500;
+
+    letter-spacing: 4px;
+
+    white-space: nowrap;
+
+    text-shadow:
+
+        0 0 5px white,
+        0 0 10px rgba(0, 230, 255, .5);
+
+}
+
+
+.linea-titulo {
+
+    height: 1px;
+
+    width: 70px;
+
+    background: #00dff5;
+
+    box-shadow:
+
+        0 0 8px #00eaff;
+
+}
+
+
+.flecha-registro {
+
+    position: absolute;
+
+    top: 45px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    color: #00eaff;
+
+    font-size: 18px;
+
+    text-shadow:
+
+        0 0 10px #00eaff;
+
+}
+
+
+/* =========================
+   FORMULARIO
+========================= */
+
+.formulario {
+
+    width: 700px;
+
+    max-width: 90vw;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+}
+
+
+/* =========================
+   CAMPOS
+========================= */
+
+.campo {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 102px;
+
+    margin-bottom: 28px;
+
+    display: flex;
+
+    align-items: center;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            rgba(5, 35, 45, .78),
+            rgba(4, 27, 38, .88)
+        );
+
+    border: 2px solid #18e9ff;
+
+    box-shadow:
+
+        0 0 8px rgba(0, 230, 255, .65),
+
+        inset 0 0 20px
+        rgba(0, 220, 255, .05);
+
+    clip-path: polygon(
+
+        20px 0,
+
+        calc(100% - 20px) 0,
+
+        100% 20px,
+
+        100% calc(100% - 20px),
+
+        calc(100% - 20px) 100%,
+
+        20px 100%,
+
+        0 calc(100% - 20px),
+
+        0 20px
+
+    );
+
+    transition: .2s;
+
+}
+
+
+/* DECORACIÓN SUPERIOR */
+
+.campo::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: -2px;
+
+    left: 43%;
+
+    width: 95px;
+
+    height: 4px;
+
+    background: #00eaff;
+
+    box-shadow:
+
+        0 0 8px #00eaff;
+
+}
+
+
+/* DECORACIÓN INFERIOR */
+
+.campo::after {
+
+    content: "";
+
+    position: absolute;
+
+    bottom: -2px;
+
+    left: 43%;
+
+    width: 95px;
+
+    height: 4px;
+
+    background: #00eaff;
+
+    box-shadow:
+
+        0 0 8px #00eaff;
+
+}
+
+
+/* FOCUS */
+
+.campo:focus-within {
+
+    border-color: #a2faff;
+
+    box-shadow:
+
+        0 0 15px #00eaff,
+
+        0 0 30px rgba(0, 230, 255, .25);
+
+    transform: scale(1.01);
+
+}
+
+
+/* =========================
+   ICONO
+========================= */
+
+.icono {
+
+    width: 105px;
+
+    min-width: 105px;
+
+    text-align: center;
+
+    font-size: 38px;
+
+    color: #15eaff;
+
+    filter:
+
+        drop-shadow(0 0 7px #00eaff);
+
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+.campo input {
+
+    width: calc(100% - 105px);
+
+    height: 100%;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: #f1f5f6;
+
+    font-size: 22px;
+
+    font-weight: 400;
+
+    letter-spacing: 2px;
+
+}
+
+
+.campo input::placeholder {
+
+    color: #e1e7e9;
+
+    opacity: .95;
+
+}
+
+
+/* =========================
+   BOTÓN CREAR CUENTA
+========================= */
+
+.btn-crear {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 105px;
+
+    border: 2px solid #15eaff;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            rgba(10, 80, 100, .9),
+            rgba(7, 58, 78, .9)
+        );
+
+    color: #eaf5f7;
+
+    font-size: 32px;
+
+    font-weight: 500;
+
+    letter-spacing: 3px;
+
+    cursor: pointer;
+
+    clip-path: polygon(
+
+        25px 0,
+
+        calc(100% - 25px) 0,
+
+        100% 25px,
+
+        100% calc(100% - 25px),
+
+        calc(100% - 25px) 100%,
+
+        25px 100%,
+
+        0 calc(100% - 25px),
+
+        0 25px
+
+    );
+
+    box-shadow:
+
+        0 0 10px rgba(0, 230, 255, .7),
+
+        inset 0 0 25px rgba(0, 220, 255, .08);
+
+    transition: .2s;
+
+}
+
+
+/* LÍNEA SUPERIOR */
+
+.btn-crear::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: -2px;
+
+    left: 43%;
+
+    width: 95px;
+
+    height: 4px;
+
+    background: #00eaff;
+
+    box-shadow:
+
+        0 0 8px #00eaff;
+
+}
+
+
+/* LÍNEA INFERIOR */
+
+.btn-crear::after {
+
+    content: "";
+
+    position: absolute;
+
+    bottom: -2px;
+
+    left: 43%;
+
+    width: 95px;
+
+    height: 4px;
+
+    background: #00eaff;
+
+    box-shadow:
+
+        0 0 8px #00eaff;
+
+}
+
+
+/* HOVER */
+
+.btn-crear:hover {
+
+    transform: scale(1.015);
+
+    background:
+
+        linear-gradient(
+            90deg,
+            rgba(15, 105, 130, .95),
+            rgba(10, 75, 100, .95)
+        );
+
+    box-shadow:
+
+        0 0 15px #00eaff,
+
+        0 0 35px rgba(0, 230, 255, .45);
+
+}
+
+
+/* CLICK */
+
+.btn-crear:active {
+
+    transform: scale(.98);
+
+}
+
+
+/* =========================
+   SEPARADOR
+========================= */
+
+.separador {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin: 35px 0 25px;
+
+}
+
+
+.separador::before,
+.separador::after {
+
+    content: "";
+
+    height: 1px;
+
+    width: 35%;
+
+    background: #00dff5;
+
+    opacity: .55;
+
+    box-shadow:
+
+        0 0 7px #00eaff;
+
+}
+
+
+.separador span {
+
+    margin: 0 20px;
+
+    color: #00eaff;
+
+    font-size: 27px;
+
+    text-shadow:
+
+        0 0 10px #00eaff;
+
+}
+
+
+/* =========================
+   VOLVER AL LOGIN
+========================= */
+
+.volver-login {
+
+    text-align: center;
+
+}
+
+
+.volver-login p {
+
+    color: #e2e8ea;
+
+    font-size: 19px;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 13px;
+
+}
+
+
+.volver-login button {
+
+    border: none;
+
+    background: transparent;
+
+    color: #19eaff;
+
+    font-size: 23px;
+
+    letter-spacing: 3px;
+
+    cursor: pointer;
+
+    text-shadow:
+
+        0 0 8px #00eaff,
+
+        0 0 18px rgba(0, 230, 255, .7);
+
+    transition: .2s;
+
+}
+
+
+.volver-login button:hover {
+
+    color: white;
+
+    transform: scale(1.05);
+
+    text-shadow:
+
+        0 0 10px white,
+
+        0 0 25px #00eaff;
+
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 900px) {
+
+    .registro-container {
+
+        padding-top: 50px;
+
+    }
+
+
+    .logo h1 {
+
+        font-size: 43px;
+
+    }
+
+
+    .subtitulo {
+
+        font-size: 18px;
+
+        letter-spacing: 6px;
+
+    }
+
+
+    .formulario {
+
+        width: 600px;
+
+    }
+
+
+    .campo {
+
+        height: 82px;
+
+        margin-bottom: 20px;
+
+    }
+
+
+    .btn-crear {
+
+        height: 85px;
+
+        font-size: 27px;
+
+    }
+
+
+    .campo input {
+
+        font-size: 19px;
+
+    }
+
+
+    .icono {
+
+        width: 80px;
+
+        min-width: 80px;
+
+        font-size: 30px;
+
+    }
+
+
+    .campo input {
+
+        width: calc(100% - 80px);
+
+    }
+
+}
+
+
+/* =========================
+   CELULAR
+========================= */
+
+@media (max-width: 600px) {
+
+    body {
+
+        overflow-y: auto;
+
+        overflow-x: hidden;
+
+    }
+
+
+    .marco {
+
+        inset: 12px;
+
+    }
+
+
+    .registro-container {
+
+        min-height: 100vh;
+
+        padding-top: 35px;
+
+        padding-bottom: 30px;
+
+    }
+
+
+    .logo {
+
+        margin-bottom: 25px;
+
+    }
+
+
+    .logo h1 {
+
+        font-size: 27px;
+
+        letter-spacing: 3px;
+
+    }
+
+
+    .subtitulo {
+
+        margin-top: 8px;
+
+        font-size: 11px;
+
+        letter-spacing: 4px;
+
+        gap: 10px;
+
+    }
+
+
+    .flecha {
+
+        font-size: 15px;
+
+        margin-top: 10px;
+
+    }
+
+
+    .titulo-registro {
+
+        width: 90vw;
+
+        gap: 12px;
+
+        margin-bottom: 20px;
+
+    }
+
+
+    .titulo-registro h2 {
+
+        font-size: 20px;
+
+        letter-spacing: 2px;
+
+    }
+
+
+    .linea-titulo {
+
+        width: 40px;
+
+    }
+
+
+    .flecha-registro {
+
+        top: 30px;
+
+        font-size: 14px;
+
+    }
+
+
+    .formulario {
+
+        width: 90vw;
+
+    }
+
+
+    .campo {
+
+        height: 62px;
+
+        margin-bottom: 14px;
+
+        border-radius: 10px;
+
+    }
+
+
+    .campo::before,
+    .campo::after {
+
+        width: 65px;
+
+        left: 40%;
+
+    }
+
+
+    .icono {
+
+        width: 55px;
+
+        min-width: 55px;
+
+        font-size: 22px;
+
+    }
+
+
+    .campo input {
+
+        width: calc(100% - 55px);
+
+        font-size: 14px;
+
+        letter-spacing: 1px;
+
+    }
+
+
+    .btn-crear {
+
+        height: 65px;
+
+        font-size: 20px;
+
+        border-radius: 10px;
+
+        letter-spacing: 2px;
+
+    }
+
+
+    .btn-crear::before,
+    .btn-crear::after {
+
+        width: 65px;
+
+        left: 40%;
+
+    }
+
+
+    .separador {
+
+        margin: 20px 0 16px;
+
+    }
+
+
+    .separador span {
+
+        margin: 0 10px;
+
+        font-size: 20px;
+
+    }
+
+
+    .volver-login p {
+
+        font-size: 12px;
+
+        margin-bottom: 9px;
+
+    }
+
+
+    .volver-login button {
+
+        font-size: 15px;
+
+        letter-spacing: 2px;
+
+    }
+
+}
+
+
+/* =========================
+   CELULAR PEQUEÑO
+========================= */
+
+@media (max-width: 380px) {
+
+    .registro-container {
+
+        padding-top: 25px;
+
+    }
+
+
+    .logo h1 {
+
+        font-size: 23px;
+
+    }
+
+
+    .subtitulo {
+
+        font-size: 9px;
+
+    }
+
+
+    .campo {
+
+        height: 55px;
+
+    }
+
+
+    .icono {
+
+        width: 48px;
+
+        min-width: 48px;
+
+        font-size: 18px;
+
+    }
+
+
+    .campo input {
+
+        width: calc(100% - 48px);
+
+        font-size: 12px;
+
+    }
+
+
+    .btn-crear {
+
+        height: 58px;
+
+        font-size: 17px;
+
+    }
+
+}
+
+
+/* =========================
+   CELULAR HORIZONTAL
+========================= */
+
+@media (max-height: 500px) and (max-width: 900px) {
+
+    body {
+
+        overflow-y: auto;
+
+    }
+
+
+    .registro-container {
+
+        padding-top: 15px;
+
+    }
+
+
+    .logo {
+
+        margin-bottom: 10px;
+
+    }
+
+
+    .logo h1 {
+
+        font-size: 22px;
+
+    }
+
+
+    .subtitulo {
+
+        font-size: 9px;
+
+        margin-top: 3px;
+
+    }
+
+
+    .flecha {
+
+        display: none;
+
+    }
+
+
+    .titulo-registro {
+
+        margin-bottom: 12px;
+
+    }
+
+
+    .campo {
+
+        height: 50px;
+
+        margin-bottom: 10px;
+
+    }
+
+
+    .btn-crear {
+
+        height: 50px;
+
+    }
+
+
+    .separador {
+
+        margin: 10px 0;
+
+    }
+
+}

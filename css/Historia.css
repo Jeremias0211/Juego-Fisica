@@ -25,7 +25,7 @@ body {
     width: 100vw;
     height: 100vh;
 
-    background-image: url("img/fondo-historia.jpeg");
+    background-image: url("../img/fondo-historia.jpeg");
 
     background-size: cover;
     background-position: center;

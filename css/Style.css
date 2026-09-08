@@ -547,3 +547,214 @@ h1 span {
         transform-origin: top center;
     }
 }
+
+/* =========================
+   MENÚ DE OPCIONES
+========================= */
+
+.menu-opciones {
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%) scale(0.8);
+
+    width: 360px;
+
+    padding: 30px;
+
+    background: rgba(5, 30, 50, 0.96);
+
+    border: 2px solid #5ceaff;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 0 10px #5ceaff,
+        0 0 25px #00dfff,
+        inset 0 0 25px rgba(0, 220, 255, 0.15);
+
+    text-align: center;
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    transition: 0.25s;
+
+    z-index: 100;
+}
+
+
+/* CUANDO ESTÁ ABIERTO */
+
+.menu-opciones.activo {
+
+    opacity: 1;
+
+    visibility: visible;
+
+    transform: translate(-50%, -50%) scale(1);
+
+}
+
+
+/* TÍTULO */
+
+.menu-opciones h2 {
+
+    margin-bottom: 25px;
+
+    color: #62efff;
+
+    font-size: 28px;
+
+    letter-spacing: 2px;
+
+    text-shadow:
+        0 0 5px white,
+        0 0 15px #00eaff;
+
+}
+
+
+/* OPCIONES */
+
+.opcion {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin: 20px 0;
+
+    padding-bottom: 12px;
+
+    border-bottom: 1px solid rgba(100, 230, 255, 0.25);
+
+}
+
+
+.opcion label {
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+}
+
+
+/* BARRA DE VOLUMEN */
+
+.opcion input[type="range"] {
+
+    width: 150px;
+
+    accent-color: #50eaff;
+
+    cursor: pointer;
+
+}
+
+
+/* CHECKBOX */
+
+.opcion input[type="checkbox"] {
+
+    width: 20px;
+
+    height: 20px;
+
+    accent-color: #50eaff;
+
+    cursor: pointer;
+
+}
+
+
+/* CONTROLES */
+
+.controles {
+
+    margin-top: 20px;
+
+    padding: 15px;
+
+    background: rgba(0, 100, 140, 0.2);
+
+    border: 1px solid rgba(90, 230, 255, 0.4);
+
+    border-radius: 10px;
+
+}
+
+
+.controles span {
+
+    display: block;
+
+    margin-bottom: 10px;
+
+    color: #5ceaff;
+
+    font-weight: bold;
+
+}
+
+
+.controles p {
+
+    margin: 5px;
+
+    color: #d5f8ff;
+
+    font-size: 13px;
+
+}
+
+
+/* BOTÓN CERRAR */
+
+.cerrar-opciones {
+
+    width: 150px;
+
+    height: 40px;
+
+    margin-top: 20px;
+
+    border: 2px solid #5ceaff;
+
+    border-radius: 20px;
+
+    background: rgba(10, 70, 90, 0.9);
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+}
+
+
+.cerrar-opciones:hover {
+
+    background: rgba(40, 130, 150, 0.9);
+
+    box-shadow:
+        0 0 10px #00eaff;
+
+    transform: scale(1.05);
+
+}

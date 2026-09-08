@@ -1,36 +1,60 @@
-const comenzar = document.getElementById("comenzar");
-const opciones = document.getElementById("opciones");
-const salir = document.getElementById("salir");
+document.addEventListener("DOMContentLoaded", () => {
+
+    const comenzar = document.getElementById("comenzar");
+    const opciones = document.getElementById("opciones");
+    const salir = document.getElementById("salir");
+
+    const menuOpciones = document.getElementById("menuOpciones");
+    const cerrarOpciones = document.getElementById("cerrarOpciones");
 
 
-if (comenzar) {
+    // INICIAR MISIÓN
 
-    comenzar.addEventListener("click", () => {
+    if (comenzar) {
 
-        window.location.href = "Historia.html";
+        comenzar.addEventListener("click", () => {
+            window.location.href = "historia.html";
+        });
 
-    });
-
-}
-
-
-if (opciones) {
-
-    opciones.addEventListener("click", () => {
-
-        alert("Opciones");
-
-    });
-
-}
+    }
 
 
-if (salir) {
+    // ABRIR OPCIONES
 
-    salir.addEventListener("click", () => {
+    if (opciones && menuOpciones) {
 
-        alert("Salir");
+        opciones.addEventListener("click", () => {
 
-    });
+            menuOpciones.classList.add("activo");
 
-}
+        });
+
+    }
+
+
+    // CERRAR OPCIONES
+
+    if (cerrarOpciones && menuOpciones) {
+
+        cerrarOpciones.addEventListener("click", () => {
+
+            menuOpciones.classList.remove("activo");
+
+        });
+
+    }
+
+
+    // SALIR
+
+    if (salir) {
+
+        salir.addEventListener("click", () => {
+
+            alert("Gracias por jugar.");
+
+        });
+
+    }
+
+});
