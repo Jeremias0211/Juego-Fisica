@@ -8,18 +8,40 @@ document.addEventListener("DOMContentLoaded", () => {
     const cerrarOpciones = document.getElementById("cerrarOpciones");
 
 
+    // =========================
+    // VERIFICAR SESIÓN
+    // =========================
+
+    const sesionActiva =
+        localStorage.getItem("sesionActiva");
+
+
+    if (sesionActiva !== "true") {
+
+        window.location.href = "Login.html";
+
+        return;
+    }
+
+
+    // =========================
     // INICIAR MISIÓN
+    // =========================
 
     if (comenzar) {
 
         comenzar.addEventListener("click", () => {
+
             window.location.href = "historia.html";
+
         });
 
     }
 
 
+    // =========================
     // ABRIR OPCIONES
+    // =========================
 
     if (opciones && menuOpciones) {
 
@@ -32,7 +54,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+    // =========================
     // CERRAR OPCIONES
+    // =========================
 
     if (cerrarOpciones && menuOpciones) {
 
@@ -45,13 +69,33 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
+    // =========================
     // SALIR
+    // =========================
 
     if (salir) {
 
         salir.addEventListener("click", () => {
 
-            alert("Gracias por jugar.");
+            const confirmar = confirm(
+                "¿Querés cerrar la sesión?"
+            );
+
+
+            if (confirmar) {
+
+                // Eliminar sesión
+
+                localStorage.removeItem("sesionActiva");
+
+                localStorage.removeItem("jugadorActual");
+
+
+                // Volver al Login
+
+                window.location.href = "Login.html";
+
+            }
 
         });
 

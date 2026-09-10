@@ -1,53 +1,120 @@
-// =========================
-// BOTÓN INGRESAR
-// =========================
+document.addEventListener("DOMContentLoaded", () => {
 
-const btnIngresar = document.getElementById("btnIngresar");
+    const btnIngresar = document.getElementById("btnIngresar");
+    const btnRegistrarse = document.getElementById("btnRegistrarse");
 
-btnIngresar.addEventListener("click", function () {
-
-    const usuario = document.getElementById("usuario").value.trim();
-
-    const contrasena = document.getElementById("contrasena").value.trim();
+    const usuario = document.getElementById("usuario");
+    const contrasena = document.getElementById("contrasena");
 
 
-    // Verificar campos vacíos
+    // =========================
+    // INGRESAR
+    // =========================
 
-    if (usuario === "" || contrasena === "") {
+    if (btnIngresar) {
 
-        alert("Completá el usuario y la contraseña.");
+        btnIngresar.addEventListener("click", () => {
 
-        return;
+            const nombreUsuario = usuario.value.trim();
+            const password = contrasena.value;
+
+
+            // Verificar campos vacíos
+
+            if (
+                nombreUsuario === "" ||
+                password === ""
+            ) {
+
+                alert("Completá usuario y contraseña.");
+
+                return;
+            }
+
+
+            // Buscar usuario registrado
+
+            const usuarioGuardado =
+                localStorage.getItem("usuario");
+
+
+            // Si no existe ningún usuario
+
+            if (!usuarioGuardado) {
+
+                alert(
+                    "No existe ninguna cuenta registrada. Primero tenés que registrarte."
+                );
+
+                return;
+            }
+
+
+            // Convertir los datos guardados a objeto
+
+            const datosUsuario =
+                JSON.parse(usuarioGuardado);
+
+
+            // Verificar usuario y contraseña
+
+            if (
+                datosUsuario.usuario.toLowerCase() ===
+                nombreUsuario.toLowerCase() &&
+                datosUsuario.contrasena === password
+            ) {
+
+
+                // Guardamos la sesión
+
+                localStorage.setItem(
+                    "sesionActiva",
+                    "true"
+                );
+
+
+                // Guardamos el nombre del jugador
+
+                localStorage.setItem(
+                    "jugadorActual",
+                    datosUsuario.usuario
+                );
+
+
+                alert(
+                    "Bienvenido/a " +
+                    datosUsuario.usuario +
+                    "!"
+                );
+
+
+                // Ir al inicio del juego
+
+                window.location.href = "index.html";
+
+            } else {
+
+                alert("Usuario o contraseña incorrectos.");
+
+            }
+
+        });
+
     }
 
 
-    // Por ahora mostramos los datos
-    // para comprobar que funciona.
+    // =========================
+    // IR A REGISTRO
+    // =========================
 
-    console.log("Usuario:", usuario);
-    console.log("Contraseña:", contrasena);
+    if (btnRegistrarse) {
 
+        btnRegistrarse.addEventListener("click", () => {
 
-    /*
-        MÁS ADELANTE ACÁ VAMOS A CONECTAR
-        EL LOGIN CON EL SISTEMA DE USUARIOS.
+            window.location.href = "Registro.html";
 
-        Por ejemplo:
+        });
 
-        window.location.href = "index.html";
-    */
-
-});
-
-
-// =========================
-// BOTÓN REGISTRARSE
-// =========================
-
-const btnRegistrarse = document.getElementById("btnRegistrarse");
-
-btnRegistrarse.addEventListener("click", function () {
-
-    window.location.href = "Registro.html";
+    }
 
 });
