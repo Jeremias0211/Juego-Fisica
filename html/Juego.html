@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Desafío de física · Nuevo Hogar</title><link rel="stylesheet" href="../css/Juego.css">
+</head>
+<body>
+  <main class="pantalla">
+    <header><a class="volver" href="Niveles.html">← MAPA</a><span id="estado" class="estado"></span></header>
+    <section class="intro"><p class="ceja" id="planeta"></p><h1 id="titulo"></h1><p id="descripcion"></p></section>
+    <section class="zona">
+      <div class="simulacion"><canvas id="escena" aria-label="Simulación del desafío de física"></canvas><p id="formula"></p></div>
+      <div class="reto"><h2>DESAFÍO DE MISIÓN</h2><p id="pregunta"></p><div id="respuestas" class="respuestas"></div><p id="mensaje" aria-live="polite"></p><button id="siguiente" class="siguiente" hidden>CONTINUAR MISIÓN →</button></div>
+    </section>
+    <footer>Comandante: <span id="jugador"></span> · La física nos acerca a un nuevo hogar.</footer>
+  </main>
+  <script src="../base-datos.js"></script><script src="../Juego.js"></script>
+</body>
+</html>

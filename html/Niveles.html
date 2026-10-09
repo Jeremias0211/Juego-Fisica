@@ -15,28 +15,29 @@
     <main class="mapa">
 
         <h1>SELECCIONÁ TU MISIÓN</h1>
+        <p id="progresoJugador" class="progreso-jugador"></p>
 
         <div class="ruta"></div>
 
 
         <!-- NIVEL 1 -->
-        <button class="nivel nivel1 desbloqueado" id="nivel1">
+        <button class="nivel nivel1" data-nivel="1">
 
-            <div class="planeta planeta1">🌎</div>
+            <div class="planeta planeta1">🪨</div>
 
             <span>NIVEL 1</span>
-            <small>PLANETA TIERRA</small>
+            <small>MERCURIO · IMPULSO</small>
 
         </button>
 
 
         <!-- NIVEL 2 -->
-        <button class="nivel nivel2 bloqueado">
+        <button class="nivel nivel2" data-nivel="2">
 
             <div class="planeta planeta2">🪐</div>
 
             <span>NIVEL 2</span>
-            <small>GIGANTE DE GAS</small>
+            <small>VENUS · GRAVEDAD</small>
 
             <div class="candado">🔒</div>
 
@@ -44,12 +45,12 @@
 
 
         <!-- NIVEL 3 -->
-        <button class="nivel nivel3 bloqueado">
+        <button class="nivel nivel3" data-nivel="3">
 
             <div class="planeta planeta3">🌑</div>
 
             <span>NIVEL 3</span>
-            <small>FRAGMENTOS DE PLANETA</small>
+            <small>TIERRA · INERCIA</small>
 
             <div class="candado">🔒</div>
 
@@ -57,12 +58,12 @@
 
 
         <!-- NIVEL 4 -->
-        <button class="nivel nivel4 bloqueado">
+        <button class="nivel nivel4" data-nivel="4">
 
             <div class="planeta planeta4">🔴</div>
 
             <span>NIVEL 4</span>
-            <small>PLANETA ROJO</small>
+            <small>MARTE · TRAYECTORIA</small>
 
             <div class="candado">🔒</div>
 
@@ -70,12 +71,12 @@
 
 
         <!-- NIVEL 5 -->
-        <button class="nivel nivel5 bloqueado">
+        <button class="nivel nivel5" data-nivel="5">
 
             <div class="planeta planeta5">🟣</div>
 
             <span>NIVEL 5</span>
-            <small>PLANETA DESCONOCIDO</small>
+            <small>JÚPITER · ÓRBITAS</small>
 
             <div class="candado">🔒</div>
 
@@ -83,18 +84,18 @@
 
 
         <!-- NIVEL 6 -->
-        <button class="nivel nivel6 bloqueado">
+        <button class="nivel nivel6" data-nivel="6">
 
             <div class="planeta planeta6">🟢</div>
 
             <span>NIVEL 6</span>
-            <small>PLANETA VERDE</small>
+            <small>SATURNO · ENERGÍA</small>
 
             <div class="candado">🔒</div>
 
         </button>
 <!-- NIVEL 7 -->
-<button class="nivel nivel7 bloqueado">
+<button class="nivel nivel7 bloqueado" disabled>
 
     <div class="planeta planeta7">🌕</div>
 
@@ -107,7 +108,7 @@
 
 
 <!-- NIVEL 8 -->
-<button class="nivel nivel8 bloqueado">
+<button class="nivel nivel8 bloqueado" disabled>
 
     <div class="planeta planeta8">🌌</div>
 
@@ -120,8 +121,6 @@
 
 
 
-</button>
-
         <button class="volver" id="volver">
             &lt; VOLVER
         </button>
@@ -129,7 +128,8 @@
     </main>
 
 
-    <script src="Niveles.js"></script>
+    <script src="../base-datos.js"></script>
+    <script src="../Niveles.js"></script>
 
 </body>
 

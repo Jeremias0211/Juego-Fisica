@@ -37,6 +37,16 @@ body {
     height: 100vh;
 }
 
+.progreso-jugador {
+    position: absolute;
+    top: 72px;
+    right: 22px;
+    z-index: 10;
+    color: #c6efff;
+    font-size: 13px;
+    text-align: right;
+}
+
 
 /* =========================
    TITULO
@@ -493,6 +503,12 @@ h1 {
         font-size: 18px;
 
         letter-spacing: 1px;
+    }
+
+    .progreso-jugador {
+        top: 48px;
+        right: 10px;
+        font-size: 10px;
     }
 
 

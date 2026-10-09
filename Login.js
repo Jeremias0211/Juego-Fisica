@@ -1,120 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
-
-    const btnIngresar = document.getElementById("btnIngresar");
-    const btnRegistrarse = document.getElementById("btnRegistrarse");
-
-    const usuario = document.getElementById("usuario");
-    const contrasena = document.getElementById("contrasena");
-
-
-    // =========================
-    // INGRESAR
-    // =========================
-
-    if (btnIngresar) {
-
-        btnIngresar.addEventListener("click", () => {
-
-            const nombreUsuario = usuario.value.trim();
-            const password = contrasena.value;
-
-
-            // Verificar campos vacíos
-
-            if (
-                nombreUsuario === "" ||
-                password === ""
-            ) {
-
-                alert("Completá usuario y contraseña.");
-
-                return;
-            }
-
-
-            // Buscar usuario registrado
-
-            const usuarioGuardado =
-                localStorage.getItem("usuario");
-
-
-            // Si no existe ningún usuario
-
-            if (!usuarioGuardado) {
-
-                alert(
-                    "No existe ninguna cuenta registrada. Primero tenés que registrarte."
-                );
-
-                return;
-            }
-
-
-            // Convertir los datos guardados a objeto
-
-            const datosUsuario =
-                JSON.parse(usuarioGuardado);
-
-
-            // Verificar usuario y contraseña
-
-            if (
-                datosUsuario.usuario.toLowerCase() ===
-                nombreUsuario.toLowerCase() &&
-                datosUsuario.contrasena === password
-            ) {
-
-
-                // Guardamos la sesión
-
-                localStorage.setItem(
-                    "sesionActiva",
-                    "true"
-                );
-
-
-                // Guardamos el nombre del jugador
-
-                localStorage.setItem(
-                    "jugadorActual",
-                    datosUsuario.usuario
-                );
-
-
-                alert(
-                    "Bienvenido/a " +
-                    datosUsuario.usuario +
-                    "!"
-                );
-
-
-                // Ir al inicio del juego
-
-                window.location.href = "index.html";
-
-            } else {
-
-                alert("Usuario o contraseña incorrectos.");
-
-            }
-
-        });
-
-    }
-
-
-    // =========================
-    // IR A REGISTRO
-    // =========================
-
-    if (btnRegistrarse) {
-
-        btnRegistrarse.addEventListener("click", () => {
-
-            window.location.href = "Registro.html";
-
-        });
-
-    }
-
+  const usuario = document.getElementById("usuario"), contrasena = document.getElementById("contrasena"), button = document.getElementById("btnIngresar");
+  button?.addEventListener("click", async () => {
+    const nombre = usuario.value.trim(), clave = contrasena.value;
+    if (!nombre || !clave) { alert("Completá usuario y contraseña."); return; }
+    button.disabled = true;
+    try {
+      const response = await fetch("../api/iniciar-sesion.php", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ usuario: nombre, contrasena: clave }) });
+      const result = await response.json();
+      if (!response.ok || !result.ok) throw new Error(result.error || "Usuario o contraseña incorrectos.");
+      localStorage.setItem("sesionActiva", "true"); localStorage.setItem("jugadorActual", result.usuario);
+      location.assign("Index.html");
+    } catch (error) { alert(error.message); }
+    finally { button.disabled = false; }
+  });
+  document.getElementById("btnRegistrarse")?.addEventListener("click", () => location.href = "Registro.html");
 });
