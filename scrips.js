@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         comenzar.addEventListener("click", () => {
 
-            window.location.href = "historia.html";
+            window.location.href = "Historia.html";
 
         });
 

@@ -10,7 +10,11 @@ http.createServer((request, response) => {
   let pathname;
   try { pathname = decodeURIComponent(new URL(request.url, "http://localhost").pathname); }
   catch { response.writeHead(400).end("Dirección inválida"); return; }
-  if (pathname === "/" || pathname === "/index.html") pathname = "/html/Login.html";
+  if (pathname === "/" || pathname === "/index.html") {
+    response.writeHead(302, { Location: "/html/Login.html" });
+    response.end();
+    return;
+  }
   const filePath = path.resolve(root, `.${pathname}`);
   if (filePath !== root && !filePath.startsWith(`${root}${path.sep}`)) { response.writeHead(403).end("Acceso denegado"); return; }
   fs.readFile(filePath, (error, content) => {
