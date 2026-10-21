@@ -936,3 +936,57 @@ body::before {
         margin: 12px 0;
     }
 }
+
+/* Mantener el formulario completo en pantallas bajas y permitir desplazamiento. */
+body {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.login-container {
+    min-height: 100vh;
+    min-height: 100svh;
+    height: auto;
+    padding: clamp(12px, 3vh, 32px) 20px;
+}
+
+.logo {
+    margin-bottom: clamp(12px, 2.5vh, 24px);
+}
+
+.cohete {
+    width: min(330px, 60vw);
+    height: clamp(100px, 24vh, 200px);
+}
+
+.formulario {
+    width: min(675px, 92vw);
+    max-width: 675px;
+}
+
+.campo {
+    height: clamp(58px, 10vh, 84px);
+    margin-bottom: clamp(12px, 2vh, 18px);
+}
+
+.btn-ingresar {
+    height: clamp(58px, 10vh, 84px);
+    font-size: clamp(20px, 4vh, 30px);
+}
+
+.separador {
+    margin: clamp(10px, 1.8vh, 16px) 0;
+}
+
+.registro p {
+    font-size: clamp(13px, 2.1vh, 18px);
+    margin-bottom: clamp(8px, 1.5vh, 12px);
+}
+
+.registro button {
+    font-size: clamp(16px, 2.5vh, 22px);
+}

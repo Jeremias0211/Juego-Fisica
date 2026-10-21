@@ -32,7 +32,7 @@
 
         <!-- FORMULARIO -->
 
-        <section class="formulario">
+        <form class="formulario" id="loginForm">
 
             <!-- USUARIO -->
 
@@ -47,6 +47,9 @@
                     id="usuario"
                     placeholder="USUARIO"
                     autocomplete="username"
+                    minlength="3"
+                    maxlength="40"
+                    required
                 >
 
             </div>
@@ -65,6 +68,7 @@
                     id="contrasena"
                     placeholder="CONTRASEÑA"
                     autocomplete="current-password"
+                    required
                 >
 
             </div>
@@ -75,7 +79,7 @@
             <button
                 class="btn-ingresar"
                 id="btnIngresar"
-                type="button">
+                type="submit">
 
                 INGRESAR
 
@@ -107,7 +111,7 @@
 
             </div>
 
-        </section>
+        </form>
 
     </main>
 

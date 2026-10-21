@@ -1,113 +1,44 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Selección de niveles</title>
-
-    <link rel="stylesheet" href="../css/Niveles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selección de niveles</title>
+  <link rel="stylesheet" href="../css/Niveles.css">
 </head>
-
 <body>
-
-    <main class="mapa">
-
-        <h1>SELECCIONÁ TU MISIÓN</h1>
-        <p id="progresoJugador" class="progreso-jugador"></p>
-
-        <div class="ruta"></div>
-
-
-        <!-- NIVEL 1 -->
-        <button class="nivel nivel1" data-nivel="1">
-
-            <div class="planeta planeta1">🪨</div>
-
-            <span>NIVEL 1</span>
-            <small>MERCURIO · IMPULSO</small>
-
-        </button>
-
-
-        <!-- NIVEL 2 -->
-        <button class="nivel nivel2" data-nivel="2">
-
-            <div class="planeta planeta2">🪐</div>
-
-            <span>NIVEL 2</span>
-            <small>VENUS · GRAVEDAD</small>
-
-            <div class="candado">🔒</div>
-
-        </button>
-
-
-        <!-- NIVEL 3 -->
-        <button class="nivel nivel3" data-nivel="3">
-
-            <div class="planeta planeta3">🌑</div>
-
-            <span>NIVEL 3</span>
-            <small>TIERRA · INERCIA</small>
-
-            <div class="candado">🔒</div>
-
-        </button>
-
-
-        <!-- NIVEL 4 -->
-        <button class="nivel nivel4" data-nivel="4">
-
-            <div class="planeta planeta4">🔴</div>
-
-            <span>NIVEL 4</span>
-            <small>MARTE · TRAYECTORIA</small>
-
-            <div class="candado">🔒</div>
-
-        </button>
-
-
-        <!-- NIVEL 5 -->
-        <button class="nivel nivel5" data-nivel="5">
-
-            <div class="planeta planeta5">🟣</div>
-
-            <span>NIVEL 5</span>
-            <small>JÚPITER · ÓRBITAS</small>
-
-            <div class="candado">🔒</div>
-
-        </button>
-
-
-        <!-- NIVEL 6 -->
-        <button class="nivel nivel6" data-nivel="6">
-
-            <div class="planeta planeta6">🟢</div>
-
-            <span>NIVEL 6</span>
-            <small>SATURNO · ENERGÍA</small>
-
-            <div class="candado">🔒</div>
-
-        </button>
-
-
-
-
-        <button class="volver" id="volver">
-            &lt; VOLVER
-        </button>
-
-    </main>
-
-
-    <script src="../base-datos.js"></script>
-    <script src="../Niveles.js"></script>
-
+  <main class="mapa">
+    <h1>SELECCIONÁ TU MISIÓN</h1>
+    <p class="instrucciones-mapa">2D · 3 corazones por nivel · combustible · jetpack en Marte</p>
+    <p id="progresoJugador" class="progreso-jugador"></p>
+    <div class="ruta"></div>
+    <button class="nivel nivel1" data-nivel="1"><div class="planeta planeta1">🪨</div><span>NIVEL 1</span><small>MERCURIO · IMPULSO</small></button>
+    <button class="nivel nivel2" data-nivel="2"><div class="planeta planeta2">🪐</div><span>NIVEL 2</span><small>VENUS · GRAVEDAD</small><div class="candado">🔒</div></button>
+    <button class="nivel nivel3" data-nivel="3"><div class="planeta planeta3">🌑</div><span>NIVEL 3</span><small>TIERRA · INERCIA</small><div class="candado">🔒</div></button>
+    <button class="nivel nivel4" data-nivel="4"><div class="planeta planeta4">🔴</div><span>NIVEL 4</span><small>MARTE · JETPACK</small><div class="candado">🔒</div></button>
+    <button class="nivel nivel5" data-nivel="5"><div class="planeta planeta5">🟣</div><span>NIVEL 5</span><small>JÚPITER · ÓRBITAS</small><div class="candado">🔒</div></button>
+    <button class="nivel nivel6" data-nivel="6"><div class="planeta planeta6">🟢</div><span>NIVEL 6</span><small>SATURNO · ENERGÍA</small><div class="candado">🔒</div></button>
+    <button class="volver" id="volver">&lt; VOLVER</button>
+    <button class="ranking-trigger" id="abrirRanking" type="button">🏆 PUNTUACIONES</button>
+  </main>
+  <section class="ranking-overlay" id="panelRanking" role="dialog" aria-modal="true" aria-labelledby="tituloRanking" hidden>
+    <div class="ranking-card">
+      <div class="ranking-heading">
+        <div><p class="ranking-kicker">CLASIFICACIÓN GALÁCTICA</p><h2 id="tituloRanking">Puntuación de jugadores</h2></div>
+        <button class="ranking-close" id="cerrarRanking" type="button" aria-label="Cerrar tabla">×</button>
+      </div>
+      <p class="ranking-note">Cada planeta completado suma 100 puntos.</p>
+      <div class="ranking-table-wrap">
+        <table class="ranking-table">
+          <thead><tr><th>#</th><th>Jugador</th><th>Planetas</th><th>Puntos</th></tr></thead>
+          <tbody id="filasRanking"><tr><td colspan="4" class="ranking-status">Cargando puntuaciones…</td></tr></tbody>
+        </table>
+      </div>
+      <div class="ranking-footer"><span id="estadoRanking" aria-live="polite"></span><button id="actualizarRanking" type="button">↻ Actualizar</button></div>
+    </div>
+  </section>
+  <script src="../base-datos.js"></script>
+  <script src="../Niveles.js"></script>
 </body>
-
 </html>
+
