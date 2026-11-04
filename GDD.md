@@ -5,7 +5,7 @@
 ## 1. Datos del proyecto
 
 - **Nombre:** Nuevo Hogar: Misión espacial.
-- **Integrantes:** [completar con nombres reales].
+- **Integrantes:** Carballo juan, Maldonado luna, Diaz jeremias, Veltri candela
 - **Género:** plataformas y aventura educativa 2D.
 - **Público destinatario:** estudiantes de nivel secundario que estén trabajando conceptos introductorios de física.
 - **Plataformas:** navegador de PC, tablet y celular dentro de una misma red Wi-Fi.
@@ -165,7 +165,5 @@ P5.js crea el canvas y ejecuta el ciclo `setup/draw`. El portal administra naveg
 
 ## 15. Mejoras futuras
 
-- Sincronizar el combustible y otros recursos de la partida entre dispositivos.
 - Agregar niveles de dificultad y más desafíos de mecánica orbital.
-- Ampliar accesibilidad con remapeo de teclas, contraste configurable y opciones de movimiento reducido.
 - Agregar sonidos y una animación explicativa después de cada desafío.
