@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS progreso_jugador (
 INSERT INTO planetas (nivel, nombre, concepto_fisica, orden) VALUES
 (1, 'Mercurio', 'Impulso', 1),
 (2, 'Venus', 'Gravedad y peso', 2),
-(3, 'Tierra', 'Inercia', 3),
+(3, 'Luna', 'Inercia y gravedad lunar', 3),
 (4, 'Marte', 'Trayectoria de proyectiles', 4),
 (5, 'Júpiter', 'Órbitas y gravedad', 5),
 (6, 'Saturno', 'Transformación de energía', 6)

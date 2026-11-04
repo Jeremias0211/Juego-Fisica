@@ -5,19 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Selección de niveles</title>
   <link rel="stylesheet" href="../css/Niveles.css">
+  <link rel="stylesheet" href="../css/Asistente.css">
 </head>
 <body>
   <main class="mapa">
     <h1>SELECCIONÁ TU MISIÓN</h1>
-    <p class="instrucciones-mapa">2D · 3 corazones por nivel · combustible · jetpack en Marte</p>
+    <p class="instrucciones-mapa">SISTEMA SOLAR · DESPEGÁ DESDE LA TIERRA</p>
     <p id="progresoJugador" class="progreso-jugador"></p>
+    <div class="sistema-solar" aria-label="Sistema solar con el Sol en el centro">
+      <div class="orbita orbita1"></div><div class="orbita orbita2"></div><div class="orbita orbita3"></div><div class="orbita orbita4"></div><div class="orbita orbita5"></div>
+      <div class="sol" role="img" aria-label="Sol"></div>
+      <div class="cuerpo-planetario mercurio-decorativo" role="img" aria-label="Mercurio"><i></i><span>MERCURIO</span></div>
+      <div class="cuerpo-planetario urano-decorativo" role="img" aria-label="Urano"><i></i><span>URANO</span></div>
+      <div class="cuerpo-planetario neptuno-decorativo" role="img" aria-label="Neptuno"><i></i><span>NEPTUNO</span></div>
+    </div>
     <div class="ruta"></div>
-    <button class="nivel nivel1" data-nivel="1"><div class="planeta planeta1">🪨</div><span>NIVEL 1</span><small>MERCURIO · IMPULSO</small></button>
-    <button class="nivel nivel2" data-nivel="2"><div class="planeta planeta2">🪐</div><span>NIVEL 2</span><small>VENUS · GRAVEDAD</small><div class="candado">🔒</div></button>
-    <button class="nivel nivel3" data-nivel="3"><div class="planeta planeta3">🌑</div><span>NIVEL 3</span><small>TIERRA · INERCIA</small><div class="candado">🔒</div></button>
-    <button class="nivel nivel4" data-nivel="4"><div class="planeta planeta4">🔴</div><span>NIVEL 4</span><small>MARTE · JETPACK</small><div class="candado">🔒</div></button>
-    <button class="nivel nivel5" data-nivel="5"><div class="planeta planeta5">🟣</div><span>NIVEL 5</span><small>JÚPITER · ÓRBITAS</small><div class="candado">🔒</div></button>
-    <button class="nivel nivel6" data-nivel="6"><div class="planeta planeta6">🟢</div><span>NIVEL 6</span><small>SATURNO · ENERGÍA</small><div class="candado">🔒</div></button>
+    <button class="nivel nivel1" data-nivel="1" aria-label="Punto de partida en la Tierra, inicia la misión 1" data-info="TIERRA · PUNTO DE PARTIDA. Seleccioná NIVEL 1 para despegar hacia la misión de impulso en Mercurio."><div class="planeta planeta1">🌎</div><span>NIVEL 1</span><small>TIERRA · DESPEGUE</small></button>
+    <button class="nivel nivel2" data-nivel="2" aria-label="Misión 2, Venus: gravedad" data-info="GRAVEDAD · Venus tiene g = 8,90 m/s². Usá E durante el salto para reducir la gravedad y alcanzar las plataformas elevadas."><div class="planeta planeta2">🟠</div><span>NIVEL 2</span><small>VENUS · GRAVEDAD</small><div class="candado">🔒</div></button>
+    <button class="nivel nivel3" data-nivel="3" aria-label="Misión 3, Luna: inercia" data-info="INERCIA · Luna tiene g = 1,62 m/s². La baja gravedad alarga los saltos; usá E para frenar y aterrizar sobre plataformas móviles."><div class="planeta planeta3">🌑</div><span>NIVEL 3</span><small>LUNA · INERCIA</small><div class="candado">🔒</div></button>
+    <button class="nivel nivel4" data-nivel="4" aria-label="Misión 4, Marte: jetpack" data-info="PROPULSIÓN · En Marte recogé el jetpack y mantené J o el botón JETPACK para cruzar el gran cráter."><div class="planeta planeta4">🔴</div><span>NIVEL 4</span><small>MARTE · JETPACK</small><div class="candado">🔒</div></button>
+    <button class="nivel nivel5" data-nivel="5" aria-label="Misión 5, Júpiter: asistencia gravitatoria" data-info="ASISTENCIA GRAVITATORIA · Júpiter tiene g = 24,79 m/s². Acercate a los campos violetas y activá E para ser impulsado."><div class="planeta planeta5">🟣</div><span>NIVEL 5</span><small>JÚPITER · ASISTENCIA</small><div class="candado">🔒</div></button>
+    <button class="nivel nivel6" data-nivel="6" aria-label="Misión 6, Saturno: energía" data-info="ENERGÍA · Saturno tiene g = 10,44 m/s². Reuní tres celdas y acercate al portal para activar la baliza con E."><div class="planeta planeta6">🪐</div><span>NIVEL 6</span><small>SATURNO · ENERGÍA</small><div class="candado">🔒</div></button>
     <button class="volver" id="volver">&lt; VOLVER</button>
     <button class="ranking-trigger" id="abrirRanking" type="button">🏆 PUNTUACIONES</button>
   </main>
@@ -39,6 +47,7 @@
   </section>
   <script src="../base-datos.js"></script>
   <script src="../Niveles.js"></script>
+  <script src="../Asistente.js"></script>
 </body>
 </html>
 

@@ -34,6 +34,28 @@ function conexion(): PDO
     }
 }
 
+function iniciarSesionSegura(): void
+{
+    if (session_status() === PHP_SESSION_ACTIVE) return;
+    $https = !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off';
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path' => '/',
+        'secure' => $https,
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ]);
+    session_start();
+}
+
+function exigirJugadorSesion(): int
+{
+    iniciarSesionSegura();
+    $jugadorId = (int)($_SESSION['jugador_id'] ?? 0);
+    if ($jugadorId < 1) responder(401, ['ok' => false, 'error' => 'Iniciá sesión para guardar tu progreso.']);
+    return $jugadorId;
+}
+
 function exigirMetodo(string $metodo): void
 {
     if (($_SERVER['REQUEST_METHOD'] ?? '') !== $metodo) {

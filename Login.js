@@ -17,9 +17,16 @@ document.addEventListener("DOMContentLoaded", () => {
       catch { throw new Error("El servidor no devolvió una respuesta válida. Revisá que esté iniciado correctamente."); }
       if (!response.ok || !result.ok) throw new Error(result.error || "Usuario o contraseña incorrectos.");
       localStorage.setItem("sesionActiva", "true"); localStorage.setItem("jugadorActual", result.usuario);
+      localStorage.removeItem("modoInvitado");
       location.assign("Index.html");
     } catch (error) { alert(error.message); }
     finally { button.disabled = false; }
   });
   document.getElementById("btnRegistrarse")?.addEventListener("click", () => location.href = "Registro.html");
+  document.getElementById("btnInvitado")?.addEventListener("click", () => {
+    localStorage.removeItem("sesionActiva");
+    localStorage.setItem("modoInvitado", "true");
+    localStorage.setItem("jugadorActual", "Invitado");
+    location.assign("Index.html");
+  });
 });

@@ -1,12 +1,14 @@
 const http = require("node:http");
 const fs = require("node:fs");
 const path = require("node:path");
+const os = require("node:os");
 const { DatabaseSync } = require("node:sqlite");
 const { randomBytes, scrypt, timingSafeEqual } = require("node:crypto");
 const { promisify } = require("node:util");
 
 const root = __dirname;
 const port = Number(process.env.PORT) || 3000;
+const host = process.env.HOST || "0.0.0.0";
 const databaseDirectory = path.join(root, "database");
 const databasePath = path.join(databaseDirectory, "nuevo_hogar.sqlite");
 const deriveKey = promisify(scrypt);
@@ -23,6 +25,7 @@ const contentTypes = {
 
 fs.mkdirSync(databaseDirectory, { recursive: true });
 const database = new DatabaseSync(databasePath);
+const sessions = new Map();
 database.exec(`
   CREATE TABLE IF NOT EXISTS jugadores (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -86,6 +89,28 @@ async function verificarHash(contrasena, guardado) {
   return timingSafeEqual(actual, esperado);
 }
 
+function leerTokenSesion(request) {
+  const cookie = request.headers.cookie || "";
+  const encontrado = cookie.split(";").map((item) => item.trim()).find((item) => item.startsWith("nh_session="));
+  return encontrado ? decodeURIComponent(encontrado.slice("nh_session=".length)) : "";
+}
+
+function crearSesion(response, jugadorId) {
+  const token = randomBytes(32).toString("hex");
+  sessions.set(token, jugadorId);
+  response.setHeader("Set-Cookie", `nh_session=${token}; HttpOnly; SameSite=Lax; Path=/`);
+}
+
+function exigirSesion(request, response) {
+  const token = leerTokenSesion(request);
+  const jugadorId = token ? sessions.get(token) : null;
+  if (!jugadorId) {
+    responderJson(response, 401, { ok: false, error: "Iniciá sesión para guardar tu progreso." });
+    return null;
+  }
+  return { token, jugadorId };
+}
+
 async function manejarAutenticacion(request, response, pathname) {
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
@@ -141,11 +166,12 @@ async function manejarAutenticacion(request, response, pathname) {
   }
 
   try {
-    const jugador = database.prepare("SELECT usuario, contrasena_hash FROM jugadores WHERE usuario = ? LIMIT 1").get(usuario);
+    const jugador = database.prepare("SELECT id, usuario, contrasena_hash FROM jugadores WHERE usuario = ? LIMIT 1").get(usuario);
     if (!jugador || !(await verificarHash(contrasena, jugador.contrasena_hash))) {
       responderJson(response, 401, { ok: false, error: "Usuario o contraseña incorrectos." });
       return;
     }
+    crearSesion(response, jugador.id);
     responderJson(response, 200, { ok: true, usuario: jugador.usuario });
   } catch (error) {
     console.error("Error iniciando sesión:", error);
@@ -154,7 +180,9 @@ async function manejarAutenticacion(request, response, pathname) {
 }
 
 function manejarPuntuaciones(request, response, pathname) {
-  if (pathname === "/api/puntuaciones" && request.method === "GET") {
+  const apiGet = pathname === "/api/puntuaciones.php" || pathname === "/api/puntuaciones";
+  const apiPost = apiGet || pathname === "/api/puntuaciones/nivel";
+  if (apiGet && request.method === "GET") {
     try {
       const rows = database.prepare(`
         SELECT j.usuario,
@@ -176,25 +204,28 @@ function manejarPuntuaciones(request, response, pathname) {
     return;
   }
 
-  if (pathname === "/api/puntuaciones/nivel" && request.method === "POST") {
+  if (apiPost && request.method === "POST") {
+    const sesion = exigirSesion(request, response);
+    if (!sesion) return;
     leerJson(request).then((data) => {
-      const usuario = String(data.usuario || "").trim();
       const nivel = Number(data.nivel);
-      if (!usuario || !Number.isInteger(nivel) || nivel < 1 || nivel > 6) {
-        responderJson(response, 422, { ok: false, error: "Usuario o nivel inválido." });
+      if (!Number.isInteger(nivel) || nivel < 1 || nivel > 6) {
+        responderJson(response, 422, { ok: false, error: "El nivel indicado no es válido." });
         return;
       }
 
-      const jugador = database.prepare("SELECT id FROM jugadores WHERE usuario = ? LIMIT 1").get(usuario);
-      if (!jugador) {
-        responderJson(response, 404, { ok: false, error: "La cuenta no está registrada." });
-        return;
+      if (nivel > 1) {
+        const anterior = database.prepare("SELECT 1 AS completado FROM niveles_puntuados WHERE jugador_id = ? AND nivel = ? LIMIT 1").get(sesion.jugadorId, nivel - 1);
+        if (!anterior) {
+          responderJson(response, 409, { ok: false, error: "Completá el planeta anterior antes de guardar este nivel." });
+          return;
+        }
       }
 
       database.prepare(`
         INSERT OR IGNORE INTO niveles_puntuados (jugador_id, nivel, puntos)
         VALUES (?, ?, 100)
-      `).run(jugador.id, nivel);
+      `).run(sesion.jugadorId, nivel);
       responderJson(response, 200, { ok: true });
     }).catch((error) => {
       responderJson(response, error.status || 400, { ok: false, error: error.message || "No se pudo guardar el puntaje." });
@@ -202,11 +233,52 @@ function manejarPuntuaciones(request, response, pathname) {
     return;
   }
 
-  response.setHeader("Allow", pathname === "/api/puntuaciones" ? "GET" : "POST");
+  response.setHeader("Allow", apiGet ? "GET, POST" : "POST");
   responderJson(response, 405, { ok: false, error: "Método no permitido." });
 }
 
-http.createServer((request, response) => {
+function manejarProgreso(request, response) {
+  if (request.method !== "GET") {
+    response.setHeader("Allow", "GET");
+    responderJson(response, 405, { ok: false, error: "Método no permitido." });
+    return;
+  }
+  const sesion = exigirSesion(request, response);
+  if (!sesion) return;
+  try {
+    const rows = database.prepare(`
+      SELECT nivel, puntos
+      FROM niveles_puntuados
+      WHERE jugador_id = ?
+      ORDER BY nivel ASC
+    `).all(sesion.jugadorId);
+    const completados = rows.map((fila) => Number(fila.nivel));
+    const puntuacion = rows.reduce((total, fila) => total + Number(fila.puntos), 0);
+    responderJson(response, 200, {
+      ok: true,
+      completados,
+      puntuacion,
+      nivel: completados.length ? Math.min(6, Math.max(...completados) + 1) : 1,
+    });
+  } catch (error) {
+    console.error("Error consultando progreso:", error);
+    responderJson(response, 500, { ok: false, error: "No se pudo cargar el progreso del jugador." });
+  }
+}
+
+function manejarCierreSesion(request, response) {
+  if (request.method !== "POST") {
+    response.setHeader("Allow", "POST");
+    responderJson(response, 405, { ok: false, error: "Método no permitido." });
+    return;
+  }
+  const token = leerTokenSesion(request);
+  if (token) sessions.delete(token);
+  response.setHeader("Set-Cookie", "nh_session=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0");
+  responderJson(response, 200, { ok: true });
+}
+
+const servidor = http.createServer((request, response) => {
   let pathname;
   try {
     pathname = decodeURIComponent(new URL(request.url, "http://localhost").pathname);
@@ -229,7 +301,17 @@ http.createServer((request, response) => {
     return;
   }
 
-  if (pathname === "/api/puntuaciones" || pathname === "/api/puntuaciones/nivel") {
+  if (pathname === "/api/cerrar-sesion.php") {
+    manejarCierreSesion(request, response);
+    return;
+  }
+
+  if (pathname === "/api/progreso.php") {
+    manejarProgreso(request, response);
+    return;
+  }
+
+  if (pathname === "/api/puntuaciones.php" || pathname === "/api/puntuaciones" || pathname === "/api/puntuaciones/nivel") {
     manejarPuntuaciones(request, response, pathname);
     return;
   }
@@ -254,8 +336,26 @@ http.createServer((request, response) => {
     response.writeHead(200, { "Content-Type": contentTypes[path.extname(filePath).toLowerCase()] || "application/octet-stream" });
     response.end(content);
   });
-}).listen(port, "127.0.0.1", () => {
+});
+
+servidor.on("error", (error) => {
+  if (error.code === "EADDRINUSE") {
+    console.error(`El puerto ${port} ya está ocupado. Detené el otro servidor con Ctrl+C o iniciá este con PORT=3001.`);
+    process.exitCode = 1;
+    return;
+  }
+  console.error("No se pudo iniciar el servidor:", error.message);
+  process.exitCode = 1;
+});
+
+servidor.listen(port, host, () => {
   console.log(`Nuevo Hogar está en http://localhost:${port}/`);
+  if (host === "0.0.0.0" || host === "::") {
+    const direcciones = Object.values(os.networkInterfaces()).flat().filter((interfaz) =>
+      interfaz && !interfaz.internal && (interfaz.family === "IPv4" || interfaz.family === 4)
+    ).map((interfaz) => interfaz.address);
+    direcciones.forEach((direccion) => console.log(`Acceso desde la red Wi-Fi: http://${direccion}:${port}/`));
+  }
   console.log(`Las cuentas se guardan en ${databasePath}`);
   console.log("Presioná Ctrl+C para detener el servidor.");
 });

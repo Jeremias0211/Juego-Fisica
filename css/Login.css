@@ -990,3 +990,7 @@ body {
 .registro button {
     font-size: clamp(16px, 2.5vh, 22px);
 }
+/* Ingreso sin cuenta: el progreso del invitado queda guardado solo en este navegador. */
+.btn-invitado{display:block;width:100%;margin-top:14px;padding:11px 14px;border:1px solid rgba(119,226,246,.62);border-radius:9px;background:rgba(7,30,50,.72);color:#d9faff;font-size:13px;font-weight:700;letter-spacing:.4px;cursor:pointer;transition:background .2s ease,box-shadow .2s ease}
+.btn-invitado:hover{background:rgba(14,76,101,.88);box-shadow:0 0 13px rgba(55,211,239,.32)}
+.enlaces-portal{margin-top:12px;color:#b9ddea;text-align:center;font-size:12px}.enlaces-portal a{color:#81e6ff;text-decoration:none}.enlaces-portal a:hover{text-decoration:underline;color:#fff}

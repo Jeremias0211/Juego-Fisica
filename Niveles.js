@@ -1,6 +1,15 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const jugador = localStorage.getItem("jugadorActual");
-  if (localStorage.getItem("sesionActiva") !== "true" || !jugador) { location.href = "Login.html"; return; }
+  const modoInvitado = localStorage.getItem("modoInvitado") === "true";
+  if ((localStorage.getItem("sesionActiva") !== "true" && !modoInvitado) || !jugador) { location.href = "Login.html"; return; }
+
+  if (!modoInvitado) {
+    try {
+      const response = await fetch("../api/progreso.php", { cache: "no-store" });
+      const serverProgress = await response.json();
+      if (response.ok && serverProgress.ok) window.JuegoDB.mergeServerProgress(jugador, serverProgress);
+    } catch (_) { /* Permite seguir con el progreso local si el servidor no responde. */ }
+  }
 
   const progreso = window.JuegoDB.progress(jugador);
   document.querySelectorAll(".nivel[data-nivel]").forEach((btn) => {
@@ -15,28 +24,34 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   const resumen = document.getElementById("progresoJugador");
-  if (resumen) resumen.textContent = `${jugador} · ${progreso.completados.length}/6 planetas · ${progreso.puntuacion} puntos · ⛽ ${Math.floor(progreso.combustible ?? 100)}%`;
+  if (resumen) resumen.textContent = `${jugador} · ${progreso.completados.length}/6 misiones · ${progreso.puntuacion} puntos · ⛽ ${Math.floor(progreso.combustible ?? 100)}%`;
   document.getElementById("volver")?.addEventListener("click", () => location.href = "Historia.html");
 
   const panel = document.getElementById("panelRanking");
   const filas = document.getElementById("filasRanking");
   const estado = document.getElementById("estadoRanking");
   const actualizar = document.getElementById("actualizarRanking");
-  const sincronizarPuntajes = Promise.all(progreso.completados.map((nivel) =>
-    fetch("../api/puntuaciones/nivel", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ usuario: jugador, nivel }),
-    }).catch(() => null)
-  ));
+  const sincronizarPuntajes = async () => {
+    if (modoInvitado) return;
+    for (const nivel of [...progreso.completados].sort((a, b) => a - b)) {
+      try {
+        const response = await fetch("../api/puntuaciones.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ nivel }),
+        });
+        if (!response.ok) break;
+      } catch (_) { break; }
+    }
+  };
 
   async function cargarRanking() {
     actualizar.disabled = true;
     estado.textContent = "Actualizando…";
     filas.innerHTML = '<tr><td colspan="4" class="ranking-status">Cargando puntuaciones…</td></tr>';
     try {
-      await sincronizarPuntajes;
-      const response = await fetch("../api/puntuaciones", { cache: "no-store" });
+      await sincronizarPuntajes();
+      const response = await fetch("../api/puntuaciones.php", { cache: "no-store" });
       const result = await response.json();
       if (!response.ok || !result.ok) throw new Error(result.error || "No se pudo cargar la tabla.");
       filas.replaceChildren();

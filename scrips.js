@@ -3,6 +3,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const comenzar = document.getElementById("comenzar");
     const opciones = document.getElementById("opciones");
     const salir = document.getElementById("salir");
+    const instrucciones = document.getElementById("instrucciones");
+    const creditos = document.getElementById("creditos");
 
     const menuOpciones = document.getElementById("menuOpciones");
     const cerrarOpciones = document.getElementById("cerrarOpciones");
@@ -14,9 +16,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const sesionActiva =
         localStorage.getItem("sesionActiva");
+    const modoInvitado = localStorage.getItem("modoInvitado") === "true";
 
 
-    if (sesionActiva !== "true") {
+    if (sesionActiva !== "true" && !modoInvitado) {
 
         window.location.href = "Login.html";
 
@@ -37,6 +40,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
     }
+
+    instrucciones?.addEventListener("click", () => { window.location.href = "Instrucciones.html"; });
+    creditos?.addEventListener("click", () => { window.location.href = "Creditos.html"; });
 
 
     // =========================
@@ -78,7 +84,7 @@ document.addEventListener("DOMContentLoaded", () => {
         salir.addEventListener("click", () => {
 
             const confirmar = confirm(
-                "¿Querés cerrar la sesión?"
+                modoInvitado ? "¿Querés salir del modo invitado?" : "¿Querés cerrar la sesión?"
             );
 
 
@@ -86,8 +92,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 // Eliminar sesión
 
+                if (sesionActiva === "true") {
+                    fetch("../api/cerrar-sesion.php", { method: "POST" }).catch(() => {});
+                }
                 localStorage.removeItem("sesionActiva");
-
+                localStorage.removeItem("modoInvitado");
                 localStorage.removeItem("jugadorActual");
 
 

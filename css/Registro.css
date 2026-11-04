@@ -1390,3 +1390,5 @@ body {
 .volver-login button {
     font-size: clamp(15px, 2.8vh, 21px);
 }
+/* Enlaces a las secciones públicas del portal. */
+.enlaces-portal{margin-top:12px;color:#b9ddea;text-align:center;font-size:12px}.enlaces-portal a{color:#81e6ff;text-decoration:none}.enlaces-portal a:hover{text-decoration:underline;color:#fff}

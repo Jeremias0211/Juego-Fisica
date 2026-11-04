@@ -5,13 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Misión 2D · Nuevo Hogar</title>
   <link rel="stylesheet" href="../css/Juego.css">
+  <link rel="stylesheet" href="../css/Asistente.css">
 </head>
 <body>
   <main class="pantalla">
-    <header>
-      <a class="volver" href="Niveles.html">← MAPA</a>
-      <span id="estado" class="estado"></span>
-    </header>
     <section class="intro">
       <p class="ceja" id="planeta"></p>
       <h1 id="titulo"></h1>
@@ -19,6 +16,12 @@
     </section>
     <section class="zona" id="zonaJuego">
       <div class="simulacion">
+        <header class="barra-juego">
+          <a class="volver" href="Niveles.html">← MAPA</a>
+          <span id="estado" class="estado"></span>
+          <button id="botonHabilidad" class="habilidad-toggle" type="button">HABILIDAD</button>
+          <button id="botonPausa" class="pausa-toggle" type="button" aria-controls="pausaOverlay" aria-expanded="false">⏸ PAUSAR</button>
+        </header>
         <div class="hud-juego">
           <div class="medidor">
             <div class="medidor-encabezado"><strong>OXÍGENO</strong><span id="valorOxigeno">100%</span></div>
@@ -35,6 +38,7 @@
           <div class="datos-juego">
             <div class="vidas-hud"><strong>VIDAS</strong><span id="corazones" aria-label="3 vidas">♥ ♥ ♥</span></div>
             <span id="contadorOrbes" class="contador-orbes">0 / 0 orbes</span>
+            <span id="contadorEnergia" class="contador-orbes" hidden>⚡ 0 / 3</span>
           </div>
         </div>
         <div id="jetpackPanel" class="jetpack-panel" hidden>
@@ -44,9 +48,19 @@
           </div>
           <span id="valorJetpack">Buscá la mochila</span>
         </div>
-        <canvas id="escena" tabindex="0" aria-label="Nivel de plataformas 2D. A y D para moverse; W o espacio para saltar."></canvas>
+        <div id="contenedorEscena" class="contenedor-escena" aria-label="Nivel de plataformas 2D">
+          <p id="estadoCanvas" class="solo-lector" aria-live="polite"></p>
+        </div>
+        <div class="controles-tactiles" aria-label="Controles táctiles del juego">
+          <div class="grupo-movimiento">
+            <button type="button" data-control="left" aria-label="Mover a la izquierda">◀</button>
+            <button type="button" data-control="right" aria-label="Mover a la derecha">▶</button>
+          </div>
+          <button type="button" data-control="jump" aria-label="Saltar">SALTAR</button>
+          <button type="button" id="botonJetpack" data-control="jetpack" aria-label="Usar jetpack" hidden>JETPACK</button>
+        </div>
         <p id="formula"></p>
-        <p id="ayudaControles" class="ayuda-controles">A / D: moverse · W o ESPACIO: saltar · Tocá las orbes O₂ para recargar · En Marte: J para usar el jetpack</p>
+        <p id="ayudaControles" class="ayuda-controles">A / D: moverse · W o ESPACIO: saltar · Recogé orbes O₂ · Usá la habilidad del planeta · P: pausar</p>
         <div id="estadoPlataforma" class="estado-plataforma">
           <p id="mensajePlataforma" aria-live="polite"></p>
           <div class="acciones-nivel">
@@ -58,8 +72,19 @@
     </section>
     <footer>Comandante: <span id="jugador"></span> · A/D para moverte, W o espacio para saltar.</footer>
   </main>
-  <script src="../base-datos.js"></script>
+  <section id="pausaOverlay" class="pausa-overlay" role="dialog" aria-modal="true" aria-labelledby="tituloPausa" hidden>
+    <div class="pausa-tarjeta">
+      <p class="pausa-ceja">MISIÓN DETENIDA</p>
+      <h2 id="tituloPausa">Juego en pausa</h2>
+      <p>El oxígeno, los obstáculos y el tiempo del nivel están detenidos.</p>
+      <button id="reanudarJuego" type="button">▶ CONTINUAR JUGANDO</button>
+      <a href="Niveles.html">VOLVER AL MAPA</a>
+      <small>Atajo: presioná P para continuar o pausar.</small>
+    </div>
+  </section>  <script src="../base-datos.js"></script>
+  <script src="../vendor/p5.min.js"></script>
   <script src="../Juego.js"></script>
+
 </body>
 </html>
 

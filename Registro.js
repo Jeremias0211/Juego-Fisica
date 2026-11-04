@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
       try { result = await response.json(); }
       catch { throw new Error("El servidor no devolvió una respuesta válida. Revisá que esté iniciado correctamente."); }
       if (!response.ok || !result.ok) throw new Error(result.error || "No se pudo crear la cuenta.");
+      localStorage.removeItem("modoInvitado");
       alert("Cuenta creada correctamente. Iniciá sesión para continuar.");
       location.assign("Login.html");
     } catch (error) {
