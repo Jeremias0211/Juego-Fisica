@@ -1,0 +1,468 @@
+/* =========================
+   FORMULARIO
+========================= */
+
+.formulario {
+
+    width: 700px;
+
+    max-width: 90vw;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+}
+
+
+/* =========================
+   CAMPOS
+========================= */
+
+.campo {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 102px;
+
+    margin-bottom: 28px;
+
+    display: flex;
+
+    align-items: center;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            rgba(5, 35, 45, .78),
+            rgba(4, 27, 38, .88)
+        );
+
+    border: 2px solid #18e9ff;
+
+    box-shadow:
+
+        0 0 8px rgba(0, 230, 255, .65),
+
+        inset 0 0 20px
+        rgba(0, 220, 255, .05);
+
+    clip-path: polygon(
+
+        20px 0,
+
+        calc(100% - 20px) 0,
+
+        100% 20px,
+
+        100% calc(100% - 20px),
+
+        calc(100% - 20px) 100%,
+
+        20px 100%,
+
+        0 calc(100% - 20px),
+
+        0 20px
+
+    );
+
+    transition: .2s;
+
+}
+
+
+/* DECORACIÓN SUPERIOR */
+
+.campo::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: -2px;
+
+    left: 43%;
+
+    width: 95px;
+
+    height: 4px;
+
+    background: #00eaff;
+
+    box-shadow:
+
+        0 0 8px #00eaff;
+
+}
+
+
+/* DECORACIÓN INFERIOR */
+
+.campo::after {
+
+    content: "";
+
+    position: absolute;
+
+    bottom: -2px;
+
+    left: 43%;
+
+    width: 95px;
+
+    height: 4px;
+
+    background: #00eaff;
+
+    box-shadow:
+
+        0 0 8px #00eaff;
+
+}
+
+
+/* FOCUS */
+
+.campo:focus-within {
+
+    border-color: #a2faff;
+
+    box-shadow:
+
+        0 0 15px #00eaff,
+
+        0 0 30px rgba(0, 230, 255, .25);
+
+    transform: scale(1.01);
+
+}
+
+
+/* =========================
+   ICONO
+========================= */
+
+.icono {
+
+    width: 105px;
+
+    min-width: 105px;
+
+    text-align: center;
+
+    font-size: 38px;
+
+    color: #15eaff;
+
+    filter:
+
+        drop-shadow(0 0 7px #00eaff);
+
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+.campo input {
+
+    width: calc(100% - 105px);
+
+    height: 100%;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: #f1f5f6;
+
+    font-size: 22px;
+
+    font-weight: 400;
+
+    letter-spacing: 2px;
+
+}
+
+
+.campo input::placeholder {
+
+    color: #e1e7e9;
+
+    opacity: .95;
+
+}
+
+
+/* =========================
+   BOTÓN CREAR CUENTA
+========================= */
+
+.btn-crear {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 105px;
+
+    border: 2px solid #15eaff;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            rgba(10, 80, 100, .9),
+            rgba(7, 58, 78, .9)
+        );
+
+    color: #eaf5f7;
+
+    font-size: 32px;
+
+    font-weight: 500;
+
+    letter-spacing: 3px;
+
+    cursor: pointer;
+
+    clip-path: polygon(
+
+        25px 0,
+
+        calc(100% - 25px) 0,
+
+        100% 25px,
+
+        100% calc(100% - 25px),
+
+        calc(100% - 25px) 100%,
+
+        25px 100%,
+
+        0 calc(100% - 25px),
+
+        0 25px
+
+    );
+
+    box-shadow:
+
+        0 0 10px rgba(0, 230, 255, .7),
+
+        inset 0 0 25px rgba(0, 220, 255, .08);
+
+    transition: .2s;
+
+}
+
+
+/* LÍNEA SUPERIOR */
+
+.btn-crear::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: -2px;
+
+    left: 43%;
+
+    width: 95px;
+
+    height: 4px;
+
+    background: #00eaff;
+
+    box-shadow:
+
+        0 0 8px #00eaff;
+
+}
+
+
+/* LÍNEA INFERIOR */
+
+.btn-crear::after {
+
+    content: "";
+
+    position: absolute;
+
+    bottom: -2px;
+
+    left: 43%;
+
+    width: 95px;
+
+    height: 4px;
+
+    background: #00eaff;
+
+    box-shadow:
+
+        0 0 8px #00eaff;
+
+}
+
+
+/* HOVER */
+
+.btn-crear:hover {
+
+    transform: scale(1.015);
+
+    background:
+
+        linear-gradient(
+            90deg,
+            rgba(15, 105, 130, .95),
+            rgba(10, 75, 100, .95)
+        );
+
+    box-shadow:
+
+        0 0 15px #00eaff,
+
+        0 0 35px rgba(0, 230, 255, .45);
+
+}
+
+
+/* CLICK */
+
+.btn-crear:active {
+
+    transform: scale(.98);
+
+}
+
+
+/* =========================
+   SEPARADOR
+========================= */
+
+.separador {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin: 35px 0 25px;
+
+}
+
+
+.separador::before,
+.separador::after {
+
+    content: "";
+
+    height: 1px;
+
+    width: 35%;
+
+    background: #00dff5;
+
+    opacity: .55;
+
+    box-shadow:
+
+        0 0 7px #00eaff;
+
+}
+
+
+.separador span {
+
+    margin: 0 20px;
+
+    color: #00eaff;
+
+    font-size: 27px;
+
+    text-shadow:
+
+        0 0 10px #00eaff;
+
+}
+
+
+/* =========================
+   VOLVER AL LOGIN
+========================= */
+
+.volver-login {
+
+    text-align: center;
+
+}
+
+
+.volver-login p {
+
+    color: #e2e8ea;
+
+    font-size: 19px;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 13px;
+
+}
+
+
+.volver-login button {
+
+    border: none;
+
+    background: transparent;
+
+    color: #19eaff;
+
+    font-size: 23px;
+
+    letter-spacing: 3px;
+
+    cursor: pointer;
+
+    text-shadow:
+
+        0 0 8px #00eaff,
+
+        0 0 18px rgba(0, 230, 255, .7);
+
+    transition: .2s;
+
+}
+
+
+.volver-login button:hover {
+
+    color: white;
+
+    transform: scale(1.05);
+
+    text-shadow:
+
+        0 0 10px white,
+
+        0 0 25px #00eaff;
+
+}
+
+

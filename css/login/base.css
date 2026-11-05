@@ -1,0 +1,239 @@
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   BODY
+========================= */
+
+body {
+
+    width: 100vw;
+    height: 100vh;
+
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% 25%,
+            rgba(0, 180, 220, .10),
+            transparent 35%
+        ),
+        url("../../img/fondo-historia.jpeg");
+
+    background-size: cover;
+    background-position: center;
+
+    font-family: Arial, sans-serif;
+
+    color: white;
+}
+
+
+/* =========================
+   ESTRELLAS
+========================= */
+
+body::before {
+
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background-image:
+        radial-gradient(circle, #55efff 1px, transparent 1px),
+        radial-gradient(circle, #ffffff 1px, transparent 1px),
+        radial-gradient(circle, #3deaff 1px, transparent 1px);
+
+    background-size:
+        180px 180px,
+        250px 250px,
+        320px 320px;
+
+    background-position:
+        20px 40px,
+        80px 120px,
+        150px 70px;
+
+    opacity: .45;
+}
+
+
+/* =========================
+   CONTENEDOR PRINCIPAL
+========================= */
+
+.login-container {
+
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    z-index: 2;
+
+    padding: 20px;
+}
+
+
+/* =========================
+   LOGO
+========================= */
+
+.logo {
+
+    width: 100%;
+
+    text-align: center;
+
+    margin-bottom: 30px;
+}
+
+
+/* =========================
+   IMAGEN DEL COHETE
+========================= */
+
+.cohete {
+
+    width: 330px;
+    height: 230px;
+
+    margin: 0 auto;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    animation: flotar 3s ease-in-out infinite;
+}
+
+
+.cohete img {
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    filter:
+        drop-shadow(0 0 8px #00eaff)
+        drop-shadow(0 0 20px #00eaff);
+}
+
+
+/* ANIMACIÓN */
+
+@keyframes flotar {
+
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================
+   TITULO
+========================= */
+
+.logo h1 {
+
+    font-size: 46px;
+
+    letter-spacing: 4px;
+
+    font-weight: 900;
+
+    color: #eeeeee;
+
+    text-shadow:
+        0 0 5px white,
+        0 0 12px #8eeaff,
+        0 0 25px rgba(0, 220, 255, .5);
+}
+
+
+/* =========================
+   SUBTITULO
+========================= */
+
+.subtitulo {
+
+    margin-top: 12px;
+
+    font-size: 22px;
+
+    letter-spacing: 8px;
+
+    color: #24eaff;
+
+    text-shadow:
+        0 0 8px #00eaff,
+        0 0 20px rgba(0, 230, 255, .6);
+}
+
+
+/* =========================
+   FLECHA
+========================= */
+
+.flecha {
+
+    margin-top: 18px;
+
+    font-size: 24px;
+
+    color: #00eaff;
+
+    text-shadow:
+        0 0 10px #00eaff,
+        0 0 20px #00eaff;
+}
+
+
+/* =========================
+   FORMULARIO
+========================= */
+
+.formulario {
+
+    width: 675px;
+
+    max-width: 90vw;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+}
+
+

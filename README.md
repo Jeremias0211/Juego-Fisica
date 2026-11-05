@@ -72,6 +72,42 @@ El oxígeno se consume durante cada nivel. Las orbes y estaciones lo recargan. H
 5. **Júpiter — Asistencia gravitatoria (24,79 m/s²):** acercate a un campo y activá E para impulsarte.
 6. **Saturno — Energía (10,44 m/s²):** reuní tres celdas y activá la baliza con E junto al portal.
 
+## Estructura modular
+
+El código está separado por responsabilidades para que ningún archivo concentre toda la lógica:
+
+```text
+js/juego/
+├── main.js          Arranque, sesión, HUD y callbacks
+├── misiones.js      Datos de los seis planetas
+├── geometria.js     Ajuste y separación de objetos
+├── audio.js         Puente hacia Sonido.js
+└── escena/
+    ├── escena.js    Unión de estado, controles, física y dibujo
+    ├── estado.js    Estado de la partida
+    ├── controles.js Teclado, táctil, habilidades y pausa
+    ├── actualizar.js Simulación y colisiones
+    └── dibujo/      Vista, composición, escenario, objetos y jugador
+```
+
+Los CSS también se dividieron por pantalla:
+
+- `css/menu/`: menú principal.
+- `css/opciones/`: modal de opciones.
+- `css/login/` y `css/registro/`: acceso y alta de cuenta.
+- `css/historia/`: introducción narrativa.
+- `css/Niveles.css`, `css/Juego.css`, `css/Info.css` y `css/Final.css`: pantallas específicas.
+
+`html/Juego.html` carga el motor como módulo ES:
+
+```html
+<script type="module" src="../js/juego/main.js"></script>
+```
+
+Para modificar la física de un planeta se edita `js/juego/misiones.js`; para las colisiones, `js/juego/escena/actualizar.js`; para el dibujo, `js/juego/escena/dibujo/`. El detalle de cada archivo, función y bloque está en la documentación completa.
+
 ## Documentación del proyecto
 
-El [GDD](GDD.md) describe objetivo pedagógico, mecánicas, pantallas, arquitectura, base de datos, roles y planificación. El cronograma conserva campos de fecha y avance para que el equipo los actualice; los créditos y aportes se muestran en [Créditos](html/Creditos.html) y al completar la misión final.
+- [DOCUMENTACION.md](DOCUMENTACION.md): explicación en español de la arquitectura, cada archivo, cada módulo del juego, CSS, backend PHP/MySQL, base de datos, servidor Node alternativo y guía de mantenimiento.
+- [GDD.md](GDD.md): objetivo pedagógico, mecánicas, pantallas, arquitectura, base de datos, roles y planificación. El cronograma conserva campos de fecha y avance para que el equipo los actualice.
+- Los créditos y aportes se muestran en [Créditos](html/Creditos.html) y al completar la misión final.

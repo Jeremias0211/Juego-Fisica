@@ -1,0 +1,412 @@
+/* =========================
+   RESET
+========================= */
+
+* {
+
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+
+}
+
+
+/* =========================
+   BODY
+========================= */
+
+body {
+
+    width: 100vw;
+    min-height: 100vh;
+    height: auto;
+
+    overflow: hidden;
+
+    background:
+
+        radial-gradient(
+            circle at 50% 50%,
+            rgba(0, 200, 230, .08),
+            transparent 45%
+        ),
+
+        url("../../img/fondo-historia.jpeg");
+
+
+    background-size: cover;
+    
+    background-attachment: fixed;
+
+    background-position: center;
+
+    background-repeat: no-repeat;
+
+    font-family: Arial, sans-serif;
+
+    color: white;
+
+}
+
+
+/* =========================
+   ESTRELLAS
+========================= */
+
+body::before {
+
+    content: "";
+
+    position: fixed;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    background-image:
+
+        radial-gradient(
+            circle,
+            #4eefff 1px,
+            transparent 1px
+        ),
+
+        radial-gradient(
+            circle,
+            #ffffff 1px,
+            transparent 1px
+        ),
+
+        radial-gradient(
+            circle,
+            #28dff5 1px,
+            transparent 1px
+        );
+
+    background-size:
+
+        190px 190px,
+        260px 260px,
+        330px 330px;
+
+    background-position:
+
+        20px 30px,
+        100px 120px,
+        180px 80px;
+
+    opacity: .45;
+
+    z-index: 0;
+
+}
+
+
+/* =========================
+   MARCO FUTURISTA
+========================= */
+
+.marco {
+
+    position: fixed;
+
+    inset: 28px;
+
+    border: 1px solid rgba(0, 225, 255, .35);
+
+    pointer-events: none;
+
+    z-index: 1;
+
+}
+
+
+/* =========================
+   ESQUINAS DEL MARCO
+========================= */
+
+.esquina {
+
+    position: absolute;
+
+    width: 35px;
+    height: 35px;
+
+    border-color: #16eaff;
+
+    border-style: solid;
+
+    box-shadow:
+        0 0 6px rgba(0, 230, 255, .7);
+
+}
+
+
+/* SUPERIOR IZQUIERDA */
+
+.esquina-superior-izquierda {
+
+    top: -1px;
+    left: -1px;
+
+    border-width: 2px 0 0 2px;
+
+    clip-path: polygon(
+        0 0,
+        100% 0,
+        0 100%
+    );
+
+}
+
+
+/* SUPERIOR DERECHA */
+
+.esquina-superior-derecha {
+
+    top: -1px;
+    right: -1px;
+
+    border-width: 2px 2px 0 0;
+
+    clip-path: polygon(
+        0 0,
+        100% 0,
+        100% 100%
+    );
+
+}
+
+
+/* INFERIOR IZQUIERDA */
+
+.esquina-inferior-izquierda {
+
+    bottom: -1px;
+    left: -1px;
+
+    border-width: 0 0 2px 2px;
+
+    clip-path: polygon(
+        0 0,
+        0 100%,
+        100% 100%
+    );
+
+}
+
+
+/* INFERIOR DERECHA */
+
+.esquina-inferior-derecha {
+
+    bottom: -1px;
+    right: -1px;
+
+    border-width: 0 2px 2px 0;
+
+    clip-path: polygon(
+        100% 0,
+        100% 100%,
+        0 100%
+    );
+
+}
+
+
+/* =========================
+   CONTENEDOR
+========================= */
+
+.registro-container {
+
+    position: relative;
+
+    width: 100%;
+
+    min-height: 100vh;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: flex-start;
+
+    padding-top: 85px;
+
+    z-index: 2;
+
+}
+
+
+/* =========================
+   LOGO
+========================= */
+
+.logo {
+
+    text-align: center;
+
+    margin-bottom: 35px;
+
+}
+
+
+/* TITULO */
+
+.logo h1 {
+
+    font-size: 58px;
+
+    font-weight: 900;
+
+    letter-spacing: 6px;
+
+    color: #f0f3f4;
+
+    text-shadow:
+
+        0 0 5px white,
+        0 0 12px #d9faff,
+        0 0 25px rgba(0, 225, 255, .5);
+
+}
+
+
+/* SUBTITULO */
+
+.subtitulo {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 28px;
+
+    margin-top: 14px;
+
+    color: #1deaff;
+
+    font-size: 24px;
+
+    letter-spacing: 10px;
+
+    text-shadow:
+
+        0 0 8px #00eaff,
+        0 0 18px rgba(0, 230, 255, .7);
+
+}
+
+
+.subtitulo span {
+
+    letter-spacing: 0;
+
+}
+
+
+/* FLECHA */
+
+.flecha {
+
+    margin-top: 15px;
+
+    font-size: 20px;
+
+    color: #00eaff;
+
+    text-shadow:
+
+        0 0 8px #00eaff,
+        0 0 15px #00eaff;
+
+}
+
+
+/* =========================
+   TITULO REGISTRO
+========================= */
+
+.titulo-registro {
+
+    position: relative;
+
+    width: 500px;
+
+    max-width: 80vw;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 25px;
+
+    margin-bottom: 25px;
+
+}
+
+
+.titulo-registro h2 {
+
+    color: #e8f2f4;
+
+    font-size: 30px;
+
+    font-weight: 500;
+
+    letter-spacing: 4px;
+
+    white-space: nowrap;
+
+    text-shadow:
+
+        0 0 5px white,
+        0 0 10px rgba(0, 230, 255, .5);
+
+}
+
+
+.linea-titulo {
+
+    height: 1px;
+
+    width: 70px;
+
+    background: #00dff5;
+
+    box-shadow:
+
+        0 0 8px #00eaff;
+
+}
+
+
+.flecha-registro {
+
+    position: absolute;
+
+    top: 45px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    color: #00eaff;
+
+    font-size: 18px;
+
+    text-shadow:
+
+        0 0 10px #00eaff;
+
+}
+
+

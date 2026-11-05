@@ -1,0 +1,514 @@
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 900px) {
+
+    .registro-container {
+
+        padding-top: 50px;
+
+    }
+
+
+    .logo h1 {
+
+        font-size: 43px;
+
+    }
+
+
+    .subtitulo {
+
+        font-size: 18px;
+
+        letter-spacing: 6px;
+
+    }
+
+
+    .formulario {
+
+        width: 600px;
+
+    }
+
+
+    .campo {
+
+        height: 82px;
+
+        margin-bottom: 20px;
+
+    }
+
+
+    .btn-crear {
+
+        height: 85px;
+
+        font-size: 27px;
+
+    }
+
+
+    .campo input {
+
+        font-size: 19px;
+
+    }
+
+
+    .icono {
+
+        width: 80px;
+
+        min-width: 80px;
+
+        font-size: 30px;
+
+    }
+
+
+    .campo input {
+
+        width: calc(100% - 80px);
+
+    }
+
+}
+
+
+/* =========================
+   CELULAR
+========================= */
+
+@media (max-width: 600px) {
+
+    body {
+
+        overflow-y: auto;
+
+        overflow-x: hidden;
+
+    }
+
+
+    .marco {
+
+        inset: 12px;
+
+    }
+
+
+    .registro-container {
+
+        min-height: 100vh;
+
+        padding-top: 35px;
+
+        padding-bottom: 30px;
+
+    }
+
+
+    .logo {
+
+        margin-bottom: 25px;
+
+    }
+
+
+    .logo h1 {
+
+        font-size: 27px;
+
+        letter-spacing: 3px;
+
+    }
+
+
+    .subtitulo {
+
+        margin-top: 8px;
+
+        font-size: 11px;
+
+        letter-spacing: 4px;
+
+        gap: 10px;
+
+    }
+
+
+    .flecha {
+
+        font-size: 15px;
+
+        margin-top: 10px;
+
+    }
+
+
+    .titulo-registro {
+
+        width: 90vw;
+
+        gap: 12px;
+
+        margin-bottom: 20px;
+
+    }
+
+
+    .titulo-registro h2 {
+
+        font-size: 20px;
+
+        letter-spacing: 2px;
+
+    }
+
+
+    .linea-titulo {
+
+        width: 40px;
+
+    }
+
+
+    .flecha-registro {
+
+        top: 30px;
+
+        font-size: 14px;
+
+    }
+
+
+    .formulario {
+
+        width: 90vw;
+
+    }
+
+
+    .campo {
+
+        height: 62px;
+
+        margin-bottom: 14px;
+
+        border-radius: 10px;
+
+    }
+
+
+    .campo::before,
+    .campo::after {
+
+        width: 65px;
+
+        left: 40%;
+
+    }
+
+
+    .icono {
+
+        width: 55px;
+
+        min-width: 55px;
+
+        font-size: 22px;
+
+    }
+
+
+    .campo input {
+
+        width: calc(100% - 55px);
+
+        font-size: 14px;
+
+        letter-spacing: 1px;
+
+    }
+
+
+    .btn-crear {
+
+        height: 65px;
+
+        font-size: 20px;
+
+        border-radius: 10px;
+
+        letter-spacing: 2px;
+
+    }
+
+
+    .btn-crear::before,
+    .btn-crear::after {
+
+        width: 65px;
+
+        left: 40%;
+
+    }
+
+
+    .separador {
+
+        margin: 20px 0 16px;
+
+    }
+
+
+    .separador span {
+
+        margin: 0 10px;
+
+        font-size: 20px;
+
+    }
+
+
+    .volver-login p {
+
+        font-size: 12px;
+
+        margin-bottom: 9px;
+
+    }
+
+
+    .volver-login button {
+
+        font-size: 15px;
+
+        letter-spacing: 2px;
+
+    }
+
+}
+
+
+/* =========================
+   CELULAR PEQUEÑO
+========================= */
+
+@media (max-width: 380px) {
+
+    .registro-container {
+
+        padding-top: 25px;
+
+    }
+
+
+    .logo h1 {
+
+        font-size: 23px;
+
+    }
+
+
+    .subtitulo {
+
+        font-size: 9px;
+
+    }
+
+
+    .campo {
+
+        height: 55px;
+
+    }
+
+
+    .icono {
+
+        width: 48px;
+
+        min-width: 48px;
+
+        font-size: 18px;
+
+    }
+
+
+    .campo input {
+
+        width: calc(100% - 48px);
+
+        font-size: 12px;
+
+    }
+
+
+    .btn-crear {
+
+        height: 58px;
+
+        font-size: 17px;
+
+    }
+
+}
+
+
+/* =========================
+   CELULAR HORIZONTAL
+========================= */
+
+@media (max-height: 500px) and (max-width: 900px) {
+
+    body {
+
+        overflow-y: auto;
+
+    }
+
+
+    .registro-container {
+
+        padding-top: 15px;
+
+    }
+
+
+    .logo {
+
+        margin-bottom: 10px;
+
+    }
+
+
+    .logo h1 {
+
+        font-size: 22px;
+
+    }
+
+
+    .subtitulo {
+
+        font-size: 9px;
+
+        margin-top: 3px;
+
+    }
+
+
+    .flecha {
+
+        display: none;
+
+    }
+
+
+    .titulo-registro {
+
+        margin-bottom: 12px;
+
+    }
+
+
+    .campo {
+
+        height: 50px;
+
+        margin-bottom: 10px;
+
+    }
+
+
+    .btn-crear {
+
+        height: 50px;
+
+    }
+
+
+    .separador {
+
+        margin: 10px 0;
+
+    }
+
+}
+
+/* Permitir recorrer el registro completo sin que quede cortado por la ventana. */
+body {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.registro-container {
+    min-height: 100vh;
+    min-height: 100svh;
+    height: auto;
+    padding: clamp(16px, 4vh, 48px) 16px clamp(24px, 5vh, 48px);
+}
+
+.logo {
+    margin-bottom: clamp(16px, 2.5vh, 28px);
+}
+
+.logo h1 {
+    font-size: clamp(27px, 6vh, 48px);
+}
+
+.subtitulo {
+    margin-top: clamp(6px, 1.4vh, 12px);
+    font-size: clamp(11px, 2.3vh, 18px);
+    letter-spacing: clamp(3px, .8vh, 7px);
+}
+
+.flecha {
+    margin-top: clamp(6px, 1.5vh, 14px);
+}
+
+.titulo-registro {
+    margin-bottom: clamp(16px, 2.5vh, 24px);
+}
+
+.titulo-registro h2 {
+    font-size: clamp(19px, 3.7vh, 28px);
+}
+
+.formulario {
+    width: min(700px, 92vw);
+}
+
+.campo {
+    height: clamp(54px, 9vh, 78px);
+    margin-bottom: clamp(12px, 1.8vh, 18px);
+}
+
+.btn-crear {
+    height: clamp(58px, 9vh, 78px);
+    font-size: clamp(19px, 3.7vh, 28px);
+}
+
+.separador {
+    margin: clamp(12px, 1.8vh, 18px) 0;
+}
+
+.volver-login p {
+    font-size: clamp(12px, 2.3vh, 18px);
+    margin-bottom: clamp(8px, 1.4vh, 12px);
+}
+
+.volver-login button {
+    font-size: clamp(15px, 2.8vh, 21px);
+}
+/* Enlaces a las secciones públicas del portal. */
+.enlaces-portal{margin-top:12px;color:#b9ddea;text-align:center;font-size:12px}.enlaces-portal a{color:#81e6ff;text-decoration:none}.enlaces-portal a:hover{text-decoration:underline;color:#fff}

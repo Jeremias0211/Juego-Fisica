@@ -1,0 +1,393 @@
+/* =========================
+   CAMPOS
+========================= */
+
+.campo {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 100px;
+
+    margin-bottom: 30px;
+
+    display: flex;
+
+    align-items: center;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(10, 35, 50, .75),
+            rgba(5, 25, 40, .85)
+        );
+
+    border: 2px solid #1ceaff;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 0 8px rgba(0, 230, 255, .7),
+        inset 0 0 20px rgba(0, 220, 255, .05);
+
+    clip-path: polygon(
+        20px 0,
+        calc(100% - 20px) 0,
+        100% 20px,
+        100% calc(100% - 20px),
+        calc(100% - 20px) 100%,
+        20px 100%,
+        0 calc(100% - 20px),
+        0 20px
+    );
+
+    transition: .25s;
+}
+
+
+/* DECORACIÓN SUPERIOR */
+
+.campo::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: -2px;
+
+    left: 42%;
+
+    width: 120px;
+
+    height: 4px;
+
+    background: #00eaff;
+
+    box-shadow:
+        0 0 8px #00eaff;
+}
+
+
+/* DECORACIÓN INFERIOR */
+
+.campo::after {
+
+    content: "";
+
+    position: absolute;
+
+    bottom: -2px;
+
+    left: 42%;
+
+    width: 120px;
+
+    height: 4px;
+
+    background: #00eaff;
+
+    box-shadow:
+        0 0 8px #00eaff;
+}
+
+
+/* AL SELECCIONAR */
+
+.campo:focus-within {
+
+    border-color: #8ff8ff;
+
+    box-shadow:
+        0 0 15px #00eaff,
+        0 0 35px rgba(0, 230, 255, .3),
+        inset 0 0 20px rgba(0, 220, 255, .08);
+
+    transform: scale(1.01);
+}
+
+
+/* =========================
+   ICONOS
+========================= */
+
+.icono {
+
+    width: 100px;
+
+    min-width: 100px;
+
+    text-align: center;
+
+    font-size: 38px;
+
+    color: #38eaff;
+
+    filter:
+        drop-shadow(0 0 7px #00eaff);
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+.campo input {
+
+    width: calc(100% - 100px);
+
+    height: 100%;
+
+    border: none;
+
+    outline: none;
+
+    background: transparent;
+
+    color: #eeeeee;
+
+    font-size: 24px;
+
+    letter-spacing: 2px;
+
+    font-weight: 500;
+}
+
+
+.campo input::placeholder {
+
+    color: #d4dce0;
+
+    opacity: .95;
+}
+
+
+/* =========================
+   BOTÓN INGRESAR
+========================= */
+
+.btn-ingresar {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 100px;
+
+    border: 2px solid #1ceaff;
+
+    border-radius: 18px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(15, 70, 90, .9),
+            rgba(10, 55, 75, .9)
+        );
+
+    color: #30edff;
+
+    font-size: 34px;
+
+    font-weight: 500;
+
+    letter-spacing: 3px;
+
+    cursor: pointer;
+
+    clip-path: polygon(
+        20px 0,
+        calc(100% - 20px) 0,
+        100% 20px,
+        100% calc(100% - 20px),
+        calc(100% - 20px) 100%,
+        20px 100%,
+        0 calc(100% - 20px),
+        0 20px
+    );
+
+    box-shadow:
+        0 0 10px rgba(0, 230, 255, .7),
+        inset 0 0 25px rgba(0, 220, 255, .08);
+
+    transition: .2s;
+}
+
+
+/* DECORACIÓN BOTÓN */
+
+.btn-ingresar::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: -2px;
+
+    left: 42%;
+
+    width: 120px;
+
+    height: 4px;
+
+    background: #00eaff;
+
+    box-shadow:
+        0 0 8px #00eaff;
+}
+
+
+.btn-ingresar::after {
+
+    content: "";
+
+    position: absolute;
+
+    bottom: -2px;
+
+    left: 42%;
+
+    width: 120px;
+
+    height: 4px;
+
+    background: #00eaff;
+
+    box-shadow:
+        0 0 8px #00eaff;
+}
+
+
+/* HOVER */
+
+.btn-ingresar:hover {
+
+    transform: scale(1.02);
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(20, 100, 125, .95),
+            rgba(15, 75, 100, .95)
+        );
+
+    box-shadow:
+        0 0 15px #00eaff,
+        0 0 35px rgba(0, 230, 255, .5);
+}
+
+
+.btn-ingresar:active {
+
+    transform: scale(.98);
+}
+
+
+/* =========================
+   SEPARADOR
+========================= */
+
+.separador {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin: 30px 0 25px;
+
+    color: #00eaff;
+
+    font-size: 28px;
+
+    text-shadow:
+        0 0 10px #00eaff;
+}
+
+
+.separador::before,
+.separador::after {
+
+    content: "";
+
+    height: 1px;
+
+    width: 40%;
+
+    background: #00dff5;
+
+    opacity: .5;
+
+    box-shadow:
+        0 0 8px #00eaff;
+}
+
+
+.separador span {
+
+    margin: 0 20px;
+}
+
+
+/* =========================
+   REGISTRO
+========================= */
+
+.registro {
+
+    text-align: center;
+}
+
+
+.registro p {
+
+    font-size: 20px;
+
+    letter-spacing: 2px;
+
+    margin-bottom: 15px;
+
+    color: #e2e6e8;
+
+    text-shadow:
+        0 0 5px rgba(255,255,255,.4);
+}
+
+
+.registro button {
+
+    border: none;
+
+    background: transparent;
+
+    color: #20eaff;
+
+    font-size: 24px;
+
+    letter-spacing: 3px;
+
+    cursor: pointer;
+
+    text-shadow:
+        0 0 8px #00eaff,
+        0 0 18px rgba(0, 230, 255, .7);
+
+    transition: .2s;
+}
+
+
+.registro button:hover {
+
+    transform: scale(1.05);
+
+    color: white;
+
+    text-shadow:
+        0 0 10px white,
+        0 0 25px #00eaff;
+}
+
+

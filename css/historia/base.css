@@ -1,0 +1,226 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+
+/* =========================
+   PANTALLA HISTORIA
+========================= */
+
+#pantallaHistoria {
+
+    position: absolute;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-image: url("../../img/fondo-historia.jpeg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    margin: 0;
+}
+
+
+/* =========================
+   PANEL
+========================= */
+
+.historia {
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 500px;
+    min-height: 290px;
+
+    padding: 22px 25px 45px;
+
+    text-align: center;
+
+    background: rgba(8, 42, 60, 0.85);
+
+    border: 2px solid #62eaff;
+
+    border-radius: 8px;
+
+    box-shadow:
+        0 0 8px #62eaff,
+        0 0 20px rgba(0, 234, 255, 0.6),
+        inset 0 0 25px rgba(0, 220, 255, 0.15);
+}
+
+
+/* =========================
+   TITULO
+========================= */
+
+.historia h2 {
+
+    margin-bottom: 20px;
+
+    color: #5ff5ff;
+
+    font-size: 25px;
+
+    text-shadow:
+        0 0 5px white,
+        0 0 12px #00eaff;
+}
+
+
+/* =========================
+   TEXTO
+========================= */
+
+.texto-historia {
+
+    font-size: 15px;
+
+    font-weight: bold;
+
+    line-height: 1.35;
+
+    text-shadow:
+        0 2px 3px black;
+}
+
+.texto-historia p {
+
+    margin-bottom: 13px;
+}
+
+
+/* =========================
+   BOTON
+========================= */
+
+.continuar {
+
+    position: absolute;
+
+    left: 50%;
+    bottom: -25px;
+
+    transform: translateX(-50%);
+
+    width: 205px;
+    height: 55px;
+
+    border: 3px solid #53f5ff;
+
+    border-radius: 18px;
+
+    background: rgba(10, 70, 85, 0.95);
+
+    color: #63f6ff;
+
+    font-size: 23px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 0 8px white,
+        0 0 18px #00eaff,
+        0 0 30px rgba(0, 234, 255, 0.8);
+
+    transition: 0.2s;
+}
+
+
+.continuar:hover {
+
+    transform: translateX(-50%) scale(1.05);
+
+    box-shadow:
+        0 0 12px white,
+        0 0 25px #00eaff,
+        0 0 40px rgba(0, 234, 255, 0.9);
+}
+
+
+/* =========================
+   INDICADORES
+========================= */
+
+.indicador {
+
+    position: absolute;
+
+    bottom: 55px;
+
+    width: 110px;
+
+    font-size: 10px;
+
+    color: #b8efff;
+}
+
+
+.oxigeno {
+    left: 27%;
+}
+
+
+.combustible {
+    right: 27%;
+}
+
+
+/* =========================
+   BARRAS
+========================= */
+
+.barra-indicador {
+
+    width: 90px;
+    height: 7px;
+
+    margin-top: 4px;
+
+    border: 1px solid #77eaff;
+
+    background: rgba(10, 30, 45, 0.7);
+}
+
+
+.nivel {
+
+    height: 100%;
+
+    background: #62eaff;
+
+    box-shadow:
+        0 0 7px #00eaff;
+}
+
+
+.oxigeno-nivel {
+    width: 90%;
+}
+
+
+.combustible-nivel {
+    width: 85%;
+}
+
+

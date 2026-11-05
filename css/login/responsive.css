@@ -1,0 +1,364 @@
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 900px) {
+
+    .logo h1 {
+        font-size: 38px;
+    }
+
+    .subtitulo {
+        font-size: 18px;
+        letter-spacing: 6px;
+    }
+
+    .cohete {
+        width: 260px;
+        height: 180px;
+    }
+
+    .formulario {
+        width: 600px;
+    }
+
+    .campo {
+        height: 85px;
+    }
+
+    .btn-ingresar {
+        height: 85px;
+    }
+
+    .campo {
+        margin-bottom: 22px;
+    }
+
+    .campo input {
+        font-size: 20px;
+    }
+
+    .btn-ingresar {
+        font-size: 29px;
+    }
+
+    .icono {
+        width: 80px;
+        min-width: 80px;
+        font-size: 30px;
+    }
+
+    .campo input {
+        width: calc(100% - 80px);
+    }
+}
+
+
+/* =========================
+   CELULAR
+========================= */
+
+@media (max-width: 600px) {
+
+    .login-container {
+        padding: 12px;
+    }
+
+
+    .logo {
+        margin-bottom: 20px;
+    }
+
+
+    .cohete {
+        width: 210px;
+        height: 140px;
+    }
+
+
+    .logo h1 {
+        font-size: 26px;
+        letter-spacing: 2px;
+    }
+
+
+    .subtitulo {
+        margin-top: 7px;
+        font-size: 12px;
+        letter-spacing: 4px;
+    }
+
+
+    .flecha {
+        margin-top: 10px;
+        font-size: 18px;
+    }
+
+
+    .formulario {
+        width: 92vw;
+        max-width: 450px;
+    }
+
+
+    .campo {
+
+        height: 65px;
+
+        margin-bottom: 18px;
+
+        border-radius: 12px;
+    }
+
+
+    .campo::before,
+    .campo::after,
+    .btn-ingresar::before,
+    .btn-ingresar::after {
+
+        width: 70px;
+
+        left: 40%;
+    }
+
+
+    .icono {
+
+        width: 60px;
+
+        min-width: 60px;
+
+        font-size: 22px;
+    }
+
+
+    .campo input {
+
+        width: calc(100% - 60px);
+
+        font-size: 15px;
+
+        letter-spacing: 1px;
+    }
+
+
+    .btn-ingresar {
+
+        height: 70px;
+
+        border-radius: 12px;
+
+        font-size: 22px;
+    }
+
+
+    .separador {
+
+        margin: 22px 0 18px;
+
+        font-size: 20px;
+    }
+
+
+    .separador span {
+
+        margin: 0 12px;
+    }
+
+
+    .registro p {
+
+        font-size: 13px;
+
+        margin-bottom: 10px;
+    }
+
+
+    .registro button {
+
+        font-size: 16px;
+
+        letter-spacing: 2px;
+    }
+}
+
+
+/* =========================
+   CELULARES MUY PEQUEÑOS
+========================= */
+
+@media (max-width: 380px) {
+
+    .logo h1 {
+        font-size: 22px;
+    }
+
+
+    .subtitulo {
+        font-size: 10px;
+    }
+
+
+    .cohete {
+        width: 180px;
+        height: 120px;
+    }
+
+
+    .campo {
+        height: 58px;
+    }
+
+
+    .btn-ingresar {
+        height: 60px;
+
+        font-size: 19px;
+    }
+
+
+    .icono {
+
+        width: 50px;
+
+        min-width: 50px;
+
+        font-size: 19px;
+    }
+
+
+    .campo input {
+
+        width: calc(100% - 50px);
+
+        font-size: 13px;
+    }
+}
+
+
+/* =========================
+   CELULAR HORIZONTAL
+========================= */
+
+@media (max-height: 500px) and (max-width: 900px) {
+
+    .login-container {
+
+        justify-content: flex-start;
+
+        overflow-y: auto;
+
+        padding-top: 10px;
+    }
+
+
+    .logo {
+        margin-bottom: 10px;
+    }
+
+
+    .cohete {
+
+        width: 140px;
+
+        height: 90px;
+    }
+
+
+    .logo h1 {
+        font-size: 20px;
+    }
+
+
+    .subtitulo {
+
+        font-size: 9px;
+
+        margin-top: 3px;
+    }
+
+
+    .flecha {
+        display: none;
+    }
+
+
+    .campo {
+
+        height: 55px;
+
+        margin-bottom: 12px;
+    }
+
+
+    .btn-ingresar {
+
+        height: 55px;
+
+        font-size: 18px;
+    }
+
+
+    .separador {
+
+        margin: 12px 0;
+    }
+}
+
+/* Mantener el formulario completo en pantallas bajas y permitir desplazamiento. */
+body {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+    height: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.login-container {
+    min-height: 100vh;
+    min-height: 100svh;
+    height: auto;
+    padding: clamp(12px, 3vh, 32px) 20px;
+}
+
+.logo {
+    margin-bottom: clamp(12px, 2.5vh, 24px);
+}
+
+.cohete {
+    width: min(330px, 60vw);
+    height: clamp(100px, 24vh, 200px);
+}
+
+.formulario {
+    width: min(675px, 92vw);
+    max-width: 675px;
+}
+
+.campo {
+    height: clamp(58px, 10vh, 84px);
+    margin-bottom: clamp(12px, 2vh, 18px);
+}
+
+.btn-ingresar {
+    height: clamp(58px, 10vh, 84px);
+    font-size: clamp(20px, 4vh, 30px);
+}
+
+.separador {
+    margin: clamp(10px, 1.8vh, 16px) 0;
+}
+
+.registro p {
+    font-size: clamp(13px, 2.1vh, 18px);
+    margin-bottom: clamp(8px, 1.5vh, 12px);
+}
+
+.registro button {
+    font-size: clamp(16px, 2.5vh, 22px);
+}
+/* Ingreso sin cuenta: el progreso del invitado queda guardado solo en este navegador. */
+.btn-invitado{display:block;width:100%;margin-top:14px;padding:11px 14px;border:1px solid rgba(119,226,246,.62);border-radius:9px;background:rgba(7,30,50,.72);color:#d9faff;font-size:13px;font-weight:700;letter-spacing:.4px;cursor:pointer;transition:background .2s ease,box-shadow .2s ease}
+.btn-invitado:hover{background:rgba(14,76,101,.88);box-shadow:0 0 13px rgba(55,211,239,.32)}
+.enlaces-portal{margin-top:12px;color:#b9ddea;text-align:center;font-size:12px}.enlaces-portal a{color:#81e6ff;text-decoration:none}.enlaces-portal a:hover{text-decoration:underline;color:#fff}

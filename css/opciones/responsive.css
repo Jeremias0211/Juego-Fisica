@@ -1,0 +1,101 @@
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (min-width: 761px) {
+    .opciones-columnas {
+        display: block;
+        column-count: 2;
+        column-gap: 14px;
+    }
+
+    .opciones-seccion {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        margin-bottom: 14px;
+    }
+
+    .opciones-seccion:last-of-type {
+        margin-bottom: 0;
+    }
+
+    #estadoOpciones {
+        column-span: all;
+        margin-top: 14px;
+    }
+}
+
+@media (max-width: 760px) {
+    .menu-opciones {
+        padding: 10px;
+    }
+
+    .opciones-panel {
+        max-height: 94vh;
+
+        border-radius: 16px;
+    }
+
+    .opciones-cabecera {
+        padding: 16px 18px 12px;
+    }
+
+    .opciones-bajada {
+        font-size: 12px;
+    }
+
+    .opciones-cuerpo {
+        grid-template-columns: minmax(0, 1fr);
+
+        padding: 14px 14px 18px;
+    }
+
+    .opciones-seccion {
+        padding: 13px 14px 14px;
+    }
+
+    .opciones-pie {
+        padding: 11px 16px;
+    }
+
+    .opciones-pie > span {
+        display: none;
+    }
+
+    .opciones-pie .cerrar-opciones {
+        width: 100%;
+    }
+}
+
+@media (max-width: 420px) {
+    .opcion {
+        flex-wrap: wrap;
+    }
+
+    .control-slider {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .opcion .control-slider input[type="range"] {
+        flex: 1 1 auto;
+        width: auto;
+    }
+
+    .estadisticas {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* Respeta la preferencia del sistema y la opción interna */
+@media (prefers-reduced-motion: reduce) {
+    .menu-opciones,
+    .opciones-panel,
+    .interruptor-pista,
+    .interruptor-bola,
+    .boton-prueba,
+    .boton-opcion,
+    .cerrar-opciones {
+        transition: none;
+    }
+}
