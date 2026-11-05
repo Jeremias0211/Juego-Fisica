@@ -266,6 +266,23 @@ function manejarProgreso(request, response) {
   }
 }
 
+function manejarReinicioProgreso(request, response) {
+  if (request.method !== "POST") {
+    response.setHeader("Allow", "POST");
+    responderJson(response, 405, { ok: false, error: "Método no permitido." });
+    return;
+  }
+  const sesion = exigirSesion(request, response);
+  if (!sesion) return;
+  try {
+    database.prepare("DELETE FROM niveles_puntuados WHERE jugador_id = ?").run(sesion.jugadorId);
+    responderJson(response, 200, { ok: true });
+  } catch (error) {
+    console.error("Error reiniciando progreso:", error);
+    responderJson(response, 500, { ok: false, error: "No se pudo reiniciar el progreso de la cuenta." });
+  }
+}
+
 function manejarCierreSesion(request, response) {
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
@@ -308,6 +325,11 @@ const servidor = http.createServer((request, response) => {
 
   if (pathname === "/api/progreso.php") {
     manejarProgreso(request, response);
+    return;
+  }
+
+  if (pathname === "/api/reiniciar-progreso.php") {
+    manejarReinicioProgreso(request, response);
     return;
   }
 

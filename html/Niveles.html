@@ -4,13 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Selección de niveles</title>
-  <link rel="stylesheet" href="../css/Niveles.css">
+  <link rel="stylesheet" href="../css/Niveles.css?v=20261104-5">
   <link rel="stylesheet" href="../css/Asistente.css">
+  <script src="../Sonido.js"></script>
 </head>
-<body>
+<body data-musica="menu">
   <main class="mapa">
     <h1>SELECCIONÁ TU MISIÓN</h1>
-    <p class="instrucciones-mapa">SISTEMA SOLAR · DESPEGÁ DESDE LA TIERRA</p>
+    <p class="instrucciones-mapa">SISTEMA SOLAR · ELEGÍ UN PLANETA PARA LEER SU INFORME</p>
     <p id="progresoJugador" class="progreso-jugador"></p>
     <div class="sistema-solar" aria-label="Sistema solar con el Sol en el centro">
       <div class="orbita orbita1"></div><div class="orbita orbita2"></div><div class="orbita orbita3"></div><div class="orbita orbita4"></div><div class="orbita orbita5"></div>
@@ -20,15 +21,82 @@
       <div class="cuerpo-planetario neptuno-decorativo" role="img" aria-label="Neptuno"><i></i><span>NEPTUNO</span></div>
     </div>
     <div class="ruta"></div>
-    <button class="nivel nivel1" data-nivel="1" aria-label="Punto de partida en la Tierra, inicia la misión 1" data-info="TIERRA · PUNTO DE PARTIDA. Seleccioná NIVEL 1 para despegar hacia la misión de impulso en Mercurio."><div class="planeta planeta1">🌎</div><span>NIVEL 1</span><small>TIERRA · DESPEGUE</small></button>
-    <button class="nivel nivel2" data-nivel="2" aria-label="Misión 2, Venus: gravedad" data-info="GRAVEDAD · Venus tiene g = 8,90 m/s². Usá E durante el salto para reducir la gravedad y alcanzar las plataformas elevadas."><div class="planeta planeta2">🟠</div><span>NIVEL 2</span><small>VENUS · GRAVEDAD</small><div class="candado">🔒</div></button>
-    <button class="nivel nivel3" data-nivel="3" aria-label="Misión 3, Luna: inercia" data-info="INERCIA · Luna tiene g = 1,62 m/s². La baja gravedad alarga los saltos; usá E para frenar y aterrizar sobre plataformas móviles."><div class="planeta planeta3">🌑</div><span>NIVEL 3</span><small>LUNA · INERCIA</small><div class="candado">🔒</div></button>
-    <button class="nivel nivel4" data-nivel="4" aria-label="Misión 4, Marte: jetpack" data-info="PROPULSIÓN · En Marte recogé el jetpack y mantené J o el botón JETPACK para cruzar el gran cráter."><div class="planeta planeta4">🔴</div><span>NIVEL 4</span><small>MARTE · JETPACK</small><div class="candado">🔒</div></button>
-    <button class="nivel nivel5" data-nivel="5" aria-label="Misión 5, Júpiter: asistencia gravitatoria" data-info="ASISTENCIA GRAVITATORIA · Júpiter tiene g = 24,79 m/s². Acercate a los campos violetas y activá E para ser impulsado."><div class="planeta planeta5">🟣</div><span>NIVEL 5</span><small>JÚPITER · ASISTENCIA</small><div class="candado">🔒</div></button>
-    <button class="nivel nivel6" data-nivel="6" aria-label="Misión 6, Saturno: energía" data-info="ENERGÍA · Saturno tiene g = 10,44 m/s². Reuní tres celdas y acercate al portal para activar la baliza con E."><div class="planeta planeta6">🪐</div><span>NIVEL 6</span><small>SATURNO · ENERGÍA</small><div class="candado">🔒</div></button>
+    <button class="nivel nivel1" data-nivel="1" data-sin-sonido
+      data-planeta="Tierra" data-concepto="Despegue · Punto de partida" data-gravedad="9,81 m/s²"
+      data-objetivo="Despegá desde la Tierra y completá el tramo de impulso rumbo a Mercurio."
+      data-info="El último hogar de la humanidad. Desde su superficie comienza la Operación Éxodo: el tramo jugable transcurre en Mercurio, con una gravedad de 3,70 m/s²."
+      aria-label="Misión 1, Tierra: punto de partida">
+      <div class="planeta planeta1">🌎</div><span>NIVEL 1</span><small>TIERRA · DESPEGUE</small>
+    </button>
+    <button class="nivel nivel2" data-nivel="2" data-sin-sonido
+      data-planeta="Venus" data-concepto="Gravedad" data-gravedad="8,90 m/s²"
+      data-objetivo="Activá E en el aire para reducir la gravedad y alcanzar las plataformas elevadas."
+      data-info="Un mundo envuelto en nubes densas y una gravedad de 8,90 m/s². Sus cráteres anchos exigen un pulso gravitatorio para alcanzar las plataformas elevadas."
+      aria-label="Misión 2, Venus: gravedad">
+      <div class="planeta planeta2">🟠</div><span>NIVEL 2</span><small>VENUS · GRAVEDAD</small><div class="candado">🔒</div>
+    </button>
+    <button class="nivel nivel3" data-nivel="3" data-sin-sonido
+      data-planeta="Luna" data-concepto="Inercia" data-gravedad="1,62 m/s²"
+      data-objetivo="Frená con E y aterrizá sobre las plataformas móviles."
+      data-info="Sin atmósfera y con apenas 1,62 m/s², la Luna convierte cada salto en un desafío de inercia. Las plataformas móviles no esperan."
+      aria-label="Misión 3, Luna: inercia">
+      <div class="planeta planeta3">🌑</div><span>NIVEL 3</span><small>LUNA · INERCIA</small><div class="candado">🔒</div>
+    </button>
+    <button class="nivel nivel4" data-nivel="4" data-sin-sonido
+      data-planeta="Marte" data-concepto="Propulsión" data-gravedad="3,71 m/s²"
+      data-objetivo="Recogé el jetpack y cruzá el gran cráter manteniendo J."
+      data-info="El planeta rojo tiene 3,71 m/s² y un cráter que ningún salto puede cruzar. La propulsión del jetpack es la única salida."
+      aria-label="Misión 4, Marte: jetpack">
+      <div class="planeta planeta4">🔴</div><span>NIVEL 4</span><small>MARTE · JETPACK</small><div class="candado">🔒</div>
+    </button>
+    <button class="nivel nivel5" data-nivel="5" data-sin-sonido
+      data-planeta="Júpiter" data-concepto="Asistencia gravitatoria" data-gravedad="24,79 m/s²"
+      data-objetivo="Acercate a los campos violetas y activá E para recibir el impulso."
+      data-info="El gigante gaseoso impone 24,79 m/s², la gravedad más intensa de la ruta. Los campos violetas ofrecen la asistencia necesaria para avanzar."
+      aria-label="Misión 5, Júpiter: asistencia gravitatoria">
+      <div class="planeta planeta5">🟣</div><span>NIVEL 5</span><small>JÚPITER · ASISTENCIA</small><div class="candado">🔒</div>
+    </button>
+    <button class="nivel nivel6" data-nivel="6" data-sin-sonido
+      data-planeta="Saturno" data-concepto="Energía" data-gravedad="10,44 m/s²"
+      data-objetivo="Reuní tres celdas y activá la baliza final con E."
+      data-info="Sus anillos marcan la última escala de la Operación Éxodo. Con 10,44 m/s², la misión final exige reunir energía para activar la baliza."
+      aria-label="Misión 6, Saturno: energía">
+      <div class="planeta planeta6">🪐</div><span>NIVEL 6</span><small>SATURNO · ENERGÍA</small><div class="candado">🔒</div>
+    </button>
     <button class="volver" id="volver">&lt; VOLVER</button>
     <button class="ranking-trigger" id="abrirRanking" type="button">🏆 PUNTUACIONES</button>
   </main>
+  <section class="briefing-overlay" id="panelBriefing" hidden>
+    <article class="briefing-card" role="dialog" aria-modal="true" aria-labelledby="briefingTitulo" aria-describedby="briefingDescripcion" tabindex="-1">
+      <button class="briefing-close" id="cerrarBriefing" type="button" aria-label="Cerrar informe de misión">×</button>
+      <div class="briefing-contenido">
+        <p class="briefing-kicker" id="briefingKicker">INFORME DE MISIÓN</p>
+        <div class="briefing-hero">
+          <div class="briefing-icono n1" id="briefingIcono" aria-hidden="true">🌎</div>
+          <div class="briefing-identidad">
+            <h2 id="briefingTitulo">Tierra</h2>
+            <p class="briefing-concepto" id="briefingConcepto">Despegue · Punto de partida</p>
+          </div>
+        </div>
+        <p class="briefing-descripcion" id="briefingDescripcion"></p>
+        <dl class="briefing-datos">
+          <div class="briefing-dato">
+            <dt>Gravedad</dt>
+            <dd id="briefingGravedad">—</dd>
+          </div>
+          <div class="briefing-dato">
+            <dt>Objetivo</dt>
+            <dd id="briefingObjetivo">—</dd>
+          </div>
+        </dl>
+        <p class="briefing-estado disponible" id="briefingEstado"></p>
+      </div>
+      <div class="briefing-acciones">
+        <button class="briefing-secundario" id="cerrarBriefingAbajo" type="button">VOLVER AL MAPA</button>
+        <button class="briefing-primario" id="iniciarMision" type="button" data-sin-sonido>INICIAR MISIÓN</button>
+      </div>
+    </article>
+  </section>
   <section class="ranking-overlay" id="panelRanking" role="dialog" aria-modal="true" aria-labelledby="tituloRanking" hidden>
     <div class="ranking-card">
       <div class="ranking-heading">
@@ -46,7 +114,7 @@
     </div>
   </section>
   <script src="../base-datos.js"></script>
-  <script src="../Niveles.js"></script>
+  <script src="../Niveles.js?v=20261104-5"></script>
   <script src="../Asistente.js"></script>
 </body>
 </html>

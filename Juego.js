@@ -1,3 +1,11 @@
+const sfx = (nombre, opciones) => {
+  try {
+    window.SonidoJuego?.play(nombre, opciones);
+  } catch (_) { /* El juego sigue sin audio si el navegador lo bloquea. */ }
+};
+
+const audioJuego = () => window.SonidoJuego;
+
 document.addEventListener("DOMContentLoaded", async () => {
   const user = localStorage.getItem("jugadorActual");
   const guestMode = localStorage.getItem("modoInvitado") === "true";
@@ -10,19 +18,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     {
       planet: "PLANETA 1 · MERCURIO",
       title: "Impulso: cráteres de Mercurio",
-      description: "Activá con E las plataformas amarillas junto a los bordes: el impulso extra te permite cruzar los cráteres largos.",
+      description: "Activá con E las plataformas amarillas antes de los cráteres: el impulso es obligatorio para cruzar el vacío.",
       formula: "Física: impulso = cambio de cantidad de movimiento · E sobre una plataforma amarilla",
       fact: "¡Mercurio completado! Venus quedó desbloqueado.",
-      gravity: 3.7, jumpSpeed: 300, impulseSpeed: 440, drain: 9.5, world: 2520,
+      gravity: 3.7, jumpSpeed: 265, impulseSpeed: 500, drain: 6.2, world: 2520,
       sky: ["#10213c", "#512d49"], ground: "#744654", surface: "#f0a079", rock: "#a85e61", accent: "#73f0d1",
-      gaps: [[620, 1120], [1420, 1920]],
-      blocks: [[250, 42], [430, 56], [1190, 48], [1320, 42], [1985, 54], [2160, 44], [2310, 48]],
+      gaps: [[620, 920], [1420, 1720]],
+      blocks: [[250, 42], [345, 56], [1985, 54], [2160, 44]],
       platforms: [[1128, 118, 88], [1930, 132, 72]],
-      orbs: [[500, 82], [1190, 112], [1665, 96], [2210, 92]],
-      lasers: [[1285, 126, 2.4, 0.4, 0.52], [2075, 118, 2.8, 1.1, 0.48]],
-      station: 1240, refill: 36,
+      orbs: [[520, 125], [1050, 112], [1810, 112], [2350, 110]],
+      lasers: [[1285, 126, 2.4, 0.4, 0.36], [2075, 118, 2.8, 1.1, 0.36]],
+      station: 1160, refill: 42,
       ability: { type: "impulse", key: "E", label: "IMPULSO", hint: "E sobre una plataforma amarilla junto al borde" },
-      impulsePads: [570, 1370]
+      impulsePads: [560, 1370]
     },
     {
       planet: "PLANETA 2 · VENUS",
@@ -30,16 +38,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       description: "Los cráteres de Venus son más anchos que un salto normal. Activá E en el aire para reducir la gravedad por unos segundos y llegar a las plataformas elevadas.",
       formula: "Física: gravedad de 8,90 m/s² · E activa un pulso de baja gravedad durante el salto",
       fact: "¡Venus completado! La gravedad cambió tu recorrido y llegaste a salvo.",
-      gravity: 8.9, drain: 9.7, world: 2580,
+      gravity: 8.9, drain: 6.3, world: 2580,
       sky: ["#351e42", "#a45252"], ground: "#7a4b50", surface: "#f5ba79", rock: "#b96553", accent: "#82f4dc",
-      gaps: [[500, 850], [1190, 1540], [1900, 2250]],
-      blocks: [[260, 45], [805, 60], [1010, 44], [1510, 52], [2070, 58], [2300, 40]],
+      gaps: [[500, 770], [1190, 1460], [1900, 2170]],
+      blocks: [[260, 45], [1010, 44], [1510, 52], [2300, 40]],
       platforms: [[635, 130, 80], [925, 110, 65], [1255, 125, 86], [1645, 130, 72], [1940, 128, 82]],
       orbs: [[420, 88], [875, 128], [1550, 115], [2200, 98]],
-      lasers: [[940, 132, 2.6, 0.2, 0.5], [1750, 124, 2.9, 1.4, 0.46]],
-      station: 1110, refill: 36,
+      lasers: [[940, 132, 2.6, 0.2, 0.36], [1750, 124, 2.9, 1.4, 0.36]],
+      station: 1110, refill: 42,
       ability: { type: "gravity", key: "E", label: "PULSO GRAVITATORIO", hint: "E reduce la gravedad durante el salto; esperá entre pulsos" },
-      gravityPulse: { duration: 1.8, factor: 0.3, cooldown: 3.2 }
+      gravityPulse: { duration: 2.4, factor: 0.34, cooldown: 2.5 }
     },
     {
       planet: "PLANETA 3 · LUNA",
@@ -47,14 +55,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       description: "La gravedad lunar es baja y el astronauta conserva su velocidad. Cruzá los cráteres usando plataformas móviles y E para frenar antes de aterrizar.",
       formula: "Física: inercia y gravedad lunar · E aplica el freno inercial",
       fact: "¡Luna completada! Controlaste la inercia y alcanzaste la salida.",
-      gravity: 1.62, jumpSpeed: 185, drain: 9.4, world: 3380,
+      gravity: 1.62, jumpSpeed: 185, drain: 6.1, world: 3380,
       sky: ["#101c32", "#34495d"], ground: "#394653", surface: "#c1d8e8", rock: "#596879", accent: "#a8e9ff",
-      gaps: [[620, 1320], [1520, 2220], [2420, 3120]],
+      gaps: [[620, 1040], [1520, 1940], [2420, 2840]],
       blocks: [[315, 50], [500, 38], [1370, 60], [1470, 46], [2270, 52], [2360, 44], [3170, 50]],
       platforms: [],
       orbs: [[565, 105], [1090, 95], [1810, 122], [2980, 92]],
-      lasers: [[1130, 110, 2.5, 0.7, 0.5], [2115, 120, 2.7, 1.5, 0.5]],
-      station: 1420, refill: 36,
+      lasers: [[1130, 110, 2.5, 0.7, 0.36], [2115, 120, 2.7, 1.5, 0.36]],
+      station: 1420, refill: 42,
       ability: { type: "brake", key: "E", label: "FRENO INERCIAL", hint: "E frena el deslizamiento; soltá D antes de aterrizar" },
       inertia: true,
       movingPlatforms: [[1040, 78, 72, 18, 1, 0], [1940, 76, 70, 18, 0.85, 1.2], [2840, 74, 72, 17, 0.9, 2.1]]
@@ -65,16 +73,16 @@ document.addEventListener("DOMContentLoaded", async () => {
       description: "Recogé el jetpack antes del gran cráter. Mantené J para impulsarte y cruzar el vacío; sin la mochila no se puede pasar.",
       formula: "Misión especial: recogé el jetpack y mantené J durante el cruce",
       fact: "¡Marte completado! Cruzaste el cráter usando la gravedad a tu favor.",
-      gravity: 3.71, drain: 9.6, world: 2780,
+      gravity: 3.71, jumpSpeed: 270, drain: 6.2, world: 2780,
       sky: ["#281d37", "#813e45"], ground: "#82494b", surface: "#ffc078", rock: "#b55d50", accent: "#87f3d0",
-      gaps: [[500, 620], [1270, 1980], [2340, 2430]],
-      blocks: [[270, 40], [770, 48], [1035, 38], [2085, 58], [2225, 42], [2480, 50], [2640, 42]],
-      platforms: [[635, 126, 94], [1010, 120, 112], [1995, 132, 104], [2290, 124, 88], [2440, 128, 100]],
-      orbs: [[425, 105], [1110, 115], [2150, 105], [2585, 122]],
-      lasers: [[975, 125, 2.7, 0.8, 0.5], [2390, 126, 2.8, 1.7, 0.48], [2530, 118, 2.5, 2.2, 0.5]],
-      station: 1190, refill: 38,
+      gaps: [[500, 620], [1270, 1650], [2340, 2430]],
+      blocks: [[270, 40], [770, 48], [1035, 38], [2085, 58], [2480, 50], [2640, 42]],
+      platforms: [[635, 126, 94], [1010, 120, 112], [1665, 132, 104], [1995, 132, 104], [2290, 124, 88], [2440, 128, 100]],
+      orbs: [[425, 120], [1130, 130], [1760, 132], [2585, 122]],
+      lasers: [[975, 125, 2.7, 0.8, 0.36], [2390, 126, 2.8, 1.7, 0.36], [2530, 118, 2.5, 2.2, 0.36]],
+      station: 1160, refill: 44,
       ability: { type: "jetpack", key: "J", label: "JETPACK", hint: "Recogé la mochila y mantené J o el botón JETPACK" },
-      jetpack: { pickup: [835, 74], requiredGap: [1270, 1980], burn: 32, thrust: 1100, maxRise: 520 }
+      jetpack: { pickup: [900, 88], requiredGap: [1270, 1650], burn: 45, thrust: 1100, maxRise: 520 }
     },
     {
       planet: "PLANETA 5 · JÚPITER",
@@ -82,14 +90,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       description: "Júpiter tiene una gravedad muy alta: los saltos normales no cruzan los cortes. Acercate a cada campo violeta y activá E para recibir un impulso gravitatorio hacia adelante.",
       formula: "Física: atracción gravitatoria · E junto a un campo violeta impulsa la trayectoria",
       fact: "¡Júpiter completado! Superaste la alta gravedad y llegaste a la ruta de rescate.",
-      gravity: 24.79, drain: 9.3, world: 2550,
+      gravity: 24.79, drain: 6.0, world: 2550,
       sky: ["#261d34", "#76503c"], ground: "#705044", surface: "#eeb771", rock: "#a35e49", accent: "#7ef5d8",
-      gaps: [[650, 830], [1350, 1530], [2070, 2250]],
-      blocks: [[260, 28], [410, 26], [880, 32], [1120, 28], [1580, 30], [1810, 28], [2330, 32], [2490, 26]],
+      gaps: [[650, 770], [1350, 1470], [2070, 2190]],
+      blocks: [[260, 28], [880, 32], [1120, 28], [1580, 30], [1810, 28], [2330, 32]],
       platforms: [],
       orbs: [[475, 74], [970, 102], [1740, 88], [2395, 94]],
-      lasers: [[1080, 118, 2.5, 0.9, 0.52], [1900, 130, 2.9, 1.8, 0.48]],
-      station: 1240, refill: 38,
+      lasers: [[1080, 118, 2.5, 0.9, 0.36], [1900, 130, 2.9, 1.8, 0.36]],
+      station: 1240, refill: 44,
       ability: { type: "slingshot", key: "E", label: "ASISTENCIA", hint: "Acercate a un campo violeta y presioná E para impulsarte" },
       gravityWells: [[740, 140, 155, 280], [1440, 128, 155, 300], [2160, 135, 155, 320]]
     },
@@ -99,15 +107,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       description: "Recolectá tres celdas de energía para activar la baliza final y abrir el portal de Saturno.",
       formula: "Física: energía almacenada · La salida necesita tres celdas para activarse",
       fact: "¡Misión cumplida! Cargaste y activaste la baliza para llegar al nuevo hogar.",
-      gravity: 10.44, drain: 9.5, world: 2700,
+      gravity: 10.44, drain: 6.2, world: 2700,
       sky: ["#15223b", "#644759"], ground: "#59465b", surface: "#f0c17c", rock: "#906178", accent: "#8ff4dd",
       gaps: [[590, 690], [1290, 1400], [1970, 2080]],
       blocks: [[260, 46], [445, 54], [875, 42], [1080, 58], [1510, 48], [1740, 56], [2210, 44], [2415, 50]],
       platforms: [[715, 126, 65], [1415, 132, 70], [2095, 132, 64]],
       orbs: [[500, 90], [1040, 112], [1670, 118], [2350, 100]],
-      lasers: [[1155, 124, 2.6, 0.6, 0.5], [1840, 132, 2.7, 1.7, 0.5], [2460, 116, 2.9, 2.2, 0.48]],
-      station: 1270, refill: 40,
-      energyCells: [[550, 90], [1160, 105], [1810, 108]],
+      lasers: [[1155, 124, 2.6, 0.6, 0.36], [1840, 132, 2.7, 1.7, 0.36], [2460, 116, 2.9, 2.2, 0.36]],
+      station: 1270, refill: 44,
+      energyCells: [[720, 125], [1480, 135], [1930, 135]],
       ability: { type: "energy", key: "E", label: "ACTIVAR BALIZA", hint: "Reuní 3 celdas, acercate al portal y presioná E" },
       requiredEnergy: 3
     }
@@ -123,6 +131,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const level = Math.max(1, Math.min(missions.length, Number(new URLSearchParams(location.search).get("nivel")) || 1));
   const mission = missions[level - 1];
+  acortarMision(mission, [0.78, 0.78, 0.75, 0.78, 0.75, 0.78][level - 1]);
+  separarObjetosMision(mission);
   const progress = JuegoDB.progress(user);
   if (level > progress.nivel && !progress.completados.includes(level)) {
     location.href = "Niveles.html";
@@ -138,11 +148,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("formula").textContent = mission.formula;
 
   const next = document.getElementById("siguiente");
+  const completionOverlay = document.getElementById("nivelCompletadoOverlay");
+  const completionTitle = document.getElementById("tituloNivelCompletado");
+  const completionDetail = document.getElementById("detalleNivelCompletado");
+  const advanceButton = document.getElementById("avanzarNivel");
   const platformMessage = document.getElementById("mensajePlataforma");
   const retry = document.getElementById("reintentar");
   const pauseButton = document.getElementById("botonPausa");
   const abilityButton = document.getElementById("botonHabilidad");
-  const helpControls = document.getElementById("ayudaControles");
   const pauseOverlay = document.getElementById("pausaOverlay");
   const resumeButton = document.getElementById("reanudarJuego");
   const fuelFill = document.getElementById("barraCombustible");
@@ -161,6 +174,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   next.addEventListener("click", () => {
     location.href = !noFuel && level === missions.length ? "Final.html" : "Niveles.html";
   });
+  advanceButton.textContent = level === missions.length ? "VER CRÉDITOS DEL EQUIPO →" : "AVANZAR AL NIVEL " + (level + 1) + " →";
+  advanceButton.addEventListener("click", () => {
+    location.href = level === missions.length ? "Final.html" : "Juego.html?nivel=" + (level + 1);
+  });
+  function mostrarNivelCompletado(detalle) {
+    completionTitle.textContent = level === missions.length ? "¡MISIÓN COMPLETA!" : "¡NIVEL COMPLETADO!";
+    completionDetail.textContent = detalle;
+    completionOverlay.hidden = false;
+    window.setTimeout(() => advanceButton.focus(), 0);
+  }
   retry.addEventListener("click", () => game.restartLevel());
 
   function updateFuelHud(value) {
@@ -227,8 +250,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function completeLevel() {
     if (solved) {
-      platformMessage.textContent = "Ya habías completado este nivel. El siguiente está disponible en el mapa.";
-      next.hidden = false;
+      const detalle = "Este nivel ya estaba completado. El próximo destino está desbloqueado y tu personaje llegó a la salida.";
+      platformMessage.textContent = detalle;
+      mostrarNivelCompletado(detalle);
       return;
     }
     if (!JuegoDB.complete(user, level, 100)) {
@@ -244,12 +268,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     const updated = JuegoDB.progress(user);
     updateFuelHud(updated.combustible);
     status.textContent = "PLANETA " + level + " / 6 · " + updated.puntuacion + " PUNTOS";
-    platformMessage.textContent = "✅ " + mission.fact + " +100 puntos · Combustible recuperado: " + updated.combustible + "%";
-    next.hidden = false;
+    const detalle = "✅ " + mission.fact + " Sumaste 100 puntos y recuperaste combustible: " + updated.combustible + "%.";
+    platformMessage.textContent = detalle;
+    next.hidden = true;
+    mostrarNivelCompletado(detalle);
   }
 
   const sceneHost = document.getElementById("contenedorEscena");
-  const game = new p5((sketch) => animatePlatformer(sketch, mission, {
+  if (!sceneHost) {
+    console.error("No se encontró el contenedor de escena (#contenedorEscena)");
+    platformMessage.textContent = "Error al cargar el escenario del nivel.";
+    return;
+  }
+  let game;
+  try {
+    game = new p5((sketch) => animatePlatformer(sketch, mission, {
     onOxygenChange: function (value, collected, total) {
       updateOxygenHud(value, collected, total);
     },
@@ -263,11 +296,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       platformMessage.textContent = "Perdiste las 3 vidas. Reintentá el nivel; no se vuelve a cobrar el combustible de esta misión.";
       retry.hidden = false;
       pauseButton.disabled = true;
+      audioJuego()?.setJetpack(false);
+      audioJuego()?.stopMusic();
+      sfx("gameover");
     },
     onRestart: function () {
       retry.hidden = true;
       pauseButton.disabled = false;
       next.hidden = !solved;
+      audioJuego()?.startMusic("juego");
     },
     onPauseChange: function (isPaused) {
       paused = isPaused;
@@ -279,24 +316,133 @@ document.addEventListener("DOMContentLoaded", async () => {
     },
     onComplete: function () {
       pauseButton.disabled = true;
+      audioJuego()?.setJetpack(false);
+      audioJuego()?.stopMusic();
+      sfx("win");
       completeLevel();
     },
   }, sceneHost), sceneHost);
-  pauseButton.addEventListener("click", () => paused ? game.resumeGame() : game.pauseGame());
+  } catch (e) {
+    console.error("Error al inicializar p5", e);
+    platformMessage.textContent = "Error al cargar el motor del juego. Revisa la consola.";
+    return;
+  }
+  pauseButton.addEventListener("click", () => { try { paused ? game.resumeGame() : game.pauseGame(); } catch(_) {} });
   if (mission.jetpack) {
     abilityButton.addEventListener("pointerdown", (event) => {
       event.preventDefault();
       abilityButton.setPointerCapture?.(event.pointerId);
-      game.setJetpack(true);
+      try { game.setJetpack(true); } catch(_) {}
     });
     ["pointerup", "pointercancel", "lostpointercapture"].forEach((eventName) => {
-      abilityButton.addEventListener(eventName, () => game.setJetpack(false));
+      abilityButton.addEventListener(eventName, () => { try { game.setJetpack(false); } catch(_) {} });
     });
   } else {
-    abilityButton.addEventListener("click", () => game.useAbility());
+    abilityButton.addEventListener("click", () => { try { game.useAbility(); } catch(_) {} });
   }
-  resumeButton.addEventListener("click", () => game.resumeGame());
+  resumeButton.addEventListener("click", () => { try { game.resumeGame(); } catch(_) {} });
 });
+
+function acortarMision(mission, factor) {
+  const x = (valor) => Math.round(valor * factor);
+  mission.world = x(mission.world);
+  mission.gaps = mission.gaps.map(([inicio, fin]) => [x(inicio), x(fin)]);
+  mission.blocks = mission.blocks.map(([posicion, alto, ancho]) => [x(posicion), alto, ancho]);
+  mission.platforms = mission.platforms.map(([posicion, ancho, alto]) => [x(posicion), ancho, alto]);
+  mission.movingPlatforms = (mission.movingPlatforms || []).map(([posicion, ancho, alto, movimiento, velocidad, fase]) => [x(posicion), ancho, alto, movimiento, velocidad, fase]);
+  mission.orbs = mission.orbs.map(([posicion, altura]) => [x(posicion), altura]);
+  mission.lasers = mission.lasers.map(([posicion, altura, periodo, fase, activo]) => [x(posicion), altura, periodo, fase, activo]);
+  mission.station = x(mission.station);
+  mission.impulsePads = (mission.impulsePads || []).map(x);
+  mission.gravityWells = (mission.gravityWells || []).map(([posicion, altura, radio, fuerza]) => [x(posicion), altura, radio, fuerza]);
+  if (mission.jetpack) {
+    mission.jetpack.pickup[0] = x(mission.jetpack.pickup[0]);
+    mission.jetpack.requiredGap = mission.jetpack.requiredGap.map(x);
+  }
+  if (mission.energyCells) mission.energyCells = mission.energyCells.map(([posicion, altura]) => [x(posicion), altura]);
+}
+
+function separarObjetosMision(mission) {
+  const reservados = [];
+  const esHueco = (x, ancho = 0) => mission.gaps.some(([inicio, fin]) => x + ancho / 2 > inicio && x - ancho / 2 < fin);
+
+  function libre(x, lift, forma, requiereSuelo) {
+    if (x < 75 || x > mission.world - 100 || (requiereSuelo && esHueco(x, forma.width))) return false;
+    const chocaCaja = mission.blocks.some(([boxX, boxHeight, boxWidth = 48]) => {
+      const horizontal = Math.abs(x - (boxX + boxWidth / 2)) < (forma.width + boxWidth) / 2 + 28;
+      const vertical = lift - forma.height / 2 < boxHeight + 6 && lift + forma.height / 2 > -6;
+      return horizontal && vertical;
+    });
+    if (chocaCaja) return false;
+
+    const plataformas = [
+      ...(mission.platforms || []).map(([platformX, width, height]) => ({ x: platformX, width, top: height, bottom: height + 14 })),
+      ...(mission.movingPlatforms || []).map(([platformX, width, height, movement]) => ({
+        x: platformX,
+        width,
+        top: height - movement,
+        bottom: height + movement + 14,
+      })),
+    ];
+    const chocaPlataforma = plataformas.some((platform) => {
+      const horizontal = Math.abs(x - (platform.x + platform.width / 2)) < (forma.width + platform.width) / 2 + 8;
+      const vertical = lift - forma.height / 2 < platform.bottom + 6 && lift + forma.height / 2 > platform.top - 6;
+      return horizontal && vertical;
+    });
+    if (chocaPlataforma) return false;
+
+    const chocaLaser = mission.lasers.some(([laserX, laserHeight]) =>
+      Math.abs(x - laserX) < forma.width / 2 + 20 && lift - forma.height / 2 < laserHeight
+    );
+    if (chocaLaser) return false;
+
+    return !reservados.some((item) =>
+      Math.abs(x - item.x) < (forma.width + item.forma.width) / 2 + 22 &&
+      Math.abs(lift - item.lift) < (forma.height + item.forma.height) / 2 + 12
+    );
+  }
+
+  function ubicar(x, lift, forma, requiereSuelo) {
+    if (libre(x, lift, forma, requiereSuelo)) return x;
+    for (let distancia = 28; distancia <= 672; distancia += 28) {
+      for (const candidato of [x + distancia, x - distancia]) {
+        if (libre(candidato, lift, forma, requiereSuelo)) return candidato;
+      }
+    }
+    return x;
+  }
+
+  function reservar(x, lift, forma) {
+    reservados.push({ x, lift, forma });
+    return x;
+  }
+
+  const station = { width: 38, height: 76 };
+  mission.station = reservar(ubicar(mission.station, 38, station, true), 38, station);
+
+  const pad = { width: 48, height: 18 };
+  mission.impulsePads = (mission.impulsePads || []).map((x) => reservar(ubicar(x, 9, pad, true), 9, pad));
+
+  if (mission.jetpack) {
+    const pickup = mission.jetpack.pickup;
+    const backpack = { width: 38, height: 48 };
+    pickup[0] = reservar(ubicar(pickup[0], pickup[1], backpack, true), pickup[1], backpack);
+  }
+
+  const orbShape = { width: 38, height: 38 };
+  mission.orbs = mission.orbs.map(([x, lift]) => {
+    const safeX = reservar(ubicar(x, lift, orbShape, false), lift, orbShape);
+    return [safeX, lift];
+  });
+
+  const cellShape = { width: 28, height: 28 };
+  if (mission.energyCells?.length) {
+    mission.energyCells = mission.energyCells.map(([x, lift]) => {
+      const safeX = reservar(ubicar(x, lift, cellShape, false), lift, cellShape);
+      return [safeX, lift];
+    });
+  }
+}
 
 function animatePlatformer(p, mission, callbacks, sceneHost) {
   let canvas = null;
@@ -335,9 +481,12 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
   let jetpackCollected = false;
   let jetpackFuel = 100;
   let jetpackUsedInGap = false;
+  let jetpackSonando = false;
   let camera = 0;
   let lastReportedOxygen = 100;
   let lastReportedJetpack = 100;
+  let impulseGapUsed = -1;
+  let impulseGapsPassed = [];
 
   function controlar(name, activo) {
     if (!activo) {
@@ -352,10 +501,12 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
       if (!keys.has("jetpack") && player.grounded) {
         player.vy = -jumpSpeed * 0.68;
         player.grounded = false;
+        sfx("jetpackJump");
       }
     } else if (name === "jump" && !keys.has("jump") && player.grounded) {
       player.vy = -jumpSpeed;
       player.grounded = false;
+      sfx("jump");
     }
     keys.add(name);
     document.querySelector(`[data-control="${name}"]`)?.classList.add("activo");
@@ -366,31 +517,38 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
     const type = mission.ability.type;
     if (type === "jetpack") {
       callbacks.onMessage("Mantené J o el botón JETPACK mientras tengas carga.");
+      sfx("denied");
       return;
     }
     if (abilityCooldown > 0) {
       callbacks.onMessage("La habilidad todavía se está recargando.");
+      sfx("denied");
       return;
     }
     if (type === "impulse") {
       if (!player.grounded) {
         callbacks.onMessage("Activá el impulso cuando estés en el suelo, sobre una plataforma amarilla.");
+        sfx("denied");
         return;
       }
       const pad = impulsePads.find((item) => !item.activated && Math.abs(player.x + player.width / 2 - item.x) < 54);
       if (!pad) {
         callbacks.onMessage("Acercate a una plataforma amarilla junto al borde y presioná E.");
+        sfx("denied");
         return;
       }
       pad.activated = true;
+      impulseGapUsed = mission.gaps.findIndex(function (gap) { return gap[0] > player.x && gap[0] - player.x < 170; });
       player.vy = -mission.impulseSpeed;
       player.grounded = false;
+      sfx("impulse");
       callbacks.onMessage("¡Impulso activado! La plataforma te lanzó para cruzar el cráter.");
       return;
     }
     if (type === "gravity") {
       gravityPulseRemaining = mission.gravityPulse.duration;
       abilityCooldown = mission.gravityPulse.cooldown;
+      sfx("pulse");
       callbacks.onMessage("¡Pulso gravitatorio! La gravedad de Venus se redujo por un momento.");
       return;
     }
@@ -399,6 +557,7 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
       keys.delete("left");
       keys.delete("right");
       abilityCooldown = 0.7;
+      sfx("brake");
       callbacks.onMessage("Freno inercial aplicado: soltaste el movimiento horizontal para alinear el aterrizaje.");
       return;
     }
@@ -409,24 +568,29 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
       })).sort((a, b) => a.distance - b.distance)[0];
       if (!nearest || nearest.distance > nearest.well[2] + 35) {
         callbacks.onMessage("Acercate a un campo gravitatorio violeta antes de activar la asistencia.");
+        sfx("denied");
         return;
       }
       player.vy = Math.min(player.vy, -900);
       abilityRunRemaining = 0.82;
       abilityCooldown = 1.4;
+      sfx("slingshot");
       callbacks.onMessage("¡Asistencia gravitatoria! El campo curvó tu trayectoria hacia adelante.");
       return;
     }
     if (type === "energy") {
       if (player.x + player.width < worldLength - 205) {
         callbacks.onMessage("Acercate al portal para activar la baliza.");
+        sfx("denied");
         return;
       }
       if (energyCollected < mission.requiredEnergy) {
         callbacks.onMessage("La baliza necesita " + mission.requiredEnergy + " celdas de energía; tenés " + energyCollected + ".");
+        sfx("denied");
         return;
       }
       exitActivated = true;
+      sfx("beacon");
       callbacks.onMessage("¡Baliza activada! Avanzá hasta el portal para completar Saturno.");
     }
   }
@@ -476,6 +640,9 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
     if (paused || finished || gameOver) return;
     paused = true;
     clearKeys();
+    audioJuego()?.setJetpack(false);
+    audioJuego()?.stopMusic();
+    sfx("select");
     p.noLoop();
     callbacks.onPauseChange(true);
   }
@@ -484,6 +651,8 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
     if (!paused || finished || gameOver) return;
     paused = false;
     lastTime = p.millis();
+    audioJuego()?.startMusic("juego");
+    sfx("select");
     callbacks.onPauseChange(false);
     p.loop();
   }
@@ -536,8 +705,19 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
       rects.push({ x: platform[0], y: floorY - platform[2], w: platform[1], h: 14, type: "platform" });
     });
     (mission.movingPlatforms || []).forEach(function (platform, index) {
-      const y = floorY - platform[2] + Math.sin(time / 1000 * platform[4] + platform[5]) * platform[3];
-      rects.push({ x: platform[0], y: y, w: platform[1], h: 14, type: "moving-platform", index: index });
+      const velocidad = platform[4];
+      const fase = platform[5];
+      const oscilacion = Math.sin(time / 1000 * velocidad + fase);
+      let px = platform[0];
+      const gap = mission.gaps.find(function (item) { return platform[0] >= item[0] - 2 && platform[0] <= item[1] + 2; });
+      if (gap) {
+        const margen = 18;
+        const recorrido = Math.max(0, gap[1] - gap[0] - platform[1] - margen * 2);
+        const avance = 0.5 - 0.5 * Math.cos(time / 1000 * velocidad + fase);
+        px = gap[0] + margen + recorrido * avance;
+      }
+      const y = floorY - platform[2] + oscilacion * platform[3];
+      rects.push({ x: px, y: y, w: platform[1], h: 14, type: "moving-platform", index: index });
     });
     return rects;
   }
@@ -560,9 +740,13 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
     orbs.forEach(function (orb) { orb.collected = false; });
     energyCells.forEach(function (cell) { cell.collected = false; });
     impulsePads.forEach(function (pad) { pad.activated = false; });
+    impulseGapUsed = -1;
+    impulseGapsPassed = [];
     jetpackCollected = false;
     jetpackFuel = 100;
     jetpackUsedInGap = false;
+    jetpackSonando = false;
+    audioJuego()?.setJetpack(false);
     invulnerability = 1.4;
     clearKeys();
     callbacks.onOxygenChange(oxygen, collected, orbs.length);
@@ -572,6 +756,11 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
 
   function loseLife(message, floorY) {
     if (invulnerability > 0 || gameOver || finished) return;
+    const texto = String(message || "");
+    if (/rayo|láser|laser/i.test(texto)) sfx("laser");
+    else if (/caíste|caiste|cráter|crater|vacío|vacio/i.test(texto)) sfx("fall");
+    else if (/oxígeno|oxigeno/i.test(texto)) sfx("oxygen");
+    else sfx("hurt");
     lives = Math.max(0, lives - 1);
     callbacks.onLivesChange(lives);
     resetPlayer(floorY);
@@ -592,6 +781,7 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
     lastReportedOxygen = 100;
     if (lastFloor !== null) resetPlayer(lastFloor);
     invulnerability = 1.1;
+    sfx("select");
     callbacks.onLivesChange(lives);
     callbacks.onJetpackChange(jetpackFuel, jetpackCollected);
     callbacks.onRestart();
@@ -674,37 +864,55 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
   function draw(time, dt) {
     const width = canvas.clientWidth;
     const height = canvas.clientHeight;
-    const dpr = window.devicePixelRatio || 1;
     if (!width || !height) return;
-    if (canvas.width !== Math.round(width * dpr) || canvas.height !== Math.round(height * dpr)) {
-      canvas.width = Math.round(width * dpr);
-      canvas.height = Math.round(height * dpr);
+    const dpr = (typeof p.pixelDensity === "function" && p.pixelDensity()) || window.devicePixelRatio || 1;
+    const bufferW = Math.round(width * dpr);
+    const bufferH = Math.round(height * dpr);
+    if (Math.abs(canvas.width - bufferW) > 1 || Math.abs(canvas.height - bufferH) > 1) {
+      canvas.width = bufferW;
+      canvas.height = bufferH;
     }
-    const zoom = Math.max(0.72, Math.min(1.12, width / 720));
+    const zoomAncho = width / 820;
+    const zoomAlto = height / 380;
+    const zoom = Math.max(0.5, Math.min(1.12, zoomAncho, zoomAlto));
     const viewWidth = width / zoom;
     const viewHeight = height / zoom;
     ctx.setTransform(dpr * zoom, 0, 0, dpr * zoom, 0, 0);
+    ctx.clearRect(0, 0, viewWidth, viewHeight);
     const floorY = viewHeight - 30;
 
     if (lastFloor === null) {
       player.y = floorY - player.height;
       player.grounded = true;
     } else if (lastFloor !== floorY) {
-      player.y += floorY - lastFloor;
+      const deltaFloor = floorY - lastFloor;
+      if (Math.abs(deltaFloor) > 4000) {
+        player.y = floorY - player.height;
+        player.grounded = true;
+      } else {
+        player.y += deltaFloor;
+      }
     }
     lastFloor = floorY;
 
     const rects = getRects(floorY, time);
     const rectsAnteriores = getRects(floorY, time - dt * 1000);
-    const previousX = player.x;
+    let previousX = player.x;
     let previousY = player.y;
     if (player.grounded && dt > 0) {
       rects.filter(function (rect) { return rect.type === "moving-platform"; }).forEach(function (rect) {
         const anterior = rectsAnteriores.find(function (item) { return item.type === "moving-platform" && item.index === rect.index; });
         const sobreLaPlataforma = player.x + player.width > rect.x + 3 && player.x < rect.x + rect.w - 3;
-        if (anterior && sobreLaPlataforma && Math.abs(previousY + player.height - anterior.y) < 8) player.y += rect.y - anterior.y;
+        if (anterior && sobreLaPlataforma && Math.abs(previousY + player.height - anterior.y) < 8) {
+          player.y += rect.y - anterior.y;
+          const desplazamiento = rect.x - anterior.x;
+          if (desplazamiento) {
+            player.x = Math.max(0, Math.min(worldLength - player.width, player.x + desplazamiento));
+          }
+        }
       });
     }
+    previousX = player.x;
     previousY = player.y;
 
     if (!finished && !gameOver && dt > 0) {
@@ -735,6 +943,10 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
         });
 
         const usingJetpack = Boolean(mission.jetpack && jetpackCollected && keys.has("jetpack") && jetpackFuel > 0);
+        if (usingJetpack !== jetpackSonando) {
+          jetpackSonando = usingJetpack;
+          audioJuego()?.setJetpack(usingJetpack);
+        }
         if (usingJetpack) {
           player.vy = Math.max(-mission.jetpack.maxRise, player.vy - mission.jetpack.thrust * dt);
           jetpackFuel = Math.max(0, jetpackFuel - mission.jetpack.burn * dt);
@@ -756,6 +968,8 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
           }
         });
         const effectiveGravity = gravityPulseRemaining > 0 ? gravity * mission.gravityPulse.factor : gravity;
+        const estabaEnSuelo = player.grounded;
+        const velocidadCaida = player.vy;
         player.vy += effectiveGravity * dt;
         player.y += player.vy * dt;
         player.grounded = false;
@@ -782,6 +996,9 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
             player.y = landingY - player.height;
             player.vy = 0;
             player.grounded = true;
+            if (!estabaEnSuelo && velocidadCaida > 160) {
+              sfx("land", { fuerza: Math.max(0.4, Math.min(1.6, velocidadCaida / 620)) });
+            }
           }
         } else {
           rects.forEach(function (rect) {
@@ -808,6 +1025,7 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
           const playerCenterY = player.y + player.height / 2;
           if (Math.abs(playerCenterX - pickupX) < 42 && Math.abs(playerCenterY - pickupY) < 58) {
             jetpackCollected = true;
+            sfx("jetpackPickup");
             callbacks.onJetpackChange(jetpackFuel, jetpackCollected);
             callbacks.onMessage("¡Jetpack recogido! Mantené J para impulsarte y cruzar el cráter ancho.");
           }
@@ -823,6 +1041,7 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
             orb.collected = true;
             collected++;
             oxygen = Math.min(100, oxygen + mission.refill);
+            sfx("orb");
             callbacks.onMessage("¡Recogiste una orbe de oxígeno! El tanque se recargó.");
           }
         }
@@ -837,6 +1056,7 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
             cell.collected = true;
             energyCollected++;
             exitMessageShown = false;
+            sfx("energy");
             callbacks.onEnergyChange(energyCollected, mission.requiredEnergy);
             callbacks.onMessage("Celda de energía recolectada: " + energyCollected + " / " + mission.requiredEnergy + ".");
           }
@@ -845,6 +1065,7 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
         if (!stationUsed && player.x + player.width >= mission.station) {
           stationUsed = true;
           oxygen = 100;
+          sfx("station");
           callbacks.onMessage("¡Llegaste a la estación de recarga! Oxígeno al 100%.");
         }
 
@@ -852,9 +1073,34 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
           loseLife("Caíste en un cráter. Volviste al inicio con oxígeno completo.", floorY);
         }
 
+        if (mission.ability && mission.ability.type === "impulse") {
+          for (let i = 0; i < mission.gaps.length; i++) {
+            if (impulseGapsPassed.indexOf(i) !== -1) continue;
+            const gap = mission.gaps[i];
+            if (player.x + player.width <= gap[1]) continue;
+            if (i === impulseGapUsed) {
+              impulseGapsPassed.push(i);
+              impulseGapUsed = -1;
+            } else {
+              player.x = Math.max(0, gap[0] - player.width - 6);
+              player.y = floorY - player.height;
+              player.vx = 0;
+              player.vy = 0;
+              player.grounded = true;
+              sfx("denied");
+              callbacks.onMessage("Ese cráter necesita el impulso. Activá E sobre la plataforma amarilla antes de saltar.");
+              break;
+            }
+          }
+        }
+
         if (mission.jetpack && player.x > mission.jetpack.requiredGap[1] && !jetpackUsedInGap) {
-          player.x = mission.jetpack.requiredGap[1] - player.width - 6;
+          player.x = Math.max(0, mission.jetpack.requiredGap[0] - player.width - 6);
+          player.y = floorY - player.height;
           player.vx = 0;
+          player.vy = 0;
+          player.grounded = true;
+          sfx("denied");
           callbacks.onMessage("El cráter requiere el jetpack. Recogelo y mantené J durante el cruce.");
         }
 
@@ -862,6 +1108,7 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
           player.x = worldLength - player.width - 80;
           player.vx = 0;
           if (!exitMessageShown) {
+            sfx("denied");
             callbacks.onMessage("La salida sigue sin energía. Reuní las " + mission.requiredEnergy + " celdas para activarla.");
             exitMessageShown = true;
           }
@@ -869,6 +1116,7 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
           player.x = worldLength - player.width - 145;
           player.vx = 0;
           if (!exitMessageShown) {
+            sfx("denied");
             callbacks.onMessage("Reuniste la energía. Presioná E o tocá ACTIVAR BALIZA junto al portal.");
             exitMessageShown = true;
           }
@@ -1192,25 +1440,61 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
 
   }
 
-  function alturaEscena() {
-    const altoAsignado = Math.floor(sceneHost.clientHeight);
-    if (altoAsignado > 0) return altoAsignado;
-    const tactil = window.innerWidth <= 680;
-    return Math.round(window.innerHeight * (tactil ? 0.32 : 0.42));
+  function medidaEscena() {
+    if (!sceneHost) return { w: 0, h: 0 };
+    const rect = sceneHost.getBoundingClientRect ? sceneHost.getBoundingClientRect() : null;
+    return {
+      w: Math.max(1, Math.floor(sceneHost.clientWidth || (rect && rect.width) || window.innerWidth || 800)),
+      h: Math.max(1, Math.floor(sceneHost.clientHeight || (rect && rect.height) || window.innerHeight || 500))
+    };
+  }
+
+  function ajustarCanvas() {
+    if (!canvas || !sceneHost) return;
+    const medida = medidaEscena();
+    if (!medida.w || !medida.h) return;
+    const dpr = window.devicePixelRatio || 1;
+    if (typeof p.pixelDensity === "function" && Math.abs(p.pixelDensity() - dpr) > 0.01) {
+      p.pixelDensity(dpr);
+    }
+    if (Math.abs(p.width - medida.w) > 1 || Math.abs(p.height - medida.h) > 1) {
+      p.resizeCanvas(medida.w, medida.h);
+    }
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+    canvas.style.position = "absolute";
+    canvas.style.left = "0";
+    canvas.style.top = "0";
+    canvas.style.display = "block";
   }
 
   p.setup = function () {
     p.pixelDensity(window.devicePixelRatio || 1);
-    const initialWidth = Math.max(1, sceneHost.clientWidth);
-    const renderer = p.createCanvas(initialWidth, alturaEscena());
+    const medida = medidaEscena();
+    const renderer = p.createCanvas(medida.w, medida.h);
     renderer.id("escena");
     canvas = renderer.elt;
+    if (canvas.parentNode !== sceneHost) sceneHost.appendChild(canvas);
+    if (sceneHost.style.position === "" || sceneHost.style.position === "static") {
+      sceneHost.style.position = "relative";
+    }
+    sceneHost.style.overflow = "hidden";
     canvas.setAttribute("tabindex", "0");
     canvas.setAttribute("aria-label", "Nivel 2D. A y D para moverse, W o espacio para saltar, P para pausar.");
     ctx = p.drawingContext;
-    p.resizeCanvas(initialWidth, alturaEscena(), true);
     p.frameRate(60);
     lastFloor = null;
+    ajustarCanvas();
+    if (typeof ResizeObserver !== "undefined") {
+      const observer = new ResizeObserver(function () {
+        ajustarCanvas();
+      });
+      observer.observe(sceneHost);
+    }
+    window.addEventListener("resize", ajustarCanvas);
+    window.addEventListener("orientationchange", ajustarCanvas);
+    window.setTimeout(ajustarCanvas, 60);
+    window.setTimeout(ajustarCanvas, 260);
   };
   p.draw = function () {
     if (!canvas || !ctx || paused) return;
@@ -1218,12 +1502,14 @@ function animatePlatformer(p, mission, callbacks, sceneHost) {
     const dt = lastTime ? Math.min((frameTime - lastTime) / 1000, 0.04) : 0;
     lastTime = frameTime;
     gameTime += dt * 1000;
-    draw(gameTime, dt);
+    try {
+      draw(gameTime, dt);
+    } catch (e) {
+      console.error("Error en draw", e);
+    }
   };
   p.windowResized = function () {
-    if (!canvas) return;
-    p.resizeCanvas(Math.max(1, sceneHost.clientWidth), alturaEscena(), true);
-    lastFloor = null;
+    ajustarCanvas();
   };
   return { restart: restart };
 }

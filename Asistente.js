@@ -32,7 +32,10 @@
     <div class="asistente-sugerencias" aria-label="Preguntas frecuentes">
       <button type="button" data-pregunta="¿Cuáles son los controles?">Controles</button>
       <button type="button" data-pregunta="¿Cómo recupero oxígeno?">Oxígeno</button>
-      <button type="button" data-pregunta="¿Cómo funciona el puntaje del juego?">Puntaje</button>
+      <button type="button" data-pregunta="¿Qué habilidad tiene cada nivel?">Habilidades</button>
+      <button type="button" data-pregunta="¿Cómo paso al siguiente nivel?">Niveles</button>
+      <button type="button" data-pregunta="¿Cuántas vidas tengo?">Vidas</button>
+      <button type="button" data-pregunta="¿Cómo funciona el puntaje y el ranking?">Puntaje</button>
     </div>
     <form class="asistente-formulario">
       <label class="solo-lector" for="asistenteEntrada">Escribí una pregunta sobre el juego</label>
@@ -58,64 +61,58 @@
   }
 
   const respuestas = [
-    {
-      coincide: /controles? del juego|cuales son los controles|controles de (?:nuevo hogar|esta mision)|que teclas uso (?:para moverme|para saltar|para el jetpack|en el juego)|que teclas tengo que usar (?:en el juego|para moverme|para saltar)|con que teclas (?:me muevo|salto|uso el jetpack)|como (?:me )?muevo (?:en el juego|al personaje|en el nivel)|como (?:se )?salto en (?:el juego|el nivel)|saltar en el juego|tecla.*saltar.*(?:juego|nivel)|espacio.*saltar|saltar.{0,20}espacio|a ?\/ ?d|como se juega (?:nuevo hogar|este juego|la mision)/,
-      texto: "En los niveles 2D, usá A y D para moverte y W o ESPACIO para saltar. Presioná E o el botón de habilidad para la acción especial de cada misión. En Marte, recogé el jetpack y mantené J o el botón JETPACK. P o PAUSAR detiene o reanuda la partida.",
-    },
-    {
-      coincide: /habilidad.{0,24}(?:nivel|planeta|juego|mercurio|venus|luna|jupiter|saturno)|tecla e|boton de habilidad|que hago con e|como (?:uso|activo|utilizo).{0,24}(?:habilidad|impulso|freno|baliza|gravedad)|impulso.{0,24}mercurio|freno.{0,24}luna|pulso.{0,24}gravitatorio|asistencia gravitatoria/,
-      texto: "Cada destino tiene una acción: en Mercurio usá E sobre la plataforma amarilla; en Venus, E reduce la gravedad durante el salto; en la Luna, E frena tu movimiento; en Júpiter, E junto a un campo violeta te impulsa; en Marte mantené J tras recoger el jetpack; y en Saturno reuní 3 celdas y activá la baliza con E.",
-    },
-    {
-      coincide: /\bjet ?pack\b|mochila propulsora|impulsarme en marte/,
-      texto: "El jetpack está en el nivel 4, en Marte. Recogelo antes del cráter grande y mantené J o el botón JETPACK para cruzarlo; la carga se gasta mientras lo usás.",
-    },
-    {
-      coincide: /como (?:recupero|recargar|cargo).{0,24}oxigeno|oxigeno.{0,24}(?:orbe|recarga|nivel|juego|mision)|orbes? o2|estacion.{0,18}recarga/,
-      texto: "El oxígeno disminuye mientras avanzás. Tocá las orbes O₂ o pasá por la estación de recarga para recuperar oxígeno.",
-    },
-    {
-      coincide: /cuantas vidas (?:tengo|me quedan|hay en el nivel)|cuantos corazones (?:tengo|me quedan|hay)|tres corazones|3 corazones|vidas?.{0,18}nivel|corazones.{0,18}nivel|perder las vidas|cuantas veces puedo intentar/,
-      texto: "Tenés 3 corazones por nivel. Los láseres y caer en un cráter te hacen perder una vida. Al perder las 3, podés reintentar el nivel.",
-    },
-    {
-      coincide: /combustible.{0,22}(?:nave|nivel|juego|mision)|nave.{0,18}combustible|gasto.{0,18}combustible/,
-      texto: "Iniciar un nivel nuevo consume 15% de combustible. Al completar un nivel recuperás 10%, hasta un máximo de 100%. Repetir un nivel ya completado no vuelve a cobrarlo.",
-    },
-    {
-      coincide: /^como funciona el puntaje[?!. ]*$|como funciona el puntaje (?:del juego|en el juego)|puntajes? del juego|puntuacion del juego|puntos?.{0,20}(?:nivel|planeta|juego)|ranking.{0,20}(?:jugadores|juego)|tabla.{0,20}(?:puntuacion|puntaje|puntos)/,
-      texto: "Cada planeta completado por primera vez suma 100 puntos. Abrí 🏆 PUNTUACIONES en el mapa para ver la tabla de usuarios registrados.",
-    },
-    {
-      coincide: /gravedad.{0,24}(?:mercurio|venus|luna|tierra|marte|jupiter|saturno|personaje|salto|nivel|juego)|(?:mercurio|venus|luna|tierra|marte|jupiter|saturno).{0,20}gravedad/,
-      texto: "La gravedad cambia la altura y el tiempo del salto: Mercurio 3,70; Venus 8,90; Luna 1,62; Marte 3,71; Júpiter 24,79 y Saturno 10,44 m/s². En la Luna los saltos duran más y con E frenás la inercia.",
-    },
-    {
-      coincide: /energia|celdas? de energia|activar la salida|puerta de saturno/,
-      texto: "En Saturno recogé las 3 celdas, acercate al portal y presioná E o ACTIVAR BALIZA. Después avanzá hasta la salida.",
-    },
-    {
-      coincide: /cuantos niveles (?:tiene el juego|tiene la mision|hay en el juego|hay en el mapa)|que planetas (?:hay|visito) (?:en el juego|en la mision)|lista de planetas|orden de los planetas|que planeta (?:sigue|viene) despues|despues de (?:mercurio|venus|tierra|marte|jupiter|saturno) que planeta|desbloque.{0,18}(?:nivel|planeta)|pasar.{0,16}nivel|paso al nivel|terminar.{0,18}mision|como (?:completo|termino|paso|gano) (?:el )?(?:nivel|juego|mision)|objetivo.{0,18}(?:juego|nivel|mision)|llegar al portal|final del juego|planetas del juego|planetas de la mision/,
-      texto: "La misión tiene 6 destinos: Mercurio, Venus, Luna, Marte, Júpiter y Saturno. Partís desde la Tierra; al elegir el nivel 1 despegás hacia la misión de impulso en Mercurio. Completá cada misión para desbloquear la siguiente.",
-    },
-    {
-      coincide: /rayos? laser|obstaculos?.{0,18}(?:nivel|juego)|crater.{0,18}(?:nivel|juego)|caer.{0,18}(?:nivel|crater|juego)/,
-      texto: "Esquivá los rayos láser y los cráteres. Usá E o el botón de habilidad del nivel: impulso en Mercurio, pulso gravitatorio en Venus, freno inercial en la Luna y asistencia gravitatoria en Júpiter. En Marte, mantené el jetpack; en Saturno, reuní la energía y activá la baliza.",
-    },
-    {
-      coincide: /como (?:me )?registro|registrarme en el juego|crear (?:una )?cuenta|^como iniciar sesion[?!. ]*$|iniciar sesion en el juego|cuenta del juego|contrasena de mi cuenta/,
-      texto: "Podés crear una cuenta desde Registrarse en la pantalla de acceso. El puntaje de los niveles completados queda asociado al usuario.",
-    },
-    {
-      coincide: /que puedes hacer|que sabes (?:hacer|del juego)|temas|^hola[!,. ]*$|^buenas[!,. ]*$|^ayuda[!,. ]*$/,
-      texto: "¡Hola! Puedo ayudarte con controles, planetas, oxígeno, vidas, combustible, jetpack, energía, obstáculos, cuentas y puntuaciones del juego.",
-    },
+    { coincide: /^(hola|buenas|buen dia|buenas tardes|buenas noches|que tal)$/, texto: "¡Hola, comandante! Preguntame lo que quieras sobre Nuevo Hogar: controles, misiones, física, oxígeno, vidas, habilidades, cuentas o puntuaciones." },
+    { coincide: /^(que puedes hacer|que sabes hacer|que temas|ayuda|preguntas frecuentes)$/, texto: "Puedo explicar cómo jugar, los planetas y sus conceptos de física, habilidades, controles, obstáculos, oxígeno, vidas, combustible, jetpack, puntaje, registro, progreso y créditos. Escribí la pregunta con tus palabras." },
+    { coincide: /controles?|teclas?|como se juega|como me muevo|mover al personaje|como salto|saltar con|espacio para saltar|a y d/, texto: "En PC: A y D mueven al astronauta; W o ESPACIO permiten saltar. E activa la habilidad del planeta y P o PAUSAR detiene la partida. En Marte, mantené J para usar el jetpack después de recogerlo." },
+    { coincide: /celular|telefono|pantalla tactil|tablet|controles tactiles|como juego desde/, texto: "En celulares y tablets aparecen controles táctiles en la pantalla: flechas para moverte, SALTAR y el botón de habilidad. Tocá y mantené JETPACK mientras cruzás el cráter de Marte." },
+    { coincide: /pausar|pausa|reanudar|detener la partida|se congela el juego/, texto: "Tocá PAUSAR arriba del nivel o presioná P. La pausa detiene el movimiento, los obstáculos y el consumo de oxígeno. Usá CONTINUAR JUGANDO o P para volver." },
+    { coincide: /cuanta carga.*jet ?pack|carga.*jet ?pack|cuanto combustible me queda|mi combustible|combustible actual/, texto: () => {
+      const cargaJetpack = document.getElementById("valorJetpack")?.textContent;
+      const combustible = document.getElementById("valorCombustible")?.textContent;
+      return /jet ?pack/.test(preguntaNormalizada) ? (cargaJetpack ? "La carga actual del jetpack es: " + cargaJetpack + "." : "El indicador de carga del jetpack aparece en el nivel de Marte.") : (combustible ? "El combustible actual de la nave es " + combustible + "." : "El combustible de la nave aparece en la pantalla de selección de niveles.");
+    } },
+    { coincide: /objetivo|de que trata|historia|trama|nuevo hogar|mision exodo|que tengo que hacer/, texto: "La tripulación busca un planeta habitable para la humanidad. Superá seis misiones de plataformas 2D, usando habilidades relacionadas con la física de cada mundo, y llegá al portal final de Saturno." },
+    { coincide: /cuantos niveles|cuantas misiones|que planetas|lista de planetas|orden de los planetas|planetas del juego|que planeta sigue|que planeta viene|desbloquear|desbloqueo/, texto: "Hay seis misiones jugables, en este orden: Mercurio, Venus, Luna, Marte, Júpiter y Saturno. La Tierra es el punto de partida del mapa. Al completar una misión se habilita la siguiente." },
+    { coincide: /tierra|sol|mapa del sistema|seleccion de nivel|mapa de niveles/, texto: "En el mapa, la Tierra es el punto de partida: al seleccionar el nivel 1 despegás hacia Mercurio. Los demás planetas del sistema solar decoran el mapa; las seis misiones jugables van de Mercurio a Saturno." },
+    { coincide: /nivel 1|mision 1|planeta 1|mercurio|impulso|plataforma amarilla/, texto: "Nivel 1, Mercurio: usá E cuando estés en el suelo y cerca de una plataforma amarilla para impulsarte sobre los cráteres. La misión enseña cómo un impulso cambia el movimiento. Los tramos se acortaron para que sea más accesible." },
+    { coincide: /nivel 2|mision 2|planeta 2|venus|pulso gravitatorio|gravedad baja|reducir la gravedad/, texto: "Nivel 2, Venus: presioná E durante el salto para reducir la gravedad por un momento. Así podés permanecer más tiempo en el aire y alcanzar las plataformas entre nubes." },
+    { coincide: /nivel 3|mision 3|planeta 3|luna|freno inercial|inercia|frenar/, texto: "Nivel 3, la Luna: la gravedad es baja y el astronauta conserva su velocidad. Usá E para aplicar el freno inercial y soltá A o D para acomodar el aterrizaje en las plataformas móviles." },
+    { coincide: /nivel 4|mision 4|planeta 4|marte|jet ?pack|mochila propulsora/, texto: "Nivel 4, Marte: recogé la mochila propulsora antes del cráter ancho. Después mantené J en PC o el botón JETPACK en pantalla para elevarte y cruzarlo; la barra muestra la carga disponible." },
+    { coincide: /nivel 5|mision 5|planeta 5|jupiter|campo violeta|asistencia gravitatoria|resortera/, texto: "Nivel 5, Júpiter: la gravedad es muy alta. Acercate a un campo violeta y presioná E para activar la asistencia gravitatoria, que impulsa la trayectoria hacia delante." },
+    { coincide: /nivel 6|mision 6|planeta 6|saturno|celda|celdas|energia|baliza|portal/, texto: "Nivel 6, Saturno: reuní las tres celdas de energía, acercate a la baliza y presioná E. Cuando se active, avanzá hasta el portal para terminar la misión y ver los créditos del equipo." },
+    { coincide: /gravedad|m s|salto mas alto|altura del salto|fisica de los planetas/, texto: "La gravedad afecta cuánto subís y cuánto dura el salto: Mercurio 3,70; Venus 8,90; Luna 1,62; Marte 3,71; Júpiter 24,79 y Saturno 10,44 m/s². Cada nivel propone una mecánica distinta para explorar ese concepto." },
+    { coincide: /habilidad|tecla e|boton de habilidad|que hago con e|acciones especiales/, texto: "Las habilidades son: impulso en Mercurio (E cerca de la plataforma amarilla), pulso de gravedad en Venus (E en el aire), freno inercial en la Luna (E), jetpack en Marte (mantener J), asistencia gravitatoria en Júpiter (E junto al campo violeta) y baliza en Saturno (E junto al portal con las 3 celdas)." },
+    { coincide: /oxigeno|orbe|recargar|recarga|me queda de aire|sin aire|estacion de recarga/, texto: () => {
+      const actual = document.getElementById("valorOxigeno")?.textContent;
+      return "El oxígeno baja mientras avanzás. Recogé las orbes O₂ o cruzá la estación de recarga; ambas restauran oxígeno. " + (actual ? "Ahora el indicador marca " + actual + "." : "La barra de la parte superior muestra cuánto te queda.");
+    } },
+    { coincide: /cuantas vidas|cuantos corazones|vidas|corazones|intentos|me queda una vida/, texto: () => {
+      const actual = document.getElementById("corazones")?.getAttribute("aria-label");
+      return "Empezás cada nivel con tres corazones. Un láser o una caída en un cráter quita uno y te devuelve al inicio con oxígeno lleno. " + (actual ? "En esta partida te quedan " + actual + "." : "Si perdés los tres, podés reintentar sin volver a pagar el combustible de esa misión.");
+    } },
+    { coincide: /morir|me caigo|caer en un crater|perder una vida|perdi una vida|game over|reintentar|reiniciar el nivel/, texto: "Si tocás un láser o caés en un cráter, perdés un corazón y reaparecés al comienzo con oxígeno completo. Al perder los tres corazones, presioná REINTENTAR; no se cobra otra vez el combustible de ese nivel." },
+    { coincide: /combustible|nafta|energia de la nave|gasto de la nave/, texto: "Al comenzar una misión nueva se gastan 15 puntos de combustible. Completarla devuelve 10, hasta un máximo de 100. Volver a jugar un nivel ya completado no vuelve a cobrar el gasto." },
+    { coincide: /cuantos puntos tengo|mi puntaje|mi puntuacion|cuanto puntaje llevo/, texto: () => {
+      const estado = document.getElementById("estado")?.textContent || "";
+      const puntaje = estado.match(/([0-9]+) puntos/i)?.[1];
+      return puntaje ? "Tu puntaje actual es " + puntaje + "." : "El mapa muestra tu puntaje acumulado junto al nombre de usuario.";
+    } },
+    { coincide: /puntaje|puntos|ranking|tabla de puntuaciones|tabla de puntaje|clasificacion/, texto: "Completar por primera vez cada nivel suma 100 puntos. En el mapa abrí PUNTUACIONES para consultar el ranking de las cuentas registradas." },
+    { coincide: /registr|crear una cuenta|cuenta nueva|iniciar sesion|login|contrasena|invitado|sin cuenta|sin registrarse/, texto: "Desde la pantalla de acceso elegí REGISTRARSE para crear una cuenta. También podés entrar como invitado si esa opción está disponible; el progreso y las puntuaciones de una cuenta se asocian a su usuario." },
+    { coincide: /guardar|se guarda|progreso|base de datos|mariadb|mysql|xampp/, texto: "Con una cuenta, el juego guarda el avance y las puntuaciones en la base de datos del servidor. Para probarlo en XAMPP, iniciá Apache y MySQL; usá la dirección local de tu PC y, desde otro dispositivo en el mismo Wi‑Fi, la dirección IPv4 del equipo anfitrión." },
+    { coincide: /obstaculos|laser|rayo|caja|crater|plataforma|meteorito/, texto: "Esquivá los rayos láser, las cajas y los cráteres. Los láseres alternan entre encendidos y apagados: observá el haz antes de cruzar. Si caés en un cráter o tocás un rayo encendido, perdés un corazón." },
+    { coincide: /pasar de nivel|siguiente nivel|terminar un nivel|completar un nivel|ganar|victoria|que pasa cuando termino|final del juego/, texto: "Al tocar la salida se guarda el nivel, se suman los puntos y aparece una ventana. Desde ahí podés avanzar directamente a la misión desbloqueada o volver al mapa; al terminar Saturno aparecen los créditos del equipo." },
+    { coincide: /dificil|mas facil|facilidad|no puedo pasar|no puedo cruzar/, texto: "Se acortaron los cráteres, se separaron los objetos y se redujo el consumo de oxígeno para hacer las misiones más amables. Aprovechá las orbes, la recarga y la habilidad especial de cada planeta." },
+    { coincide: /creditos|equipo|candela|jeremias|juan|maldonado|lider del proyecto|diseno grafico|frontend|backend|programacion|quien hizo el juego/, texto: "El equipo es: Candela Veltri, líder del proyecto; Maldonado Luna, diseño gráfico; Jeremías Díaz, frontend; y Juan Carballo, backend. Al completar Saturno aparecen sus créditos con una explicación del aporte de cada integrante." },
+    { coincide: /no abre|no carga|pantalla en blanco|localhost|otra pc|otro dispositivo|misma red wifi|direccion ip|apache|servidor local/, texto: "Para abrirlo en la PC, iniciá Apache en XAMPP y entrá a http://localhost/Juego-Fisica/. Desde otro equipo de la misma red, usá la IPv4 de la PC anfitriona en lugar de localhost. Si no carga, verificá que ambos estén en el mismo Wi‑Fi y que Apache esté permitido en la red privada." },
+    { coincide: /aprendizaje|educativo|que aprendo|que ensena|contenido de fisica|para que sirve el juego/, texto: "El aprendizaje aparece en las acciones: impulso en Mercurio, gravedad en Venus, inercia en la Luna, propulsión con jetpack en Marte, asistencia gravitatoria en Júpiter y energía almacenada en Saturno." },
   ];
 
   function responder(pregunta) {
-    const normalizada = pregunta.toLocaleLowerCase("es").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const normalizada = pregunta.toLocaleLowerCase("es").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
     const respuesta = respuestas.find((item) => item.coincide.test(normalizada));
-    return respuesta?.texto || "Solo puedo ayudar con el juego Nuevo Hogar. Preguntame sobre controles, niveles, oxígeno, vidas, combustible, jetpack, energía o puntuaciones.";
+    if (!respuesta) return "Puedo responder preguntas sobre Nuevo Hogar. Probá con otra forma de preguntarme por controles, niveles, física, obstáculos, oxígeno, vidas, combustible, cuentas, puntajes o créditos.";
+    return typeof respuesta.texto === "function" ? respuesta.texto(normalizada) : respuesta.texto;
   }
 
   function mostrarPanel(abrir) {

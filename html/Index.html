@@ -8,10 +8,13 @@
     <title>Nuevo Hogar</title>
 
     <link rel="stylesheet" href="../css/Style.css">
+    <link rel="stylesheet" href="../css/Opciones.css">
     <link rel="stylesheet" href="../css/Asistente.css">
+
+    <script src="../Sonido.js"></script>
 </head>
 
-<body>
+<body data-musica="menu">
 
     <!-- MENÚ PRINCIPAL -->
 
@@ -31,7 +34,7 @@
         </button>
 
 
-        <button class="secundario" id="opciones">
+        <button class="secundario" id="opciones" aria-haspopup="dialog" aria-controls="menuOpciones" aria-expanded="false">
             OPCIONES
         </button>
 
@@ -55,81 +58,235 @@
          MENÚ DE OPCIONES
     ========================== -->
 
-    <div class="menu-opciones" id="menuOpciones">
+    <div class="menu-opciones" id="menuOpciones" role="dialog" aria-modal="true" aria-labelledby="tituloOpciones" aria-hidden="true">
 
-        <h2>OPCIONES</h2>
+        <div class="opciones-panel" id="panelOpciones" tabindex="-1">
+
+            <header class="opciones-cabecera">
+
+                <p class="opciones-ceja">CONFIGURACIÓN DE LA MISIÓN</p>
+
+                <h2 id="tituloOpciones">OPCIONES</h2>
+
+                <p class="opciones-bajada">
+                    Ajustá el audio, la pantalla y tus controles. Todo se guarda automáticamente.
+                </p>
+
+            </header>
 
 
-        <div class="opcion">
+            <div class="opciones-cuerpo">
 
-            <label for="volumen">
-                VOLUMEN
-            </label>
+                <div class="opciones-columnas">
 
-            <input
-                type="range"
-                id="volumen"
-                min="0"
-                max="100"
-                value="80"
-            >
+                    <section class="opciones-seccion" aria-labelledby="audioTitulo">
+
+                    <div class="seccion-cabecera">
+                        <h3 id="audioTitulo"><span aria-hidden="true">◉</span> AUDIO</h3>
+                        <span class="seccion-etiqueta">EN VIVO</span>
+                    </div>
+
+
+                    <div class="opcion opcion-slider">
+
+                        <div class="opcion-texto">
+                            <label for="volumen">Volumen general</label>
+                            <small>Nivel maestro de todo el sonido</small>
+                        </div>
+
+                        <div class="control-slider">
+                            <output id="valorVolumen" for="volumen">80%</output>
+                            <input type="range" id="volumen" min="0" max="100" step="1" value="80">
+                        </div>
+
+                    </div>
+
+
+                    <div class="opcion">
+
+                        <div class="opcion-texto">
+                            <label for="musica">Música de fondo</label>
+                            <small>Ambiente espacial generado en tiempo real</small>
+                        </div>
+
+                        <label class="interruptor">
+                            <input type="checkbox" id="musica" checked aria-label="Activar música de fondo">
+                            <span class="interruptor-pista"><span class="interruptor-bola"></span></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="opcion opcion-slider opcion-sub">
+
+                        <div class="opcion-texto">
+                            <label for="volumenMusica">Volumen de música</label>
+                        </div>
+
+                        <div class="control-slider">
+                            <output id="valorMusica" for="volumenMusica">55%</output>
+                            <input type="range" id="volumenMusica" min="0" max="100" step="1" value="55">
+                        </div>
+
+                    </div>
+
+
+                    <div class="opcion">
+
+                        <div class="opcion-texto">
+                            <label for="efectos">Efectos de sonido</label>
+                            <small>Saltos, láseres, orbes, caídas y habilidades</small>
+                        </div>
+
+                        <label class="interruptor">
+                            <input type="checkbox" id="efectos" checked aria-label="Activar efectos de sonido">
+                            <span class="interruptor-pista"><span class="interruptor-bola"></span></span>
+                        </label>
+
+                    </div>
+
+
+                    <div class="opcion opcion-slider opcion-sub">
+
+                        <div class="opcion-texto">
+                            <label for="volumenEfectos">Volumen de efectos</label>
+                        </div>
+
+                        <div class="control-slider">
+                            <output id="valorEfectos" for="volumenEfectos">90%</output>
+                            <input type="range" id="volumenEfectos" min="0" max="100" step="1" value="90">
+                        </div>
+
+                    </div>
+
+
+                    <button type="button" class="boton-prueba" id="probarSonido">
+                        <span aria-hidden="true">▶</span> PROBAR SONIDO
+                    </button>
+
+                </section>
+
+
+                <section class="opciones-seccion" aria-labelledby="pantallaTitulo">
+
+                    <div class="seccion-cabecera">
+                        <h3 id="pantallaTitulo"><span aria-hidden="true">▣</span> PANTALLA</h3>
+                    </div>
+
+
+                    <div class="opcion">
+
+                        <div class="opcion-texto">
+                            <span class="opcion-etiqueta">Pantalla completa</span>
+                            <small>Más espacio para pilotar la misión</small>
+                        </div>
+
+                        <button type="button" class="boton-opcion" id="pantallaCompleta" aria-pressed="false">ACTIVAR</button>
+
+                    </div>
+
+                </section>
+
+
+                <section class="opciones-seccion" aria-labelledby="partidaTitulo">
+
+                    <div class="seccion-cabecera">
+                        <h3 id="partidaTitulo"><span aria-hidden="true">✦</span> PARTIDA</h3>
+                    </div>
+
+
+                    <div class="estadisticas">
+
+                        <div class="estadistica">
+                            <span>Comandante</span>
+                            <strong id="statJugador">—</strong>
+                        </div>
+
+                        <div class="estadistica">
+                            <span>Nivel actual</span>
+                            <strong id="statNivel">1 / 6</strong>
+                        </div>
+
+                        <div class="estadistica">
+                            <span>Puntos</span>
+                            <strong id="statPuntos">0</strong>
+                        </div>
+
+                        <div class="estadistica">
+                            <span>Combustible</span>
+                            <strong id="statCombustible">100%</strong>
+                        </div>
+
+                    </div>
+
+
+                    <div class="progreso-opciones" aria-hidden="true">
+                        <span id="barraProgresoOpciones"></span>
+                    </div>
+
+                    <p class="resumen-completados" id="statCompletados">0 / 6 planetas completados</p>
+
+
+                    <div class="opcion opcion-reinicio">
+
+                        <div class="opcion-texto">
+                            <span class="opcion-etiqueta">Progreso guardado</span>
+                            <small>Reinicia el avance guardado de tu cuenta</small>
+                        </div>
+
+                        <button type="button" class="boton-opcion peligro" id="reiniciarProgreso">REINICIAR</button>
+
+                    </div>
+
+                </section>
+
+
+                <section class="opciones-seccion" aria-labelledby="controlesTitulo">
+
+                    <div class="seccion-cabecera">
+                        <h3 id="controlesTitulo"><span aria-hidden="true">⌨</span> CONTROLES</h3>
+                    </div>
+
+                    <div class="controles-lista">
+                        <p><span class="tecla">A</span><span class="tecla">D</span> Moverte</p>
+                        <p><span class="tecla">W</span><span class="tecla">ESPACIO</span> Saltar</p>
+                        <p><span class="tecla">E</span> Habilidad del planeta</p>
+                        <p><span class="tecla">J</span> Jetpack en Marte</p>
+                        <p><span class="tecla">P</span> Pausar</p>
+                    </div>
+
+                    <p class="opciones-nota">En celular o tablet, usá los botones táctiles.</p>
+
+                    <a class="opciones-enlace" href="Instrucciones.html">GUÍA COMPLETA →</a>
+
+                </section>
+
+
+                <p class="opciones-nota" id="estadoOpciones" aria-live="polite">
+                    Los cambios se guardan automáticamente.
+                </p>
+
+                </div>
+
+            </div>
+
+
+            <footer class="opciones-pie">
+
+                <span>Sonido sintetizado en tiempo real · v1.1</span>
+
+                <button type="button" class="cerrar-opciones" id="cerrarOpciones">
+                    CERRAR
+                </button>
+
+            </footer>
 
         </div>
-
-
-        <div class="opcion">
-
-            <label for="musica">
-                MÚSICA
-            </label>
-
-            <input
-                type="checkbox"
-                id="musica"
-                checked
-            >
-
-        </div>
-
-
-        <div class="opcion">
-
-            <label for="efectos">
-                EFECTOS
-            </label>
-
-            <input
-                type="checkbox"
-                id="efectos"
-                checked
-            >
-
-        </div>
-
-
-        <div class="controles">
-
-            <span>CONTROLES</span>
-
-            <p>
-                A / D → Mover
-            </p>
-
-            <p>
-                W / ESPACIO → Saltar
-            </p>
-            <p>J → Jetpack en Marte · En celular, usá los botones táctiles</p>
-
-        </div>
-
-
-        <button class="cerrar-opciones" id="cerrarOpciones">
-            CERRAR
-        </button>
 
     </div>
 
 
+    <script src="../base-datos.js"></script>
     <script src="../scrips.js"></script>
     <script src="../Asistente.js"></script>
 

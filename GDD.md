@@ -1,11 +1,11 @@
 # GDD — Nuevo Hogar: Misión espacial
 
-> Documento de diseño del videojuego. Completar los nombres del equipo, roles y fechas antes de la entrega final.
+> Documento de diseño del videojuego. El equipo y sus roles están identificados; el cronograma se actualiza con las fechas y avances de cada etapa.
 
 ## 1. Datos del proyecto
 
 - **Nombre:** Nuevo Hogar: Misión espacial.
-- **Integrantes:** [completar con nombres reales].
+- **Integrantes y roles:** Candela Veltri (líder del proyecto), Maldonado Luna (diseño gráfico), Jeremías Díaz (frontend) y Juan Carballo (backend).
 - **Género:** plataformas y aventura educativa 2D.
 - **Público destinatario:** estudiantes de nivel secundario que estén trabajando conceptos introductorios de física.
 - **Plataformas:** navegador de PC, tablet y celular dentro de una misma red Wi-Fi.
@@ -27,12 +27,13 @@ En el año 2142, la Tierra se volvió inhabitable. La tripulación de la Operaci
 - Desplazamiento lateral, salto, colisiones, plataformas y caída por cráteres.
 - Aceleración vertical ajustada según la gravedad de cada planeta.
 - Tecla E y botón contextual para activar el impulso de Mercurio, el pulso gravitatorio de Venus, el freno inercial lunar, la asistencia gravitatoria de Júpiter y la baliza de Saturno.
-- Cráteres de Mercurio más anchos que un salto normal; las plataformas elásticas deben activarse con E.
+- Cruces de cráteres ajustados por planeta y plataformas de impulso con E en Mercurio; el tamaño de los tramos permite aprender la habilidad sin exigir saltos extremos.
 - Baja gravedad lunar, conservación de velocidad y plataformas móviles que requieren un frenado manual con E.
 - Jetpack de uso limitado y cráter obligatorio en Marte.
 - Asistencia de los campos gravitatorios de Júpiter activada con E.
 - Recolección de tres celdas y activación manual de la baliza en Saturno.
 - Oxígeno decreciente con orbes y estaciones de recarga.
+- La dificultad se suaviza con tramos más cortos, más tiempo para recargar oxígeno y separación entre objetos, plataformas, cajas y peligros.
 - Tres vidas por nivel; rayos láser y caídas hacen perder una vida.
 - Un nivel nuevo consume 15% de combustible; completarlo devuelve 10%, hasta 100%.
 - Cada planeta completado por primera vez suma 100 puntos a la tabla de cuentas registradas.
@@ -52,7 +53,8 @@ Cada uno de los seis niveles da 100 puntos al completarse por primera vez. Repet
 ## 7. Victoria y derrota
 
 - **Victoria de nivel:** llegar al portal. En Saturno, primero reuní las tres celdas y activá la baliza con E junto al portal.
-- **Victoria final:** completar Saturno y llegar al hogar nuevo.
+- **Avance entre niveles:** al completar una misión aparece un mensaje con opciones para entrar directamente a la siguiente misión o volver al mapa.
+- **Victoria final:** completar Saturno y llegar al hogar nuevo; la pantalla final presenta los créditos del equipo y explica sus aportes.
 - **Derrota temporal:** perder los tres corazones del nivel. Se puede reintentar desde el inicio del nivel.
 - **Riesgo de recursos:** si el oxígeno llega a cero, el traje devuelve al astronauta al inicio y se pierde una vida.
 
@@ -156,12 +158,10 @@ P5.js crea el canvas y ejecuta el ciclo `setup/draw`. El portal administra naveg
 
 ### Roles
 
-- Coordinación: [nombre].
-- Diseño gráfico e interfaz: [nombre].
-- Programación del juego: [nombre].
-- Portal web y accesibilidad: [nombre].
-- Base de datos y API: [nombre].
-- GitHub y documentación: [nombre].
+- **Liderazgo y coordinación:** Candela Veltri organizó objetivos, tareas, planificación e integración del equipo.
+- **Diseño gráfico:** Maldonado Luna creó la identidad visual y los elementos gráficos de pantallas, planetas y objetos.
+- **Frontend:** Jeremías Díaz desarrolló las páginas, la navegación, la interfaz adaptable y su integración con el juego.
+- **Backend:** Juan Carballo implementó el servidor, la base de datos y el manejo de cuentas, progreso y puntuaciones.
 
 ## 15. Mejoras futuras
 

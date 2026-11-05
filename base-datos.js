@@ -85,6 +85,20 @@
     if (progreso.combustible == null || !Number.isFinite(Number(progreso.combustible))) progreso.combustible = 100;
     return progreso;
   }
+  function reset(name) {
+    const db = read(), player = ensureSessionPlayer(db, name);
+    if (!player) return false;
+    player.progreso = {
+      nivel: 1,
+      completados: [],
+      puntuacion: 0,
+      combustible: 100,
+      nivelActivo: null,
+      actualizado: new Date().toISOString(),
+    };
+    write(db);
+    return true;
+  }
   function mergeServerProgress(name, remote) {
     const db = read();
     const player = ensureSessionPlayer(db, name);
@@ -99,5 +113,5 @@
     write(db);
     return progress(name);
   }
-  window.JuegoDB = { read, find, create, startLevel, complete, progress, mergeServerProgress };
+  window.JuegoDB = { read, find, create, startLevel, complete, progress, mergeServerProgress, reset };
 })();

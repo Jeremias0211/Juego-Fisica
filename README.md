@@ -59,6 +59,7 @@ Node muestra las direcciones locales de acceso al iniciarse y crea `database/nue
 - **W / espacio**: saltar.
 - **E** o el botón de habilidad: activar la mecánica especial de Mercurio, Venus, Luna, Júpiter y Saturno.
 - En Marte, mantené **J** o el botón **JETPACK** para usar el jetpack. En pantallas táctiles aparecen botones para moverse, saltar y activar las habilidades.
+- Al alcanzar la salida aparece un mensaje para avanzar directamente a la misión desbloqueada o regresar al mapa. Al completar Saturno se muestran los créditos del equipo.
 
 El oxígeno se consume durante cada nivel. Las orbes y estaciones lo recargan. Hay tres vidas por nivel; láseres y cráteres pueden hacer perder una. Iniciar un planeta nuevo cuesta 15% de combustible y completarlo devuelve 10%.
 
@@ -73,4 +74,4 @@ El oxígeno se consume durante cada nivel. Las orbes y estaciones lo recargan. H
 
 ## Documentación del proyecto
 
-El [GDD](GDD.md) describe objetivo pedagógico, mecánicas, pantallas, arquitectura, base de datos, roles y planificación. Antes de la presentación, completen allí los nombres reales del equipo y las fechas del cronograma; también están señalados en la pantalla de [Créditos](html/Creditos.html).
+El [GDD](GDD.md) describe objetivo pedagógico, mecánicas, pantallas, arquitectura, base de datos, roles y planificación. El cronograma conserva campos de fecha y avance para que el equipo los actualice; los créditos y aportes se muestran en [Créditos](html/Creditos.html) y al completar la misión final.
