@@ -14,7 +14,7 @@ Esta guía explica cómo está armado el proyecto, qué hace cada archivo y cóm
 4. [Estructura de carpetas](#4-estructura-de-carpetas)
 5. [Arquitectura general](#5-arquitectura-general)
 6. [Motor del juego: `js/juego/`](#6-motor-del-juego-jsjuego)
-7. [Scripts del portal](#7-scripts-del-portal)
+7. [Scripts del portal y módulos compartidos](#7-scripts-del-portal-y-módulos-compartidos)
 8. [Páginas HTML](#8-páginas-html)
 9. [Hojas de estilo](#9-hojas-de-estilo)
 10. [Backend PHP y MySQL](#10-backend-php-y-mysql)
@@ -70,6 +70,8 @@ Historia.html  →  Niveles.html  →  Juego.html?nivel=1..6
 - **Juego:** canvas de p5, HUD, controles táctiles y modales de pausa/completado.
 - **Final / Créditos:** cierre de la historia y créditos del equipo.
 
+> En GitHub Pages la entrada es `index.html` (raíz), que ofrece jugar como invitado, iniciar sesión con una cuenta local o crear una. Después de esa portada, el flujo es el mismo. Con PHP, en cambio, `index.php` redirige directamente a `html/Login.html`.
+
 ---
 
 ## 3. Tecnologías
@@ -78,12 +80,13 @@ Historia.html  →  Niveles.html  →  Juego.html?nivel=1..6
 |---|---|
 | Estructura | HTML5 |
 | Estilos | CSS3 (archivos separados por pantalla) |
-| Lógica del portal | JavaScript clásico |
+| Lógica del portal | JavaScript con módulos ES |
 | Motor del juego | JavaScript con módulos ES + P5.js 2.3.3 |
 | Audio | Web Audio API (sonidos sintetizados, sin archivos de audio) |
 | Backend oficial | PHP 8.1+ con PDO |
 | Base de datos oficial | MySQL o MariaDB |
 | Backend alternativo | Node.js con `node:sqlite` |
+| Demo estática | GitHub Pages + `localStorage` |
 | Control de versiones | Git y GitHub |
 
 El juego usa `vendor/p5.min.js` de forma local para que funcione en una red sin internet. No se explica línea por línea porque es una biblioteca externa minificada.
@@ -94,12 +97,14 @@ El juego usa `vendor/p5.min.js` de forma local para que funcione en una red sin 
 
 ```text
 Juego-Fisica/
-├── index.php                     Redirige al login
+├── index.php                     Redirige al login cuando se sirve con PHP
+├── index.html                    Portada de la demo estática (GitHub Pages)
+├── .nojekyll                     Evita el procesamiento de Jekyll en Pages
 ├── README.md                     Guía rápida de instalación y uso
 ├── DOCUMENTACION.md              Este documento
 ├── GDD.md                        Documento de diseño del juego
 ├── package.json                  Dependencia de p5 para npm
-├── server.js                     Servidor alternativo Node + SQLite
+├── server.js                     Entrada del servidor Node; delega en servidor/
 │
 ├── html/
 │   ├── Login.html                Inicio de sesión
@@ -112,22 +117,63 @@ Juego-Fisica/
 │   ├── Creditos.html             Créditos del equipo
 │   └── Final.html                Cierre de la misión
 │
-├── js/juego/                     Motor del juego modular
-│   ├── main.js                   Arranque, sesión, HUD y callbacks
-│   ├── misiones.js               Datos de los seis planetas
-│   ├── geometria.js              Ajuste y separación de objetos
-│   ├── audio.js                  Puente hacia Sonido.js
-│   └── escena/
-│       ├── escena.js             Une estado, controles, física y dibujo
-│       ├── estado.js             Estado de la partida
-│       ├── controles.js          Teclado, táctil, habilidades y pausa
-│       ├── actualizar.js         Simulación y colisiones
-│       └── dibujo/
-│           ├── vista.js          Canvas, DPR, zoom y coordenadas
-│           ├── composicion.js    Fotograma completo y cámara
-│           ├── escenario.js      Fondo, terreno y plataformas
-│           ├── objetos.js        Láseres, orbes, celdas, portal
-│           └── jugador.js        Dibujo del astronauta
+├── js/
+│   ├── juego/                    Motor del juego modular
+│   │   ├── main.js               Arranque, sesión, HUD y callbacks
+│   │   ├── misiones.js           Datos de los seis planetas
+│   │   ├── geometria.js          Ajuste y separación de objetos
+│   │   ├── audio.js              Puente hacia js/audio/
+│   │   └── escena/
+│   │       ├── escena.js         Une estado, controles, física y dibujo
+│   │       ├── estado.js         Estado de la partida
+│   │       ├── controles.js      Teclado, táctil, habilidades y pausa
+│   │       ├── actualizar.js     Simulación y colisiones
+│   │       └── dibujo/
+│   │           ├── vista.js      Canvas, DPR, zoom y coordenadas
+│   │           ├── composicion.js Fotograma completo y cámara
+│   │           ├── escenario.js  Fondo, terreno y plataformas
+│   │           ├── objetos.js    Láseres, orbes, celdas y portal
+│   │           └── jugador.js    Dibujo del astronauta
+│   │
+│   ├── audio/                    Motor de audio modular
+│   │   ├── ajustes.js            Preferencias y clave nuevoHogarAudio
+│   │   ├── contexto.js           AudioContext y buses maestro/música/efectos
+│   │   ├── sintesis.js           Tonos, ruido y ráfagas filtradas
+│   │   ├── efectos.js            Catálogo de efectos y reproducción
+│   │   ├── musica.js             Música procedural por compases
+│   │   ├── jetpack.js            Ruido continuo del jetpack
+│   │   └── index.js              API pública SonidoJuego
+│   │
+│   ├── portal/                   Portal, sesión y pantallas
+│   │   ├── menu.js               Entrada del menú y de Historia
+│   │   ├── navegacion.js         Botones principales del menú
+│   │   ├── sesion.js             Lectura, exigencia y cierre de sesión
+│   │   ├── salida.js             Confirmación y cierre de sesión
+│   │   ├── login.js              Formulario de ingreso y modo invitado
+│   │   ├── registro.js           Formulario de creación de cuenta
+│   │   ├── entorno.js            Detecta hosting estático sin PHP
+│   │   ├── credenciales.js       Hash local para la demo de Pages
+│   │   ├── opciones/
+│   │   │   ├── audio.js          Controles de audio
+│   │   │   ├── estadisticas.js   Estadísticas del jugador
+│   │   │   ├── estado.js         Mensajes de estado del panel
+│   │   │   ├── modal.js          Apertura, cierre y foco del modal
+│   │   │   ├── pantalla-completa.js
+│   │   │   └── reinicio.js       Reinicio del progreso
+│   │   └── niveles/
+│   │       ├── index.js          Entrada del mapa de niveles
+│   │       ├── briefing.js       Informe de cada planeta
+│   │       └── ranking.js        Tabla de puntuaciones
+│   │
+│   ├── datos/                    Persistencia local
+│   │   ├── index.js              API JuegoDB y compatibilidad con window
+│   │   ├── almacen.js            Lectura/escritura de nuevoHogarDB
+│   │   └── progreso.js           Combustible, niveles y puntuación
+│   │
+│   └── asistente/                Ayuda flotante
+│       ├── index.js              Entrada del asistente
+│       ├── panel.js              Interfaz, foco y sugerencias
+│       └── respuestas.js         Base de conocimiento
 │
 ├── css/
 │   ├── menu/                     Menú principal
@@ -168,44 +214,52 @@ Juego-Fisica/
 │   ├── nuevo_hogar.sql           Esquema MySQL y planetas iniciales
 │   └── nuevo_hogar.sqlite        Base local del servidor Node (generada)
 │
-├── img/                          Fondos y logo
-├── vendor/                       P5.js local y su licencia
+├── servidor/                     Backend Node alternativo modular
+│   ├── index.js                  Servidor HTTP, rutas y arranque
+│   ├── config.js                 Puerto, host, rutas y tipos MIME
+│   ├── base-datos.js             SQLite y creación del esquema
+│   ├── seguridad.js              scrypt, comparación y sesiones
+│   ├── respuestas.js             JSON y lectura del cuerpo
+│   ├── estaticos.js              Archivos estáticos y path traversal
+│   └── rutas/
+│       ├── autenticacion.js      Registro e inicio de sesión
+│       ├── progreso.js           Progreso, reinicio y cierre
+│       └── puntuaciones.js       Ranking y guardado de puntajes
 │
-├── Sonido.js                     Motor de audio global
-├── scrips.js                     Menú principal y opciones
-├── Niveles.js                    Mapa, informes y ranking
-├── base-datos.js                 Progreso local en localStorage
-├── Login.js                      Lógica del formulario de login
-├── Registro.js                   Lógica del formulario de registro
-└── Asistente.js                  Asistente de ayuda flotante
+├── img/                          Fondos y logo
+└── vendor/                       P5.js local y su licencia
 ```
 
-> Los archivos `Juego.js` y los CSS monolíticos anteriores (`Style.css`, `Opciones.css`, `Login.css`, `Registro.css`, `Historia.css`) ya no existen. Fueron reemplazados por los módulos y las carpetas de esta estructura.
+> Los archivos raíz `Sonido.js`, `scrips.js`, `Niveles.js`, `base-datos.js`, `Login.js`, `Registro.js` y `Asistente.js` ya no existen en esta versión: su contenido se distribuyó en `js/audio/`, `js/portal/`, `js/datos/` y `js/asistente/`. `Juego.js` también se reemplazó por `js/juego/`. Los CSS monolíticos anteriores (`Style.css`, `Opciones.css`, `Login.css`, `Registro.css`, `Historia.css`) se dividieron por pantalla.
 
 ---
 
 ## 5. Arquitectura general
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│ Navegador                                                   │
-│                                                             │
-│  HTML  ──>  CSS por pantalla                                │
-│    │                                                        │
-│    ├── scrips.js / Niveles.js / Login.js / Registro.js      │
-│    ├── base-datos.js  ──> localStorage                      │
-│    ├── Sonido.js      ──> Web Audio API                     │
-│    └── js/juego/main.js ──> módulos de escena y dibujo      │
-│                                                             │
-└───────────────┬─────────────────────────────────────────────┘
-                │ fetch HTTP + JSON
-                ▼
-┌─────────────────────────────────────────────────────────────┐
-│ api/*.php  ──> PDO  ──> MySQL / MariaDB                     │
-└─────────────────────────────────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────┐
+│ Navegador                                                        │
+│                                                                  │
+│  HTML  ──>  CSS por pantalla                                     │
+│    │                                                             │
+│    ├── js/portal/  ──> menú, sesión, login, registro, opciones   │
+│    ├── js/datos/   ──> localStorage (nuevoHogarDB)              │
+│    ├── js/audio/   ──> Web Audio API                            │
+│    ├── js/asistente/ ──> ayuda flotante                         │
+│    └── js/juego/   ──> motor, escena, física y dibujo           │
+│                                                                  │
+└────────────────┬─────────────────────────────────────────────────┘
+                 │ fetch HTTP + JSON
+                 ▼
+┌──────────────────────────────────────────────────────────────────┐
+│ api/*.php  ──> PDO  ──> MySQL / MariaDB                          │
+└──────────────────────────────────────────────────────────────────┘
 
 Alternativa local:
-server.js ──> node:http + node:sqlite + scrypt
+server.js ──> servidor/ ──> node:http + node:sqlite + scrypt
+
+Demo sin backend:
+GitHub Pages (archivos estáticos) ──> localStorage
 ```
 
 ### Por qué está dividido así
@@ -214,9 +268,21 @@ server.js ──> node:http + node:sqlite + scrypt
 - **Física separada de la presentación:** `actualizar.js` mueve y colisiona; la carpeta `dibujo/` solo pinta.
 - **Estado centralizado:** `estado.js` guarda todo lo que cambia durante una partida.
 - **Entrada separada:** `controles.js` traduce teclado y pantalla táctil a acciones.
+- **Portal por responsabilidades:** `js/portal/` separa sesión, formularios, opciones y niveles.
+- **Persistencia aislada:** `js/datos/` concentra el acceso a `localStorage`; el resto del código no lo toca directamente.
+- **Audio aislado:** `js/audio/` expone una API (`SonidoJuego`) y esconde el grafo de Web Audio.
 - **Arranque delgado:** `main.js` conecta la sesión, el HUD y p5 con la escena.
 
-Esto permite cambiar, por ejemplo, el dibujo del jugador sin tocar la física, o ajustar la gravedad de un planeta sin tocar los controles.
+Esto permite cambiar, por ejemplo, el dibujo del jugador sin tocar la física, ajustar la gravedad de un planeta sin tocar los controles, o reemplazar el almacenamiento local sin tocar las pantallas.
+
+### Dos modos de ejecución
+
+| Modo | Dónde | Cuentas | Ranking | Backend |
+|---|---|---|---|---|
+| Completo | XAMPP (PHP + MySQL) o Node | Compartidas en el servidor | Global | Sí |
+| Demo | GitHub Pages | Locales al navegador | Local | No |
+
+`js/portal/entorno.js` detecta si la página se sirve como sitio estático (`github.io`, `pages.dev`, `netlify.app`, `vercel.app` o `file://`). En ese caso, `login.js`, `registro.js`, `ranking.js`, `reinicio.js`, `main.js` y `salida.js` evitan llamar a las APIs PHP y usan `localStorage`. En XAMPP la detección es falsa y todo sigue usando el backend real.
 
 ---
 
@@ -225,12 +291,13 @@ Esto permite cambiar, por ejemplo, el dibujo del jugador sin tocar la física, o
 El juego se carga únicamente desde `html/Juego.html`:
 
 ```html
-<script src="../base-datos.js"></script>
+<script type="module" src="../js/audio/index.js"></script>
+<!-- ... HUD de la página ... -->
 <script src="../vendor/p5.min.js"></script>
 <script type="module" src="../js/juego/main.js"></script>
 ```
 
-`base-datos.js` y `p5.min.js` son scripts clásicos; el motor del juego es un módulo ES. Por eso `main.js` puede usar `import` y los demás archivos se cargan automáticamente.
+`p5.min.js` es un script clásico que define `window.p5`; el audio y el motor del juego son módulos ES. Por eso `main.js` puede usar `import` y los demás archivos se cargan automáticamente. Los módulos del portal y del juego ya no dependen de `base-datos.js`: la persistencia se importa desde `js/datos/index.js`.
 
 ### 6.1 `main.js` — arranque de la pantalla de juego
 
@@ -239,7 +306,7 @@ El juego se carga únicamente desde `html/Juego.html`:
 Bloques principales:
 
 1. **Verificación de sesión.** Lee `jugadorActual`, `sesionActiva` y `modoInvitado`. Si no hay sesión ni invitado, redirige a `Login.html`.
-2. **Sincronización con el servidor.** Si no es invitado, consulta `../api/progreso.php` y combina el avance remoto con `DB.mergeServerProgress`. Si el servidor falla, sigue con el progreso local.
+2. **Sincronización con el servidor.** Si no es invitado y el entorno no es estático, consulta `../api/progreso.php` y combina el avance remoto con `DB.mergeServerProgress`. Si el servidor falla o se trata de GitHub Pages, sigue con el progreso local.
 3. **Selección de misión.** Toma `?nivel=` de la URL, lo limita entre 1 y 6 y obtiene el planeta de `MISIONES`.
 4. **Ajuste del recorrido.** Llama a `acortarMision` con un factor por nivel y a `separarObjetosMision` para que los objetos no se superpongan.
 5. **Control de acceso.** Si el nivel está bloqueado, vuelve al mapa.
@@ -313,7 +380,7 @@ Archivo corto con dos funciones:
 - **`sfx(nombre, opciones)`** llama a `window.SonidoJuego.play(...)` dentro de `try/catch`. Si el navegador bloquea el audio, el juego sigue funcionando.
 - **`audioJuego()`** devuelve `window.SonidoJuego` para operaciones más complejas (música, jetpack, pausa).
 
-Así el motor del juego no depende directamente de la implementación de `Sonido.js`.
+Así el motor del juego no depende directamente de la implementación de `js/audio/`.
 
 ### 6.5 `escena/escena.js` — composición de la escena
 
@@ -492,118 +559,153 @@ No calcula física: solo lee `state.player`, `state.walkTime` y `state.jetpackFu
 
 ---
 
-## 7. Scripts del portal
+## 7. Scripts del portal y módulos compartidos
 
-### 7.1 `Sonido.js` — motor de audio
+El portal ya no usa scripts globales en la raíz. Cada pantalla carga un módulo de entrada que importa solo lo que necesita.
+
+### 7.1 `js/audio/` — motor de audio modular
 
 **Responsabilidad:** generar música y efectos en tiempo real con Web Audio API, sin archivos de audio.
 
-Se mantuvo como un archivo cohesivo de 559 líneas porque todos sus bloques comparten el mismo contexto de audio y dividirlo obligaría a exponer muchos estados internos. Aun así, está organizado por secciones:
+| Archivo | Contenido |
+|---|---|
+| `ajustes.js` | Clave `nuevoHogarAudio`, valores por defecto, lectura segura, `limitar`, `obtenerAjustes` y `cambiarAjustes`. |
+| `contexto.js` | `AudioContext`, buses maestro/música/efectos y `aplicarVolumen`. |
+| `sintesis.js` | Buffer de ruido compartido, `programarTono` y `programarRuido`. |
+| `efectos.js` | Catálogo `reproducir(nombre)` y `probarSonido()`. |
+| `musica.js` | Música procedural por compases; detecta la pantalla con `escenaDelDocumento`. |
+| `jetpack.js` | Ruido continuo mientras el jugador usa el jetpack. |
+| `index.js` | API pública: `play`, `preview`, `startMusic`, `stopMusic`, `setJetpack`, `getSettings`, `updateSettings`, `ensure`, `estado`. |
 
-- **Configuración:** `STORAGE_KEY = "nuevoHogarAudio"`, valores por defecto y `leerAjustes()`.
-- **Grafo de audio:** `crearContexto()` arma `master → compresor → destination`, con buses separados para música y efectos.
-- **Volumen:** `aplicarVolumen()` convierte los porcentajes en ganancias suaves.
-- **Síntesis:** `programarTono()` crea osciladores con envolvente; `programarRuido()` crea ruido filtrado.
-- **Efectos:** `reproducir(nombre)` contiene el “switch” de sonidos (`jump`, `land`, `orb`, `laser`, `win`, `gameover`, etc.).
-- **Música:** `programarCompas()` genera colchón de cuerdas, bajo, arpegio y pulso; `programarCompases()` programa los siguientes compases; `iniciarMusica`/`detenerMusica` controlan la sesión.
-- **Jetpack:** `iniciarJetpack`/`detenerJetpack` crean un bucle de ruido filtrado.
-- **Ajustes:** `actualizarAjustes`, `obtenerAjustes`, `probarSonido`.
-- **Autoplay:** `primerGesto()` inicia el audio en el primer clic o tecla, como exigen los navegadores.
+`index.js` también resuelve las reglas del navegador:
+
+- **Autoplay:** `primerGesto()` crea el contexto en el primer clic o tecla.
+- **Clics:** reproduce el sonido `click` en botones y enlaces (salvo `data-sin-sonido`).
 - **Visibilidad:** suspende el contexto cuando la pestaña se oculta y lo reanuda al volver.
-- **API pública:** `window.SonidoJuego = { play, preview, startMusic, stopMusic, setJetpack, getSettings, updateSettings, ensure, estado }`.
+- **Salida:** detiene música y jetpack en `pagehide`.
+- **Compatibilidad:** expone `window.SonidoJuego` y exporta las mismas funciones como módulo.
 
-### 7.2 `scrips.js` — menú principal y opciones
+`js/juego/audio.js` es un puente mínimo sobre esta API para el motor del juego.
 
-**Responsabilidad:** la pantalla `Index.html`.
+### 7.2 `js/portal/menu.js` y `navegacion.js` — menú principal
 
-Bloques:
+`menu.js` es la entrada de `Index.html` y `Historia.html`. Exige sesión y conecta:
 
-- **Sesión:** si no hay sesión ni invitado, redirige a `Login.html`.
-- **Navegación:** “INICIAR LA MISIÓN” va a `Historia.html`; instrucciones, créditos y salir.
-- **Audio:** enlaza sliders y switches con `SonidoJuego.getSettings()` y `updateSettings()`; `pintarAjustes()` refleja los valores guardados; “PROBAR SONIDO” reproduce una muestra.
-- **Pantalla completa:** `alternarPantallaCompleta()` usa la API estándar y prefijos `webkit`/`ms`; actualiza el texto “ACTIVAR”/“SALIR”.
-- **Estadísticas:** `progresoLocal()` lee `window.JuegoDB`; `actualizarEstadisticas()` pinta jugador, nivel, puntos, combustible, planetas completados y barra.
-- **Reiniciar progreso:** pide confirmación, llama a `../api/reiniciar-progreso.php` si no es invitado y después a `DB.reset`. Actualiza estadísticas y avisa.
-- **Modal de opciones:** `abrirOpciones()` y `cerrarModal()` controlan clase `activo`, `aria-hidden`, foco anterior y bloqueo del scroll.
-- **Accesibilidad:** trampa de foco con `Tab`, cierre con `Escape` y clic en el fondo.
-- **Salir:** confirma, cierra sesión en el servidor si corresponde y limpia las claves de `localStorage`.
+- `navegacion.js`: botones “comenzar”, “instrucciones” y “créditos”.
+- `opciones/audio.js`: sliders y switches de audio.
+- `opciones/pantalla-completa.js`: botón de pantalla completa.
+- `opciones/reinicio.js`: reinicio del progreso.
+- `opciones/modal.js`: apertura, cierre y accesibilidad del panel.
+- `salida.js`: cierre de sesión.
 
-### 7.3 `Niveles.js` — mapa, informes y ranking
+### 7.3 `js/portal/sesion.js` y `salida.js` — sesión
 
-**Responsabilidad:** la pantalla `Niveles.html`.
+`sesion.js` centraliza las claves `sesionActiva`, `modoInvitado` y `jugadorActual`:
 
-- **Sesión y sincronización:** igual que el juego, consulta `progreso.php` y combina el avance.
-- **Estado de los botones:** recorre `.nivel[data-nivel]`, marca `desbloqueado`/`bloqueado`, cambia el candado por ✅/🚀/🔒 y arma el `aria-label`.
-- **Informe de misión:** `abrirBriefing()` lee los `data-*` del botón (planeta, concepto, gravedad, objetivo, información) y llena el modal. Si está bloqueado, oculta “INICIAR MISIÓN”; si está completado, permite repetir.
-- **Foco:** `mantenerFocoBriefing()` encierra el tabulador dentro del informe; `cerrarBriefing()` devuelve el foco al botón.
-- **Inicio:** el botón lleva a `Juego.html?nivel=N`.
-- **Ranking:** `sincronizarPuntajes()` reenvía los niveles completados; `cargarRanking()` consulta `puntuaciones.php`, crea las filas con `textContent` (sin inyectar HTML) y resalta al jugador actual.
-- **Teclado:** `Escape` cierra briefing o ranking.
+| Función | Qué hace |
+|---|---|
+| `leerSesion()` | Devuelve las tres claves como objeto. |
+| `haySesion(sesion)` | Indica si hay cuenta o modo invitado. |
+| `requerirSesion(destino)` | Redirige al login si no hay sesión y devuelve la sesión si existe. |
+| `cerrarSesionLocal()` | Borra las tres claves de `localStorage`. |
 
-### 7.4 `base-datos.js` — progreso local
+`salida.js` pide confirmación, llama a `cerrar-sesion.php` solo si hay sesión real y el entorno no es estático, limpia las claves y vuelve a `Login.html`.
 
-**Responsabilidad:** mantener el avance en `localStorage` bajo la clave `nuevoHogarDB`.
+### 7.4 `js/portal/login.js` y `registro.js` — acceso
 
-Expone `window.JuegoDB` con:
+Ambos formularios tienen dos caminos:
+
+1. **Con backend:** `POST ../api/iniciar-sesion.php` o `POST ../api/registrar.php`.
+2. **Demo estática:** si `esEntornoEstatico()` es verdadero, usan `credenciales.js` y `js/datos/`.
+
+Detalles importantes:
+
+- La respuesta del servidor debe ser JSON; si no lo es, el formulario cae al modo local.
+- Un error de credenciales del servidor **no** cae al modo local: se muestra tal cual.
+- El registro local guarda un hash SHA-256 con sal en `nuevoHogarCredenciales`; nunca guarda la contraseña.
+- El modo invitado borra `sesionActiva`, activa `modoInvitado` y usa el nombre `Invitado`.
+
+### 7.5 `js/portal/entorno.js` y `credenciales.js` — soporte de la demo
+
+- `entorno.js` devuelve `true` en `file://`, `github.io`, `githubusercontent.com`, `pages.dev`, `netlify.app` y `vercel.app`.
+- `credenciales.js` implementa `guardarCredencial` y `verificarCredencial` con Web Crypto. Si el navegador no ofrece `crypto.subtle`, usa un hash FNV de respaldo.
+
+Este modo es solo para la demo pública: las cuentas no se comparten entre dispositivos y no hay ranking global.
+
+### 7.6 `js/portal/opciones/` — panel de opciones
+
+| Archivo | Contenido |
+|---|---|
+| `audio.js` | Lee y guarda volumen general, música y efectos; pinta sliders y prueba sonido. |
+| `estadisticas.js` | Jugador, nivel, puntos, combustible, planetas completados y barra de avance. |
+| `estado.js` | Mensajes de éxito, error o información en `#estadoOpciones`. |
+| `modal.js` | Abre y cierra el modal, guarda el foco anterior, bloquea el scroll y atrapa `Tab`. |
+| `pantalla-completa.js` | Alterna pantalla completa y actualiza el botón. |
+| `reinicio.js` | Confirma, reinicia en el servidor si corresponde y después resetea `JuegoDB`. |
+
+La sección **PANTALLA** contiene únicamente **Pantalla completa**.
+
+### 7.7 `js/portal/niveles/` — mapa, informes y ranking
+
+| Archivo | Contenido |
+|---|---|
+| `index.js` | Entrada de `Niveles.html`: exige sesión, sincroniza progreso, habilita botones y conecta briefing/ranking. |
+| `briefing.js` | Llena el informe desde los `data-*` del botón, controla el foco y lleva a `Juego.html?nivel=N`. |
+| `ranking.js` | Sincroniza puntajes y muestra la tabla; en modo estático arma un ranking local. |
+
+El ranking local filtra al invitado, ordena por puntos, luego por planetas completados y por nombre, y resalta al jugador actual.
+
+### 7.8 `js/datos/` — persistencia local
+
+| Archivo | Contenido |
+|---|---|
+| `index.js` | API `JuegoDB` y compatibilidad con `window.JuegoDB`. |
+| `almacen.js` | Clave `nuevoHogarDB`, lectura/escritura, búsqueda y creación de jugadores. |
+| `progreso.js` | Reglas de combustible, niveles completados y puntuación. |
+
+Funciones de `JuegoDB`:
 
 | Función | Qué hace |
 |---|---|
 | `read()` | Lee la base local; si no existe, la crea. Migra el antiguo `usuario`. |
-| `write(db)` | Guarda la base completa. |
-| `ensureSessionPlayer(db, name)` | Busca o crea el jugador solo si la sesión/invitado coincide. |
 | `find(name)` | Devuelve el jugador. |
-| `create({usuario, correo, contrasena})` | Crea una cuenta local (el registro real usa PHP). |
+| `create({usuario, correo})` | Crea una cuenta local (el registro real usa el servidor). |
 | `startLevel(name, level, cost)` | Cobra combustible al iniciar un nivel nuevo; no cobra si ya está completado o si es el mismo nivel activo. |
-| `complete(name, level, score)` | Marca el nivel, suma 100 puntos una sola vez, devuelve 10% de combustible y actualiza el nivel. |
+| `complete(name, level, score)` | Marca el nivel, suma 100 puntos una sola vez, devuelve combustible y actualiza el nivel. |
 | `progress(name)` | Devuelve el progreso con valores por defecto. |
-| `reset(name)` | Borra el progreso del jugador y deja combustible al 100%. |
+| `reset(name)` | Borra el progreso y deja combustible al 100%. |
 | `mergeServerProgress(name, remote)` | Combina completados, nivel y puntuación del servidor con los locales. |
 
-La base local es la fuente para el modo invitado y un respaldo cuando el servidor no responde. El servidor sigue siendo la fuente oficial para cuentas y ranking.
+La base local es la fuente para el modo invitado y la demo, y un respaldo cuando el servidor no responde. El servidor sigue siendo la fuente oficial para cuentas y ranking.
 
-### 7.5 `Login.js` — inicio de sesión
+### 7.9 `js/asistente/` — ayuda flotante
 
-- Escucha el `submit` de `#loginForm`.
-- Valida usuario y contraseña no vacíos.
-- Envía `POST ../api/iniciar-sesion.php` con JSON.
-- Guarda `sesionActiva = "true"` y `jugadorActual`; borra `modoInvitado`.
-- Redirige a `Index.html`.
-- “REGISTRARSE” va a `Registro.html`.
-- “JUGAR COMO INVITADO” borra la sesión, activa `modoInvitado` y guarda `Invitado`.
+| Archivo | Contenido |
+|---|---|
+| `index.js` | Entrada: llama a `crearAsistente()`. |
+| `panel.js` | Inyecta estilos si faltan y crea el botón “AYUDA”, el panel, los mensajes y el formulario. |
+| `respuestas.js` | Base de conocimiento con expresiones regulares y respuestas. |
 
-### 7.6 `Registro.js` — creación de cuenta
-
-- Valida campos completos, contraseñas iguales y mínimo de 4 caracteres.
-- Envía `POST ../api/registrar.php`.
-- Si funciona, avisa y redirige a `Login.html`.
-- “VOLVER AL LOGIN” navega a `Login.html`.
-
-### 7.7 `Asistente.js` — ayuda flotante
-
-**Responsabilidad:** inyectar un botón “AYUDA” y un panel de preguntas frecuentes en todas las páginas que lo cargan.
-
-- Se autoejecuta con una IIFE y evita duplicados si `#asistenteJuego` ya existe.
-- Agrega `Asistente.css` si la página no lo cargó.
-- Crea el botón y el panel con sugerencias: controles, oxígeno, habilidades, niveles, vidas y puntaje.
-- `responder(pregunta)` normaliza el texto (minúsculas, sin acentos, sin signos) y busca una respuesta por expresión regular.
-- Algunas respuestas leen el HUD en vivo: oxígeno, corazones, jetpack, combustible y puntaje.
-- Permite escribir una pregunta libre, cierra con `Escape` y devuelve el foco al botón.
+`responder(pregunta)` normaliza el texto (minúsculas, sin acentos ni signos) y busca la primera coincidencia. Algunas respuestas leen el HUD en vivo: oxígeno, corazones, jetpack, combustible y puntaje. El panel cierra con `Escape` y devuelve el foco al botón.
 
 ---
 
 ## 8. Páginas HTML
 
-| Archivo | Contenido principal | Scripts |
+| Archivo | Contenido principal | Módulos que carga |
 |---|---|---|
-| `html/Login.html` | Logo, formulario de usuario/contraseña, botones de registro e invitado | `Login.js`, `Asistente.js` |
-| `html/Registro.html` | Formulario de usuario, correo, contraseña y confirmación | `Registro.js`, `Asistente.js` |
-| `html/Index.html` | Menú principal y modal de opciones completo | `base-datos.js`, `scrips.js`, `Sonido.js`, `Asistente.js` |
-| `html/Historia.html` | Texto narrativo, objetivos e indicadores decorativos | `scrips.js` (solo sesión), `Sonido.js`, `Asistente.js` |
-| `html/Niveles.html` | Mapa del sistema solar, seis botones, briefing y ranking | `base-datos.js`, `Niveles.js`, `Sonido.js`, `Asistente.js` |
-| `html/Juego.html` | Intro, HUD, canvas, controles táctiles, pausa y nivel completado | `Sonido.js`, `base-datos.js`, `p5.min.js`, `js/juego/main.js` |
-| `html/Instrucciones.html` | Tarjetas de controles, oxígeno, combustible, puntaje y mundos | `Sonido.js`, `Asistente.js` |
-| `html/Creditos.html` | Equipo y tecnologías | `Sonido.js`, `Asistente.js` |
-| `html/Final.html` | Cierre de la misión y accesos a créditos/mapa/menú | `Sonido.js`, `Asistente.js` |
+| `index.html` (raíz) | Portada de la demo publicada: logo, presentación, invitado, login y registro | Script propio de la portada |
+| `html/Login.html` | Logo, formulario de usuario/contraseña, botones de registro e invitado | `js/portal/login.js`, `js/asistente/index.js` |
+| `html/Registro.html` | Formulario de usuario, correo, contraseña y confirmación | `js/portal/registro.js`, `js/asistente/index.js` |
+| `html/Index.html` | Menú principal y modal de opciones completo | `js/audio/index.js`, `js/portal/menu.js`, `js/asistente/index.js` |
+| `html/Historia.html` | Texto narrativo, objetivos e indicadores decorativos | `js/audio/index.js`, `js/portal/menu.js`, `js/asistente/index.js` |
+| `html/Niveles.html` | Mapa del sistema solar, seis botones, briefing y ranking | `js/audio/index.js`, `js/portal/niveles/index.js`, `js/asistente/index.js` |
+| `html/Juego.html` | Intro, HUD, canvas, controles táctiles, pausa y nivel completado | `js/audio/index.js`, `vendor/p5.min.js`, `js/juego/main.js` |
+| `html/Instrucciones.html` | Tarjetas de controles, oxígeno, combustible, puntaje y mundos | `js/audio/index.js`, `js/asistente/index.js` |
+| `html/Creditos.html` | Equipo y tecnologías | `js/audio/index.js`, `js/asistente/index.js` |
+| `html/Final.html` | Cierre de la misión y accesos a créditos/mapa/menú | `js/audio/index.js`, `js/asistente/index.js` |
+
+> `Login.html` y `Registro.html` no cargan el motor de audio porque no tienen música ni efectos propios. `Juego.html` es el único que carga `p5.min.js`.
 
 ### 8.1 `Login.html` y `Registro.html`
 
@@ -646,6 +748,15 @@ Estructura:
 ### 8.5 `Instrucciones.html`, `Creditos.html` y `Final.html`
 
 Comparten `Info.css` y `Asistente.css`. `Final.html` agrega `Final.css` para el título grande y los botones de cierre. `Instrucciones.html` concentra las reglas en tarjetas; `Creditos.html` explica el aporte de cada integrante y las tecnologías.
+
+### 8.6 `index.html` — portada de la demo
+
+La raíz del proyecto tiene dos entradas según el servidor:
+
+- **Con PHP:** `index.php` redirige a `html/Login.html`.
+- **Sin PHP (GitHub Pages):** `index.html` muestra la portada de la demo con tres accesos: jugar como invitado, iniciar sesión y crear cuenta local.
+
+La portada explica que, en la demo, las cuentas y el progreso se guardan en el navegador y que no se deben usar contraseñas reales. El archivo `.nojekyll` evita que GitHub Pages procese el sitio con Jekyll.
 
 ---
 
@@ -734,11 +845,17 @@ Archivo compartido por todos los endpoints. Contiene:
 
 ### 10.4 Flujo típico de una partida con cuenta
 
-1. `Login.js` → `POST iniciar-sesion.php` → cookie de sesión.
-2. `Niveles.js` → `GET progreso.php` → combina avance local y remoto.
+1. `js/portal/login.js` → `POST iniciar-sesion.php` → cookie de sesión.
+2. `js/portal/niveles/index.js` → `GET progreso.php` → combina avance local y remoto.
 3. `js/juego/main.js` → `DB.startLevel` cobra combustible local.
 4. Al completar → `DB.complete` guarda local y `POST puntuaciones.php` guarda en MySQL.
-5. `Niveles.js` → `GET puntuaciones.php` muestra el ranking actualizado.
+5. `js/portal/niveles/ranking.js` → `GET puntuaciones.php` muestra el ranking actualizado.
+
+Si `esEntornoEstatico()` es verdadero (por ejemplo, en GitHub Pages), los pasos 1, 2, 4 y 5 no llaman a PHP: usan `credenciales.js`, `JuegoDB` y el ranking local.
+
+### 10.5 Relación con Supabase
+
+Supabase es una plataforma de base de datos PostgreSQL y servicios de backend (autenticación, almacenamiento, APIs). **No ejecuta PHP** ni sirve este proyecto tal como está. Para usar Supabase habría que reescribir los endpoints de `api/` como consultas a su API o funciones, y el hosting tendría que ser compatible con el backend elegido. La demo de GitHub Pages no necesita Supabase: funciona con `localStorage`.
 
 ---
 
@@ -783,24 +900,41 @@ La clave primaria compuesta `(jugador_id, nivel)` impide duplicados. `ON DELETE 
 
 ## 12. Servidor alternativo con Node y SQLite
 
-`server.js` permite probar el proyecto sin Apache/PHP. Usa solo módulos nativos:
+`server.js` es solo el punto de entrada:
+
+```js
+const { iniciarServidor } = require("./servidor");
+iniciarServidor();
+```
+
+La implementación vive en `servidor/` y usa únicamente módulos nativos:
 
 - `node:http` para el servidor.
-- `node:sqlite` (`DatabaseSync`) para la base `database/nuevo_hogar.sqlite`.
-- `node:crypto` (`scrypt`, `randomBytes`, `timingSafeEqual`) para las contraseñas.
-- `node:fs` y `node:path` para servir archivos estáticos.
+- `node:sqlite` (`DatabaseSync`) para `database/nuevo_hogar.sqlite`.
+- `node:crypto` (`scrypt`, `randomBytes`, `timingSafeEqual`) para contraseñas y sesiones.
+- `node:fs` y `node:path` para archivos estáticos.
 
-### Bloques principales
+### Módulos
 
-1. **Configuración:** puerto `PORT` (3000 por defecto), host `0.0.0.0`, ruta de la base y tipos MIME.
-2. **Esquema:** crea `jugadores` y `niveles_puntuados` si no existen.
-3. **Utilidades:** `responderJson`, `leerJson` (límite de 16 KB), `crearHash`, `verificarHash`.
-4. **Sesiones:** mapa en memoria `sessions`; cookie `nh_session` de 32 bytes.
-5. **Autenticación:** registro e inicio de sesión con validaciones equivalentes a PHP.
-6. **Puntuaciones:** GET del ranking, POST con validación de nivel anterior e `INSERT OR IGNORE`.
-7. **Progreso y reinicio:** consulta y borrado de `niveles_puntuados`.
-8. **Cierre de sesión:** elimina el token y expira la cookie.
-9. **Servidor HTTP:** redirige `/` a `/html/Login.html`, enruta `/api/*.php` y sirve archivos estáticos con protección contra path traversal.
+| Archivo | Responsabilidad |
+|---|---|
+| `servidor/index.js` | Crea el servidor HTTP, reparte rutas (`/api/*.php`) y sirve el resto como archivos estáticos. Exporta `crearServidor` e `iniciarServidor`. |
+| `servidor/config.js` | Puerto (`PORT`, 3000 por defecto), host (`HOST`, `0.0.0.0`), rutas de la base, raíz del proyecto y tipos MIME. |
+| `servidor/base-datos.js` | Abre SQLite, crea la carpeta `database/` y el esquema de `jugadores` y `niveles_puntuados`. |
+| `servidor/seguridad.js` | Hash `scrypt`, verificación con `timingSafeEqual`, mapa de sesiones en memoria, cookie `nh_session` y helpers `exigirSesion`/`leerTokenSesion`/`eliminarSesion`. |
+| `servidor/respuestas.js` | `responderJson` y `leerJson` (cuerpo máximo de 16 KB). |
+| `servidor/estaticos.js` | Entrega archivos con tipos MIME y protección contra `path traversal`. |
+| `servidor/rutas/autenticacion.js` | Registro e inicio de sesión con validaciones equivalentes a PHP. |
+| `servidor/rutas/progreso.js` | Consulta de progreso, reinicio y cierre de sesión. |
+| `servidor/rutas/puntuaciones.js` | Ranking y guardado de niveles puntuados con validación del nivel anterior. |
+
+### Flujo de una solicitud
+
+1. `request.url` se normaliza y se compara con las rutas de la API.
+2. Las rutas de autenticación, progreso y puntuaciones leen el cuerpo JSON y validan la sesión.
+3. Las consultas usan `DatabaseSync` con parámetros, sin concatenar SQL.
+4. Si la ruta no es de la API, `estaticos.js` resuelve el archivo dentro de la raíz y lo envía.
+5. Si la ruta es `/`, redirige a `/html/Login.html`.
 
 Se inicia con:
 
@@ -840,12 +974,20 @@ La licencia de P5 está junto al archivo de la biblioteca.
 | `modoInvitado` | `"true"` si se juega sin cuenta. |
 | `nuevoHogarDB` | Base local con jugadores, progreso, puntos y combustible. |
 | `nuevoHogarAudio` | Volumen general, música, efectos y volúmenes por bus. |
+| `nuevoHogarCredenciales` | Solo en la demo estática: usuario → `{ sal, hash, creado }`. Nunca guarda la contraseña. |
 
-La base local **no guarda contraseñas**. Las cuentas reales viven en MySQL/SQLite y la contraseña se guarda hasheada en el servidor.
+La base local **no guarda contraseñas**. En el modo completo, las cuentas reales viven en MySQL/SQLite y la contraseña se guarda hasheada en el servidor. En la demo de GitHub Pages, `credenciales.js` guarda un hash SHA-256 con sal en el navegador, pero esas cuentas son locales al dispositivo y no deben usarse con contraseñas reales.
 
 ---
 
 ## 15. Cómo ejecutar el proyecto
+
+### Demo publicada (GitHub Pages)
+
+- URL: **https://juancarballo7.github.io/Juego-Fisica/**
+- No requiere instalar nada. Se entra con **Jugar como invitado**, con una **cuenta local** o creando una cuenta nueva.
+- Las cuentas y el progreso se guardan en el navegador. No hay cuentas compartidas ni ranking global porque Pages no ejecuta PHP.
+- La demo se publica desde el fork `JuanCarballo7/Juego-Fisica`. El repositorio original es `Jeremias0211/Juego-Fisica`; la cuenta que publica tiene permiso de escritura pero no de administración allí, por eso Pages no se puede activar en el original.
 
 ### Opción oficial: XAMPP + PHP + MySQL
 
@@ -890,8 +1032,8 @@ Abrir `http://localhost:3000/`.
 1. Editar `js/juego/misiones.js` (datos del planeta).
 2. Agregar el botón correspondiente en `html/Niveles.html` con sus `data-*`.
 3. Ajustar el factor de `acortarMision` en `js/juego/main.js` si hace falta acortar el recorrido.
-4. Agregar el planeta en `database/nuevo_hogar.sql` y en el servidor Node si se usa esa alternativa.
-5. Revisar el ranking y el límite de 6 niveles en `progreso.php`, `puntuaciones.php` y `server.js`.
+4. Agregar el planeta en `database/nuevo_hogar.sql` y en `servidor/base-datos.js` si se usa la alternativa Node.
+5. Revisar el ranking y el límite de 6 niveles en `api/progreso.php`, `api/puntuaciones.php` y `servidor/rutas/`.
 
 ### Cambiar la física
 
@@ -919,16 +1061,27 @@ Abrir `http://localhost:3000/`.
 
 ### Agregar un sonido
 
-1. Agregar un `case` en `reproducir()` de `Sonido.js`.
+1. Agregar un caso en `reproducir()` de `js/audio/efectos.js`.
 2. Llamarlo desde el juego con `sfx("nombre")` o desde el portal con `SonidoJuego.play("nombre")`.
-3. Si es un sonido continuo, crear funciones de inicio/detención como el jetpack.
+3. Si es un sonido continuo, crear funciones de inicio/detención como `js/audio/jetpack.js`.
+
+### Cambiar cuentas, ranking o demo
+
+| Qué cambiar | Dónde |
+|---|---|
+| Validaciones de registro e inicio de sesión | `api/registrar.php`, `api/iniciar-sesion.php` y `servidor/rutas/autenticacion.js` |
+| Ranking global | `api/puntuaciones.php` y `servidor/rutas/puntuaciones.js` |
+| Ranking local de la demo | `js/portal/niveles/ranking.js` |
+| Credenciales locales de la demo | `js/portal/credenciales.js` |
+| Detección de hosting estático | `js/portal/entorno.js` |
+| Portada de Pages | `index.html` |
 
 ### Agregar una página
 
 1. Crear el HTML en `html/`.
-2. Cargar `Sonido.js`, `Asistente.js` y los CSS necesarios.
-3. Si necesita sesión, incluir `base-datos.js` y verificar `sesionActiva`/`modoInvitado`.
-4. Agregar el enlace desde el menú o el mapa.
+2. Cargar `../js/audio/index.js` si necesita sonido y `../js/asistente/index.js` si lleva ayuda.
+3. Si necesita sesión, importar `requerirSesion` desde `../js/portal/sesion.js`.
+4. Agregar el enlace desde el menú (`js/portal/navegacion.js`) o el mapa.
 
 ---
 
@@ -946,16 +1099,23 @@ Abrir `http://localhost:3000/`.
 | La pantalla completa no funciona | El navegador la bloquea | Probar con un clic directo o desde HTTPS. |
 | `localhost` falla pero `127.0.0.1` funciona | Proxy/DNS local | Usar `127.0.0.1`. |
 | Los módulos del juego dan 404 | Ruta incorrecta o servidor sin soporte de módulos | Verificar que `html/Juego.html` apunte a `../js/juego/main.js`. |
+| En Pages no aparece la cuenta creada en otro dispositivo | La demo guarda cuentas en `localStorage` | Es esperado: para cuentas compartidas usar PHP/MySQL o el servidor Node. |
+| En Pages el ranking sale vacío | No hay jugadores locales o se filtró al invitado | Crear una cuenta local y completar un nivel. |
+| GitHub Pages muestra 404 | Pages no está activo o la rama no es la correcta | Activar Pages en Settings → Pages, rama `main`, carpeta `/`. |
+| Los cambios no se ven en GitHub | El commit no se subió o se miró otra rama/repositorio | Ejecutar `git push origin main` y confirmar `git status -sb`; revisar el fork si se usa la demo. |
 
 ---
 
 ## Resumen de la reorganización
 
-- `Juego.js` (1516 líneas) se dividió en 13 módulos pequeños bajo `js/juego/`.
+- El antiguo `Juego.js` monolítico se dividió en 13 módulos bajo `js/juego/`.
+- El portal se separó en `js/portal/` (menú, sesión, login, registro, opciones y niveles), `js/datos/` (persistencia), `js/audio/` (Web Audio) y `js/asistente/` (ayuda).
+- El servidor Node se separó en `servidor/`; `server.js` quedó como una entrada de dos líneas.
 - Los CSS de 600–1400 líneas se dividieron por pantalla y responsabilidad en `css/menu/`, `css/opciones/`, `css/login/`, `css/registro/` y `css/historia/`.
-- Ningún módulo del motor supera las 300 líneas (el mayor es `actualizar.js`, con 287). Los archivos más grandes del portal son `Sonido.js` (559), `scrips.js` (425) y `server.js` (383); se mantuvieron cohesivos a propósito porque comparten un mismo contexto interno.
-- Se conservaron los seis niveles, el audio, las opciones, las estadísticas, el reinicio de progreso, el informe de planetas, el ranking y el backend.
+- Ningún archivo del proyecto supera las 300 líneas. El más largo es `css/opciones/panel.css` (281); el módulo JavaScript más largo es `js/juego/escena/actualizar.js` (261).
+- Se conservaron los seis niveles, el audio, las opciones, las estadísticas, el reinicio de progreso, el informe de planetas, el ranking y el backend PHP/MySQL.
 - En el panel de opciones, la sección **PANTALLA** conserva únicamente **Pantalla completa**.
+- Se agregó una demo estática para GitHub Pages con portada, cuentas locales hasheadas y ranking local, sin romper el modo PHP/MySQL.
 - Se eliminaron archivos temporales de QA y la página `Opciones.html`, que estaba vacía y no se usaba.
 
-Con esta estructura, para entender una parte del proyecto alcanza con abrir el archivo correspondiente: los datos están en `misiones.js`, la física en `actualizar.js`, los controles en `controles.js`, el dibujo en `dibujo/` y el arranque en `main.js`.
+Con esta estructura, para entender una parte del proyecto alcanza con abrir el archivo correspondiente: los datos están en `misiones.js`, la física en `actualizar.js`, los controles en `controles.js`, el dibujo en `dibujo/`, el arranque del juego en `main.js`, el portal en `js/portal/` y el backend en `api/` o `servidor/`.

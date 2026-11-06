@@ -19,6 +19,7 @@ Videojuego educativo de plataformas 2D sobre gravedad, impulso, inercia, propuls
 - La demo se publica desde el fork `JuanCarballo7/Juego-Fisica`. El repositorio original es `Jeremias0211/Juego-Fisica`; la cuenta que publica tiene permiso de escritura pero no de administración allí, por eso no puede activar Pages en el original.
 - Para la entrega con backend real, usá PHP/MySQL (siguiente sección) o el servidor Node alternativo.
 - La portada `index.html` permite que la raíz del sitio funcione en GitHub Pages. Cuando se ejecuta con Apache/PHP, `index.php` sigue siendo la entrada y redirige al inicio de sesión.
+- Supabase no sirve para hostear este proyecto tal como está: es base de datos/backend y no ejecuta PHP. Para usarlo habría que reescribir la API. La demo de Pages no lo necesita.
 
 ## Ejecutar con PHP y MySQL
 
@@ -86,17 +87,22 @@ El oxígeno se consume durante cada nivel. Las orbes y estaciones lo recargan. H
 El código está separado por responsabilidades para que ningún archivo concentre toda la lógica:
 
 ```text
-js/juego/
-├── main.js          Arranque, sesión, HUD y callbacks
-├── misiones.js      Datos de los seis planetas
-├── geometria.js     Ajuste y separación de objetos
-├── audio.js         Puente hacia Sonido.js
-└── escena/
-    ├── escena.js    Unión de estado, controles, física y dibujo
-    ├── estado.js    Estado de la partida
-    ├── controles.js Teclado, táctil, habilidades y pausa
-    ├── actualizar.js Simulación y colisiones
-    └── dibujo/      Vista, composición, escenario, objetos y jugador
+js/
+├── juego/
+│   ├── main.js          Arranque, sesión, HUD y callbacks
+│   ├── misiones.js      Datos de los seis planetas
+│   ├── geometria.js     Ajuste y separación de objetos
+│   ├── audio.js         Puente hacia js/audio/
+│   └── escena/
+│       ├── escena.js    Unión de estado, controles, física y dibujo
+│       ├── estado.js    Estado de la partida
+│       ├── controles.js Teclado, táctil, habilidades y pausa
+│       ├── actualizar.js Simulación y colisiones
+│       └── dibujo/      Vista, composición, escenario, objetos y jugador
+├── portal/              Menú, sesión, login, registro, opciones y niveles
+├── datos/               Progreso local en localStorage
+├── audio/               Música y efectos con Web Audio API
+└── asistente/           Ayuda flotante
 ```
 
 Los CSS también se dividieron por pantalla:
