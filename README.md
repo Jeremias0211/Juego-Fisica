@@ -13,9 +13,10 @@ Videojuego educativo de plataformas 2D sobre gravedad, impulso, inercia, propuls
 
 ## Demo en línea (GitHub Pages)
 
-- URL: **https://jeremias0211.github.io/Juego-Fisica/**
+- URL: **https://juancarballo7.github.io/Juego-Fisica/**
 - Es una versión estática para mostrar el juego sin instalar XAMPP. Se entra con **Jugar como invitado** o con una **cuenta local**.
 - Las cuentas creadas en esta demo y el ranking local se guardan en el navegador (`localStorage`). No hay cuentas compartidas ni ranking global porque GitHub Pages no ejecuta PHP.
+- La demo se publica desde el fork `JuanCarballo7/Juego-Fisica`. El repositorio original es `Jeremias0211/Juego-Fisica`; la cuenta que publica tiene permiso de escritura pero no de administración allí, por eso no puede activar Pages en el original.
 - Para la entrega con backend real, usá PHP/MySQL (siguiente sección) o el servidor Node alternativo.
 - La portada `index.html` permite que la raíz del sitio funcione en GitHub Pages. Cuando se ejecuta con Apache/PHP, `index.php` sigue siendo la entrada y redirige al inicio de sesión.
 
