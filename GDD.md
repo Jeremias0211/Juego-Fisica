@@ -165,7 +165,5 @@ P5.js crea el canvas y ejecuta el ciclo `setup/draw`. El portal administra naveg
 
 ## 15. Mejoras futuras
 
-- Sincronizar el combustible y otros recursos de la partida entre dispositivos.
 - Agregar niveles de dificultad y más desafíos de mecánica orbital.
-- Ampliar accesibilidad con remapeo de teclas, contraste configurable y opciones de movimiento reducido.
 - Agregar sonidos y una animación explicativa después de cada desafío.
