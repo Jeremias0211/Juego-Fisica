@@ -1,5 +1,50 @@
 /* Formulario de creación de una cuenta nueva. */
 
+import { JuegoDB } from "../datos/index.js";
+import { guardarCredencial } from "./credenciales.js";
+import { esEntornoEstatico } from "./entorno.js";
+
+async function registrarLocal(nombre, email, clave) {
+  const db = JuegoDB.read();
+  const buscado = nombre.trim().toLowerCase();
+  const existe = (db.jugadores || []).some(
+    (persona) => String(persona.usuario).toLowerCase() === buscado
+  );
+
+  if (existe) {
+    throw new Error("Ese usuario ya está registrado en este dispositivo.");
+  }
+
+  const resultado = JuegoDB.create({ usuario: nombre, correo: email });
+  if (!resultado.ok) throw new Error(resultado.error);
+
+  const guardado = await guardarCredencial(nombre, clave);
+  if (!guardado) throw new Error("No se pudo guardar la contraseña local.");
+
+  localStorage.removeItem("modoInvitado");
+  alert("Cuenta local creada en este dispositivo. Iniciá sesión para continuar.");
+  location.assign("Login.html");
+}
+
+async function registrarEnServidor(nombre, email, clave) {
+  const response = await fetch("../api/registrar.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ usuario: nombre, correo: email, contrasena: clave }),
+  });
+
+  const tipo = response.headers.get("content-type") || "";
+  if (!tipo.includes("application/json")) return false;
+
+  const result = await response.json();
+  if (!response.ok || !result.ok) {
+    const error = new Error(result.error || "No se pudo crear la cuenta.");
+    error.servidor = true;
+    throw error;
+  }
+  return true;
+}
+
 function iniciarRegistro() {
   const usuario = document.getElementById("usuario");
   const correo = document.getElementById("correo");
@@ -29,27 +74,23 @@ function iniciarRegistro() {
 
     button.disabled = true;
     try {
-      let response;
-      try {
-        response = await fetch("../api/registrar.php", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ usuario: nombre, correo: email, contrasena: clave }),
-        });
-      } catch {
-        throw new Error(
-          "No se pudo conectar con el servidor. En PowerShell, ejecutá npm.cmd run server y abrí http://localhost:3000/."
-        );
+      if (esEntornoEstatico()) {
+        await registrarLocal(nombre, email, clave);
+        return;
       }
 
-      let result;
+      let creado = false;
       try {
-        result = await response.json();
-      } catch {
-        throw new Error("El servidor no devolvió una respuesta válida. Revisá que esté iniciado correctamente.");
+        creado = await registrarEnServidor(nombre, email, clave);
+      } catch (error) {
+        /* Un error de validación del servidor no debe caer al modo local. */
+        if (error.servidor) throw error;
       }
 
-      if (!response.ok || !result.ok) throw new Error(result.error || "No se pudo crear la cuenta.");
+      if (!creado) {
+        await registrarLocal(nombre, email, clave);
+        return;
+      }
 
       localStorage.removeItem("modoInvitado");
       alert("Cuenta creada correctamente. Iniciá sesión para continuar.");

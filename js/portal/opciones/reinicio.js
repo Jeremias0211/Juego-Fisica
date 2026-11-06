@@ -3,6 +3,7 @@
 import SonidoJuego from "../../audio/index.js";
 import { JuegoDB } from "../../datos/index.js";
 import { leerSesion } from "../sesion.js";
+import { esEntornoEstatico } from "../entorno.js";
 import { actualizarEstadisticas } from "./estadisticas.js";
 import { mostrarEstado } from "./estado.js";
 
@@ -25,7 +26,7 @@ export function iniciarReinicio() {
 
     boton.disabled = true;
 
-    if (!modoInvitado) {
+    if (!modoInvitado && !esEntornoEstatico()) {
       try {
         const respuesta = await fetch("../api/reiniciar-progreso.php", { method: "POST" });
         const datos = await respuesta.json().catch(() => ({}));

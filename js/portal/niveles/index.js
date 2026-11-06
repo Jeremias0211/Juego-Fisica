@@ -2,6 +2,7 @@
 
 import { JuegoDB } from "../../datos/index.js";
 import { requerirSesion } from "../sesion.js";
+import { esEntornoEstatico } from "../entorno.js";
 import { crearBriefing } from "./briefing.js";
 import { crearRanking } from "./ranking.js";
 
@@ -15,7 +16,7 @@ async function iniciarNiveles() {
   const jugador = sesion.jugadorActual;
   const modoInvitado = sesion.modoInvitado;
 
-  if (!modoInvitado) {
+  if (!modoInvitado && !esEntornoEstatico()) {
     try {
       const response = await fetch("../api/progreso.php", { cache: "no-store" });
       const serverProgress = await response.json();

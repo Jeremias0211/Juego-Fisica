@@ -1,6 +1,7 @@
 /* Cierre de sesión desde el menú principal. */
 
 import { cerrarSesionLocal, leerSesion } from "./sesion.js";
+import { esEntornoEstatico } from "./entorno.js";
 
 export function iniciarSalida() {
   const salir = document.getElementById("salir");
@@ -13,7 +14,7 @@ export function iniciarSalida() {
     );
     if (!confirmar) return;
 
-    if (sesionActiva) {
+    if (sesionActiva && !esEntornoEstatico()) {
       fetch("../api/cerrar-sesion.php", { method: "POST" }).catch(() => {});
     }
 

@@ -1,5 +1,52 @@
 /* Formulario de inicio de sesión y acceso como invitado. */
 
+import { JuegoDB } from "../datos/index.js";
+import { verificarCredencial } from "./credenciales.js";
+import { esEntornoEstatico } from "./entorno.js";
+
+function activarSesion(nombre) {
+  localStorage.setItem("sesionActiva", "true");
+  localStorage.setItem("jugadorActual", nombre);
+  localStorage.removeItem("modoInvitado");
+  location.assign("Index.html");
+}
+
+async function iniciarSesionLocal(nombre, clave) {
+  const revision = await verificarCredencial(nombre, clave);
+  if (!revision.ok) throw new Error(revision.error);
+
+  const buscado = nombre.trim().toLowerCase();
+  const db = JuegoDB.read();
+  const jugador = (db.jugadores || []).find(
+    (persona) => String(persona.usuario).toLowerCase() === buscado
+  );
+
+  if (!jugador) {
+    throw new Error("No se encontró el progreso de esa cuenta local. Volvé a crearla.");
+  }
+
+  activarSesion(jugador.usuario);
+}
+
+async function pedirSesionAlServidor(nombre, clave) {
+  const response = await fetch("../api/iniciar-sesion.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ usuario: nombre, contrasena: clave }),
+  });
+
+  const tipo = response.headers.get("content-type") || "";
+  if (!tipo.includes("application/json")) return null;
+
+  const result = await response.json();
+  if (!response.ok || !result.ok) {
+    const error = new Error(result.error || "Usuario o contraseña incorrectos.");
+    error.servidor = true;
+    throw error;
+  }
+  return result;
+}
+
 function iniciarLogin() {
   const usuario = document.getElementById("usuario");
   const contrasena = document.getElementById("contrasena");
@@ -17,32 +64,25 @@ function iniciarLogin() {
 
     button.disabled = true;
     try {
-      let response;
-      try {
-        response = await fetch("../api/iniciar-sesion.php", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ usuario: nombre, contrasena: clave }),
-        });
-      } catch {
-        throw new Error(
-          "No se pudo conectar con el servidor. En PowerShell, ejecutá npm.cmd run server y abrí http://localhost:3000/."
-        );
+      if (esEntornoEstatico()) {
+        await iniciarSesionLocal(nombre, clave);
+        return;
       }
 
-      let result;
+      let result = null;
       try {
-        result = await response.json();
-      } catch {
-        throw new Error("El servidor no devolvió una respuesta válida. Revisá que esté iniciado correctamente.");
+        result = await pedirSesionAlServidor(nombre, clave);
+      } catch (error) {
+        /* Un error de credenciales del servidor no debe caer al modo local. */
+        if (error.servidor) throw error;
       }
 
-      if (!response.ok || !result.ok) throw new Error(result.error || "Usuario o contraseña incorrectos.");
+      if (!result) {
+        await iniciarSesionLocal(nombre, clave);
+        return;
+      }
 
-      localStorage.setItem("sesionActiva", "true");
-      localStorage.setItem("jugadorActual", result.usuario);
-      localStorage.removeItem("modoInvitado");
-      location.assign("Index.html");
+      activarSesion(result.usuario);
     } catch (error) {
       alert(error.message);
     } finally {

@@ -5,6 +5,7 @@ import { acortarMision, separarObjetosMision } from "./geometria.js";
 import { crearEscena } from "./escena/escena.js";
 import { audioJuego, sfx } from "./audio.js";
 import { JuegoDB as DB } from "../datos/index.js";
+import { esEntornoEstatico } from "../portal/entorno.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const user = localStorage.getItem("jugadorActual");
@@ -14,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  if (!guestMode) {
+  if (!guestMode && !esEntornoEstatico()) {
     try {
       const response = await fetch("../api/progreso.php", { cache: "no-store" });
       const serverProgress = await response.json();
@@ -172,7 +173,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       platformMessage.textContent = "No se pudo guardar el progreso. Revisá la sesión e intentá otra vez.";
       return;
     }
-    if (!guestMode) {
+    if (!guestMode && !esEntornoEstatico()) {
       fetch("../api/puntuaciones.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },

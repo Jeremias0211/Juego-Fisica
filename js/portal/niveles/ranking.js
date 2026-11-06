@@ -1,4 +1,8 @@
-/* Ranking de jugadores registrados y sincronización de puntajes. */
+/* Ranking de jugadores registrados y sincronización de puntajes.
+   En la demo estática se arma un ranking local con los jugadores de este navegador. */
+
+import { JuegoDB } from "../../datos/index.js";
+import { esEntornoEstatico } from "../entorno.js";
 
 export function crearRanking({ jugador, modoInvitado, progreso, alAbrir }) {
   const panel = document.getElementById("panelRanking");
@@ -6,8 +10,52 @@ export function crearRanking({ jugador, modoInvitado, progreso, alAbrir }) {
   const estadoRanking = document.getElementById("estadoRanking");
   const actualizar = document.getElementById("actualizarRanking");
 
+  function renderizar(jugadores, nota) {
+    if (!filas || !estadoRanking) return;
+
+    filas.replaceChildren();
+    if (!jugadores.length) {
+      filas.innerHTML = '<tr><td colspan="4" class="ranking-status">Todavía no hay jugadores registrados.</td></tr>';
+      estadoRanking.textContent = nota || "";
+      return;
+    }
+
+    jugadores.forEach((persona) => {
+      const row = document.createElement("tr");
+      if (String(persona.usuario).toLowerCase() === jugador.toLowerCase()) row.classList.add("mi-usuario");
+      [persona.posicion, persona.usuario, `${persona.nivelesCompletados}/6`, `${persona.puntuacion} pts`].forEach((value) => {
+        const cell = document.createElement("td");
+        cell.textContent = String(value);
+        row.append(cell);
+      });
+      filas.append(row);
+    });
+
+    estadoRanking.textContent = `${jugadores.length} jugador${jugadores.length === 1 ? "" : "es"}${nota ? ` · ${nota}` : ""}`;
+  }
+
+  function cargarLocal() {
+    const jugadores = (JuegoDB.read().jugadores || [])
+      .filter((persona) => String(persona.usuario).toLowerCase() !== "invitado")
+      .map((persona) => ({
+        usuario: persona.usuario,
+        nivelesCompletados: Array.isArray(persona.progreso?.completados)
+          ? persona.progreso.completados.length
+          : 0,
+        puntuacion: Number(persona.progreso?.puntuacion) || 0,
+      }))
+      .sort((a, b) =>
+        b.puntuacion - a.puntuacion ||
+        b.nivelesCompletados - a.nivelesCompletados ||
+        a.usuario.localeCompare(b.usuario)
+      )
+      .map((persona, indice) => ({ posicion: indice + 1, ...persona }));
+
+    renderizar(jugadores, "ranking local");
+  }
+
   async function sincronizarPuntajes() {
-    if (modoInvitado) return;
+    if (modoInvitado || esEntornoEstatico()) return;
     for (const nivel of [...progreso.completados].sort((a, b) => a - b)) {
       try {
         const response = await fetch("../api/puntuaciones.php", {
@@ -30,33 +78,28 @@ export function crearRanking({ jugador, modoInvitado, progreso, alAbrir }) {
     filas.innerHTML = '<tr><td colspan="4" class="ranking-status">Cargando puntuaciones…</td></tr>';
 
     try {
-      await sincronizarPuntajes();
-      const response = await fetch("../api/puntuaciones.php", { cache: "no-store" });
-      const result = await response.json();
-      if (!response.ok || !result.ok) throw new Error(result.error || "No se pudo cargar la tabla.");
-
-      filas.replaceChildren();
-      if (!result.jugadores.length) {
-        filas.innerHTML = '<tr><td colspan="4" class="ranking-status">Todavía no hay jugadores registrados.</td></tr>';
-        estadoRanking.textContent = "";
+      if (esEntornoEstatico()) {
+        cargarLocal();
         return;
       }
 
-      result.jugadores.forEach((persona) => {
-        const row = document.createElement("tr");
-        if (String(persona.usuario).toLowerCase() === jugador.toLowerCase()) row.classList.add("mi-usuario");
-        [persona.posicion, persona.usuario, `${persona.nivelesCompletados}/6`, `${persona.puntuacion} pts`].forEach((value) => {
-          const cell = document.createElement("td");
-          cell.textContent = String(value);
-          row.append(cell);
-        });
-        filas.append(row);
-      });
+      await sincronizarPuntajes();
+      const response = await fetch("../api/puntuaciones.php", { cache: "no-store" });
+      const tipo = response.headers.get("content-type") || "";
+      if (!tipo.includes("application/json")) throw new Error("Respuesta sin JSON");
 
-      estadoRanking.textContent = `${result.jugadores.length} jugador${result.jugadores.length === 1 ? "" : "es"}`;
+      const result = await response.json();
+      if (!response.ok || !result.ok) throw new Error(result.error || "No se pudo cargar la tabla.");
+      if (!Array.isArray(result.jugadores)) throw new Error("Formato de ranking inválido");
+
+      renderizar(result.jugadores);
     } catch (_) {
-      filas.innerHTML = '<tr><td colspan="4" class="ranking-status">No se pudieron cargar las puntuaciones. Revisá que el servidor esté iniciado.</td></tr>';
-      estadoRanking.textContent = "";
+      if (esEntornoEstatico()) {
+        cargarLocal();
+      } else {
+        filas.innerHTML = '<tr><td colspan="4" class="ranking-status">No se pudieron cargar las puntuaciones. Revisá que el servidor esté iniciado.</td></tr>';
+        estadoRanking.textContent = "";
+      }
     } finally {
       actualizar.disabled = false;
     }
