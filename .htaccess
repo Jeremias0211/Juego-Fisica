@@ -1,0 +1,7 @@
+# En InfinityFree (Apache) se ejecuta primero index.php, que lleva al login.
+# En GitHub Pages este archivo se ignora y se sigue usando index.html.
+DirectoryIndex index.php index.html
+
+<IfModule mod_autoindex.c>
+    Options -Indexes
+</IfModule>

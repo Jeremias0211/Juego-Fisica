@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/configuracion.php';
+
 function responder(int $estado, array $datos): never
 {
     http_response_code($estado);
@@ -18,19 +20,24 @@ function entradaJson(): array
 
 function conexion(): PDO
 {
-    $host = getenv('DB_HOST') ?: '127.0.0.1';
-    $nombre = getenv('DB_NAME') ?: 'nuevo_hogar';
-    $usuario = getenv('DB_USER') ?: 'root';
-    $clave = getenv('DB_PASSWORD') ?: '';
+    $host = (string)configuracion('db.host', 'DB_HOST', '127.0.0.1');
+    $puerto = (int)configuracion('db.port', 'DB_PORT', 3306);
+    $nombre = (string)configuracion('db.name', 'DB_NAME', 'nuevo_hogar');
+    $usuario = (string)configuracion('db.user', 'DB_USER', 'root');
+    $clave = (string)configuracion('db.password', 'DB_PASSWORD', '');
+
+    $dsn = sprintf('mysql:host=%s;port=%d;dbname=%s;charset=utf8mb4', $host, $puerto, $nombre);
+
     try {
-        return new PDO("mysql:host=$host;dbname=$nombre;charset=utf8mb4", $usuario, $clave, [
+        return new PDO($dsn, $usuario, $clave, [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
             PDO::ATTR_EMULATE_PREPARES => false,
+            PDO::ATTR_TIMEOUT => 8,
         ]);
     } catch (PDOException $e) {
         error_log('Error conectando a MySQL: ' . $e->getMessage());
-        responder(503, ['ok' => false, 'error' => 'No se pudo conectar con la base de datos. Revisá MySQL y la configuración de api/conexion.php.']);
+        responder(503, ['ok' => false, 'error' => 'No se pudo conectar con la base de datos. Revisá la configuración del hosting.']);
     }
 }
 

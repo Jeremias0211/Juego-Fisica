@@ -1,3 +1,12 @@
 /database/*.sqlite
 /database/*.sqlite-*
 node_modules/
+
+# Configuración privada del hosting y del correo (nunca subir a GitHub)
+/api/config.local.php
+/api/config.php
+.env
+.env.*
+/despliegue/
+/paquete-infinityfree/
+*.zip

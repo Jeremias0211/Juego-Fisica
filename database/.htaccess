@@ -1,0 +1,9 @@
+# La carpeta database no debe ser accesible desde el navegador.
+# En InfinityFree no hace falta subirla; el SQL se importa desde phpMyAdmin.
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+</IfModule>

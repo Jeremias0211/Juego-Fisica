@@ -1,0 +1,11 @@
+# Protege los archivos internos del backend.
+# Los endpoints PHP los incluyen desde el servidor; nadie debería abrirlos por URL.
+<FilesMatch "^(config\.local|config\.example|configuracion|conexion|correo)\.php$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>

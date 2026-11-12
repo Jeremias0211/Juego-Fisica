@@ -36,7 +36,9 @@ async function pedirSesionAlServidor(nombre, clave) {
   });
 
   const tipo = response.headers.get("content-type") || "";
-  if (!tipo.includes("application/json")) return null;
+  if (!tipo.includes("application/json")) {
+    throw new Error("El servidor no respondió correctamente. Revisá la conexión e intentá de nuevo.");
+  }
 
   const result = await response.json();
   if (!response.ok || !result.ok) {
@@ -73,13 +75,9 @@ function iniciarLogin() {
       try {
         result = await pedirSesionAlServidor(nombre, clave);
       } catch (error) {
-        /* Un error de credenciales del servidor no debe caer al modo local. */
+        /* Fuera de un sitio estático no se crean cuentas locales: se informa el error real. */
         if (error.servidor) throw error;
-      }
-
-      if (!result) {
-        await iniciarSesionLocal(nombre, clave);
-        return;
+        throw new Error("No se pudo conectar con el servidor del juego. Revisá tu conexión e intentá de nuevo.");
       }
 
       activarSesion(result.usuario);

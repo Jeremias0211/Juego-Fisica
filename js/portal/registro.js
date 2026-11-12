@@ -34,7 +34,9 @@ async function registrarEnServidor(nombre, email, clave) {
   });
 
   const tipo = response.headers.get("content-type") || "";
-  if (!tipo.includes("application/json")) return false;
+  if (!tipo.includes("application/json")) {
+    throw new Error("El servidor no respondió correctamente. Revisá la conexión e intentá de nuevo.");
+  }
 
   const result = await response.json();
   if (!response.ok || !result.ok) {
@@ -42,7 +44,7 @@ async function registrarEnServidor(nombre, email, clave) {
     error.servidor = true;
     throw error;
   }
-  return true;
+  return result;
 }
 
 function iniciarRegistro() {
@@ -79,21 +81,21 @@ function iniciarRegistro() {
         return;
       }
 
-      let creado = false;
+      let result;
       try {
-        creado = await registrarEnServidor(nombre, email, clave);
+        result = await registrarEnServidor(nombre, email, clave);
       } catch (error) {
-        /* Un error de validación del servidor no debe caer al modo local. */
+        /* Fuera de un sitio estático no se crean cuentas locales: se informa el error real. */
         if (error.servidor) throw error;
-      }
-
-      if (!creado) {
-        await registrarLocal(nombre, email, clave);
-        return;
+        throw new Error("No se pudo conectar con el servidor del juego. Revisá tu conexión e intentá de nuevo.");
       }
 
       localStorage.removeItem("modoInvitado");
-      alert("Cuenta creada correctamente. Iniciá sesión para continuar.");
+      const mensaje = result.correoEnviado
+        ? "Cuenta creada correctamente. Te enviamos un correo de bienvenida. Iniciá sesión para continuar."
+        : "Cuenta creada correctamente. Iniciá sesión para continuar." +
+          (result.avisoCorreo ? "\n\n" + result.avisoCorreo : "");
+      alert(mensaje);
       location.assign("Login.html");
     } catch (error) {
       alert(error.message || "No se pudo crear la cuenta. Comprobá que el servidor esté iniciado.");

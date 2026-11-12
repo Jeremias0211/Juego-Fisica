@@ -817,22 +817,25 @@ Archivo compartido por todos los endpoints. Contiene:
 
 - **`responder($estado, $datos)`**: devuelve JSON con el código HTTP y termina la ejecución.
 - **`entradaJson()`**: lee `php://input` y valida que sea un objeto JSON.
-- **`conexion()`**: crea un `PDO` con variables de entorno `DB_HOST`, `DB_NAME`, `DB_USER` y `DB_PASSWORD`; usa `utf8mb4`, excepciones y prepares reales.
+- **`conexion()`**: crea un `PDO` con los datos de `api/config.local.php` o de las variables de entorno `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER` y `DB_PASSWORD`; usa `utf8mb4`, excepciones, prepares reales y timeout de conexión. Si no hay configuración privada, usa los valores de XAMPP (`127.0.0.1`, `nuevo_hogar`, `root`, sin contraseña).
 - **`iniciarSesionSegura()`**: configura la cookie de sesión (`HttpOnly`, `SameSite=Lax`, `secure` si hay HTTPS).
 - **`exigirJugadorSesion()`**: devuelve el `jugador_id` o responde 401.
 - **`exigirMetodo($metodo)`**: responde 405 si el método HTTP no coincide.
+
+`api/configuracion.php` carga `api/config.local.php` (ignorado por Git) y expone `configuracion($clave, $variableEntorno, $defecto)`. `api/config.example.php` es la plantilla con las secciones `db`, `correo` y `sitio`.
 
 ### 10.2 Endpoints
 
 | Endpoint | Método | Qué hace |
 |---|---|---|
-| `api/registrar.php` | POST | Valida usuario (3–40), correo y contraseña (mínimo 4); guarda `password_hash`. |
+| `api/registrar.php` | POST | Valida usuario (3–40), correo y contraseña (mínimo 4); guarda `password_hash` y envía el correo de bienvenida. Si el correo falla, la cuenta igual queda creada y se devuelve un aviso. |
 | `api/iniciar-sesion.php` | POST | Busca el usuario, verifica con `password_verify`, regenera el ID de sesión y guarda `jugador_id`/`usuario`. |
 | `api/cerrar-sesion.php` | POST | Vacía `$_SESSION`, borra la cookie y destruye la sesión. |
 | `api/progreso.php` | GET | Devuelve niveles completados, puntuación total y siguiente nivel. |
 | `api/puntuaciones.php` | GET | Ranking: suma puntos y cuenta niveles por jugador. |
-| `api/puntuaciones.php` | POST | Guarda 100 puntos para un nivel; exige que el nivel anterior esté completo. |
+| `api/puntuaciones.php` | POST | Guarda 100 puntos para un nivel; exige que el nivel anterior esté completo. Al completar el nivel 6 por primera vez envía el correo de misión completada. |
 | `api/reiniciar-progreso.php` | POST | Borra las filas de `progreso_jugador` del jugador. |
+| `api/correo.php` | Interno | Plantillas y envío por Brevo (HTTPS), SMTP con PHPMailer o modo `log`. No se llama directo desde el navegador. |
 
 ### 10.3 Seguridad
 
@@ -842,6 +845,8 @@ Archivo compartido por todos los endpoints. Contiene:
 - Validación de tipos y rangos (nivel 1–6, correo válido, largos máximos).
 - El servidor no confía en el puntaje que envía el cliente: asigna 100 puntos fijos.
 - El ranking solo incluye cuentas registradas; el invitado no se envía.
+- `api/config.local.php` está fuera de Git y `api/.htaccess` bloquea el acceso directo a los archivos internos.
+- La API key de Brevo y la contraseña SMTP se leen desde ese archivo privado, nunca desde el código ni desde el navegador.
 
 ### 10.4 Flujo típico de una partida con cuenta
 
@@ -853,7 +858,17 @@ Archivo compartido por todos los endpoints. Contiene:
 
 Si `esEntornoEstatico()` es verdadero (por ejemplo, en GitHub Pages), los pasos 1, 2, 4 y 5 no llaman a PHP: usan `credenciales.js`, `JuegoDB` y el ranking local.
 
-### 10.5 Relación con Supabase
+### 10.5 Correo
+
+`api/correo.php` centraliza el envío y las plantillas HTML:
+
+- **Brevo** (`driver = brevo`): envía por HTTPS a la API de Brevo. Es la opción recomendada para InfinityFree.
+- **SMTP** (`driver = smtp`): usa PHPMailer 7.1.1 incluido en `vendor/PHPMailer/`, con TLS en el puerto 587 o SSL.
+- **Log** (`driver = log`): no envía; escribe el asunto en el log de PHP. Sirve para probar sin credenciales.
+
+El correo de bienvenida se envía después de insertar la cuenta. El de misión completada se envía solo cuando el nivel 6 pasa de no completado a completado. Un fallo de correo no revierte la cuenta ni el progreso.
+
+### 10.6 Relación con Supabase
 
 Supabase es una plataforma de base de datos PostgreSQL y servicios de backend (autenticación, almacenamiento, APIs). **No ejecuta PHP** ni sirve este proyecto tal como está. Para usar Supabase habría que reescribir los endpoints de `api/` como consultas a su API o funciones, y el hosting tendría que ser compatible con el backend elegido. La demo de GitHub Pages no necesita Supabase: funciona con `localStorage`.
 
@@ -861,7 +876,7 @@ Supabase es una plataforma de base de datos PostgreSQL y servicios de backend (a
 
 ## 11. Base de datos
 
-El archivo `database/nuevo_hogar.sql` crea la base `nuevo_hogar` y tres tablas:
+El archivo `database/nuevo_hogar.sql` crea la base `nuevo_hogar` y tres tablas. Para importar en InfinityFree usá `database/infinityfree.sql`, que contiene el mismo esquema pero sin `CREATE DATABASE` ni `USE` porque la base ya se selecciona en phpMyAdmin.
 
 ### `jugadores`
 
@@ -994,10 +1009,14 @@ La base local **no guarda contraseñas**. En el modo completo, las cuentas reale
 1. Copiar el proyecto en `C:\xampp\htdocs\Juego-Fisica`.
 2. Iniciar **Apache** y **MySQL** desde XAMPP.
 3. Abrir phpMyAdmin e importar `database/nuevo_hogar.sql`.
-4. Revisar `api/conexion.php` si MySQL no usa `root` sin contraseña.
+4. Copiar `api/config.example.php` como `api/config.local.php` si MySQL no usa `root` sin contraseña. Ese archivo está ignorado por Git.
 5. Abrir `http://127.0.0.1/Juego-Fisica/`.
 
 > Usar `127.0.0.1` evita problemas de proxy o DNS con `localhost`. El proyecto debe servirse por HTTP: abrir los HTML con doble clic (`file://`) rompe los módulos ES y los `fetch`.
+
+### Publicación en InfinityFree
+
+La guía paso a paso está en `DESPLIEGUE-INFINITYFREE.md`. Resumen: importar `database/infinityfree.sql` en phpMyAdmin, crear `api/config.local.php` con los datos de MySQL y correo, subir el contenido a `htdocs` y configurar Brevo o SMTP (InfinityFree no permite `mail()`).
 
 ### Opción con el servidor integrado de PHP
 
@@ -1092,7 +1111,9 @@ Abrir `http://localhost:3000/`.
 | La página queda en blanco y la consola dice “Failed to load module” | Se abrió con `file://` | Servir por Apache, PHP o Node. |
 | `api/progreso.php` responde 401 | No hay sesión PHP | Iniciar sesión; el modo invitado no usa esa API. |
 | No carga el ranking | MySQL apagado o base no importada | Iniciar MySQL e importar `database/nuevo_hogar.sql`. |
-| Error “No se pudo conectar con la base de datos” | Credenciales distintas | Ajustar `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD` o `api/conexion.php`. |
+| Error “No se pudo conectar con la base de datos” | Credenciales distintas | Ajustar `DB_HOST`, `DB_NAME`, `DB_USER`, `DB_PASSWORD` o los valores de `api/config.local.php`. |
+| No llegan los correos | Driver en `log`, API key vacía o remitente sin verificar | Configurar Brevo o SMTP; revisar spam y el log del hosting. |
+| El QR abre la demo de Pages | Se usó `qr-demo.png` | Generar el QR final desde `qr.html` en el dominio de InfinityFree. |
 | El canvas no aparece | `#contenedorEscena` no existe o p5 no cargó | Revisar `html/Juego.html` y la consola. |
 | El juego no avanza | La pestaña está oculta o el navegador pausó `requestAnimationFrame` | Mantener la pestaña visible. |
 | No hay sonido | El navegador exige un gesto del usuario | Hacer clic o presionar una tecla; revisar los switches de audio. |

@@ -26,7 +26,7 @@ Videojuego educativo de plataformas 2D sobre gravedad, impulso, inercia, propuls
 1. Copiá el proyecto dentro de `C:\xampp\htdocs\Juego-Fisica`.
 2. Iniciá Apache y el módulo **MySQL** del panel XAMPP. XAMPP distribuye MariaDB como reemplazo compatible de MySQL; no hace falta instalar los dos por separado.
 3. Abrí phpMyAdmin e importá `database/nuevo_hogar.sql`.
-4. Revisá las credenciales en `api/conexion.php` si tu MySQL no usa los valores por defecto de XAMPP.
+4. Si tu MySQL no usa los valores por defecto de XAMPP, copiá `api/config.example.php` como `api/config.local.php` y ajustá las credenciales. Ese archivo está ignorado por Git.
 5. Abrí `http://localhost/Juego-Fisica/`. `index.php` te lleva a la pantalla de acceso.
 
 También se puede ejecutar con el servidor integrado de PHP, desde la carpeta del proyecto:
@@ -40,6 +40,18 @@ Abrí `http://localhost:8000/`. PHP debe tener habilitada la extensión PDO MySQ
 ### Usarlo desde otros dispositivos de la misma red Wi-Fi
 
 En la computadora que ejecuta el servidor, consultá su dirección IPv4 de Wi-Fi con `ipconfig`. Desde la tablet o el celular abrí `http://DIRECCION-IP:8000/` (o el puerto configurado en Apache). Si Windows pregunta, permití el acceso del servidor en la red privada. Todos los dispositivos deben estar conectados a la misma red.
+
+## Publicar en InfinityFree (cuentas reales en Internet)
+
+La guía completa está en **[DESPLIEGUE-INFINITYFREE.md](DESPLIEGUE-INFINITYFREE.md)**. Resumen:
+
+1. Importá `database/infinityfree.sql` en phpMyAdmin (sin `CREATE DATABASE`).
+2. Copiá `api/config.example.php` como `api/config.local.php` y completá los datos de MySQL y correo. No lo subas a GitHub.
+3. Subí a `htdocs` el contenido de `index.php`, `html/`, `api/`, `css/`, `js/`, `img/`, `vendor/`, `.htaccess` y `qr.html`.
+4. Configurá Brevo (recomendado) o SMTP para los correos; InfinityFree no permite `mail()`.
+5. Abrí `https://tu-cuenta.infinityfreeapp.com/qr.html` para generar y descargar el QR del sitio final.
+
+Las cuentas creadas en InfinityFree se guardan en MySQL y funcionan desde cualquier PC o celular. La demo de GitHub Pages sigue siendo solo un escaparate estático con cuentas locales.
 
 ## Alternativa local con Node y SQLite
 
@@ -55,6 +67,8 @@ Node muestra las direcciones locales de acceso al iniciarse y crea `database/nue
 - Una cuenta registra el puntaje y los niveles completados en MySQL/SQLite; el mapa recupera ese avance al iniciar sesión desde otro dispositivo.
 - El modo invitado puede jugar sin registrarse; su avance queda solamente en el navegador donde juega y no aparece en el ranking.
 - Cada planeta completado por primera vez suma 100 puntos.
+- Al crear una cuenta se envía un correo de bienvenida y al completar el nivel 6 por primera vez se envía el correo de misión completada. Requiere configurar Brevo o SMTP en `api/config.local.php`; con `driver = log` no se envían.
+- `qr.html` genera un QR descargable con la dirección del sitio para compartir el juego desde el celular.
 - El servidor valida la sesión y el orden de niveles antes de guardar una puntuación. El combustible de la nave se conserva localmente en el dispositivo.
 
 ## Cómo jugar
