@@ -51,6 +51,7 @@ export function crearEscena(p, mission, callbacks, sceneHost) {
   p.resumeGame = controles.resumeGame;
   p.useAbility = controles.useAbility;
   p.setJetpack = controles.setJetpack;
+  p.controlar = controles.controlar;
   p.restartLevel = reiniciar;
 
   controles.conectar();

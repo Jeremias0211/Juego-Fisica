@@ -1,1 +1,1 @@
-{"name":"nuevo-hogar-juego","version":"1.0.0","private":true,"scripts":{"server":"node server.js"},"dependencies":{"p5":"^2.3.3"}}
+{"name":"nuevo-hogar-juego","version":"1.0.0","private":true,"scripts":{"server":"node server.js","mando":"node servidor/mando.js"},"dependencies":{"p5":"^2.3.3","ws":"^8.18.0"}}
