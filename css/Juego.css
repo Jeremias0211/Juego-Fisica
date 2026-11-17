@@ -133,3 +133,7 @@ footer{flex:0 0 auto;margin:0;font-size:11px}
   .estado-plataforma{gap:2px}
 }
 
+/* Insignia del mando Android (js/juego/mando.js) sobre el escenario. */
+.insignia-mando{position:absolute;top:8px;right:8px;z-index:3;max-width:calc(100% - 16px);padding:5px 9px;border:1px solid rgba(99,234,255,.55);border-radius:8px;background:rgba(8,22,38,.82);color:#bff6ff;font-size:11px;font-weight:800;letter-spacing:.4px;pointer-events:none;box-shadow:0 0 10px rgba(0,220,255,.18);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.insignia-mando.activo{border-color:#5dff9d;color:#d6ffe6;box-shadow:0 0 12px rgba(93,255,157,.3)}
+@media(max-width:680px){.insignia-mando{font-size:9px;padding:4px 7px}}
