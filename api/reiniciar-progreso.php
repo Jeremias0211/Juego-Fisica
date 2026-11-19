@@ -2,7 +2,9 @@
 declare(strict_types=1);
 require_once __DIR__ . '/conexion.php';
 exigirMetodo('POST');
+exigirOrigenPermitido();
 $jugadorId = exigirJugadorSesion();
+limitarIntentos('reinicio:' . $jugadorId, 5, 600);
 
 try {
     $borrar = conexion()->prepare('DELETE FROM progreso_jugador WHERE jugador_id = :jugador');

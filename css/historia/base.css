@@ -159,30 +159,56 @@ body {
 
 
 /* =========================
-   INDICADORES
+   ESTADO DE LA NAVE
 ========================= */
+
+.estado-nave {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px clamp(18px, 4vw, 44px);
+
+    width: 100%;
+
+    padding: 10px 16px;
+
+    border: 1px solid rgba(98, 234, 255, .28);
+
+    border-radius: 10px;
+
+    background: rgba(4, 20, 34, .68);
+
+    box-shadow: inset 0 0 16px rgba(0, 220, 255, .06);
+}
+
 
 .indicador {
 
-    position: absolute;
+    display: flex;
 
-    bottom: 55px;
+    align-items: center;
 
-    width: 110px;
+    gap: 9px;
 
-    font-size: 10px;
+    width: auto;
 
+    color: #a8e4f5;
+
+    font-size: 9px;
+    font-weight: bold;
+    letter-spacing: 1.3px;
+
+    white-space: nowrap;
+}
+
+
+.indicador-texto {
     color: #b8efff;
-}
-
-
-.oxigeno {
-    left: 27%;
-}
-
-
-.combustible {
-    right: 27%;
 }
 
 
@@ -192,12 +218,11 @@ body {
 
 .barra-indicador {
 
-    width: 90px;
-    height: 7px;
-
-    margin-top: 4px;
+    width: clamp(70px, 10vw, 120px);
+    height: 6px;
 
     border: 1px solid #77eaff;
+    border-radius: 2px;
 
     background: rgba(10, 30, 45, 0.7);
 }
@@ -223,4 +248,435 @@ body {
     width: 85%;
 }
 
-
+
+/* =========================
+   CONTENIDO Y BIBLIOTECA
+========================= */
+
+#pantallaHistoria {
+
+    display: grid;
+
+    place-items: center;
+
+    padding: 28px 16px 32px;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+
+.contenido-historia {
+
+    display: grid;
+
+    grid-template-columns: minmax(0, 500px);
+
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+
+    gap: clamp(24px, 4vh, 36px);
+
+    width: 100%;
+
+    margin: auto;
+}
+
+
+/* En pantallas anchas la historia y la biblioteca comparten una consola
+   de misión en dos columnas para evitar scroll y superposiciones. */
+
+@media (min-width: 1100px) {
+
+    .contenido-historia {
+
+        grid-template-columns: repeat(2, minmax(0, 500px));
+
+        gap: clamp(26px, 3vw, 44px);
+    }
+}
+
+
+/* En tablets anchas la pila entra justa: compactar evita que el padding
+   genere una barra de scroll innecesaria. */
+
+@media (min-width: 901px) and (max-width: 1100px) {
+
+    #pantallaHistoria {
+        padding: 20px 16px 12px;
+    }
+
+    .contenido-historia {
+        gap: 20px;
+    }
+}
+
+
+/* La tarjeta de historia deja de estar centrada de forma absoluta:
+   ahora comparte el flujo con la biblioteca educativa. */
+
+.historia {
+
+    position: relative;
+
+    top: auto;
+    left: auto;
+
+    transform: none;
+}
+
+
+/* =========================
+   BIBLIOTECA EDUCATIVA
+========================= */
+
+.columna-biblioteca {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    width: min(500px, 92vw);
+}
+
+
+.biblioteca {
+
+    position: relative;
+
+    width: 100%;
+
+    overflow: hidden;
+
+    padding: 16px 20px 18px;
+
+    border: 1px solid rgba(98, 234, 255, .55);
+
+    border-radius: 10px;
+
+    background: rgba(6, 28, 44, .84);
+
+    box-shadow:
+        0 0 8px rgba(98, 234, 255, .35),
+        0 0 22px rgba(0, 234, 255, .18),
+        inset 0 0 22px rgba(0, 220, 255, .08);
+}
+
+
+.biblioteca::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 20px;
+    right: 20px;
+
+    height: 2px;
+
+    border-radius: 0 0 2px 2px;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        #62eaff 30%,
+        #d5ffff 50%,
+        #62eaff 70%,
+        transparent
+    );
+
+    box-shadow: 0 0 12px rgba(98, 234, 255, .55);
+}
+
+
+.biblioteca-cabecera {
+
+    margin-bottom: 6px;
+}
+
+
+.biblioteca-ceja-fila {
+
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 10px;
+
+    min-height: 24px;
+}
+
+
+/* El asistente se integra como una acción de la biblioteca para no
+   flotar encima del estado de la nave. */
+
+.biblioteca-ceja-fila .asistente-launcher {
+
+    position: static;
+
+    z-index: auto;
+
+    flex: none;
+
+    gap: 5px;
+
+    min-height: 24px;
+
+    padding: 0 9px;
+
+    border: 1px solid rgba(98, 234, 255, .34);
+    border-radius: 999px;
+
+    background: rgba(8, 34, 44, .7);
+
+    color: #cdeff8;
+
+    font-size: 9px;
+    font-weight: bold;
+    letter-spacing: .5px;
+
+    box-shadow: none;
+
+    transition: .2s;
+}
+
+
+.biblioteca-ceja-fila .asistente-launcher > span:first-child {
+    font-size: 12px;
+}
+
+
+.biblioteca-ceja-fila .asistente-launcher:hover {
+
+    border-color: rgba(126, 231, 135, .7);
+
+    background: rgba(20, 64, 74, .86);
+
+    box-shadow: 0 0 10px rgba(126, 231, 135, .2);
+
+    transform: translateY(-1px);
+}
+
+
+.biblioteca-ceja-fila .asistente-launcher:focus-visible {
+
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+}
+
+
+.biblioteca-ceja {
+
+    color: #7ee787;
+
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 1.6px;
+}
+
+
+.biblioteca h3 {
+
+    margin-top: 4px;
+
+    color: #8ff5ff;
+
+    font-size: 18px;
+    letter-spacing: .8px;
+
+    text-shadow:
+        0 0 5px rgba(255, 255, 255, .55),
+        0 0 12px rgba(0, 234, 255, .6);
+}
+
+
+.biblioteca-texto {
+
+    margin-bottom: 12px;
+
+    color: #c6e6f2;
+
+    font-size: 12px;
+    line-height: 1.45;
+}
+
+
+.biblioteca-enlaces {
+
+    display: grid;
+
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    gap: 8px;
+}
+
+
+.biblioteca-enlaces a {
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: flex-start;
+
+    gap: 3px;
+
+    min-height: 88px;
+
+    padding: 11px 6px;
+
+    border: 1px solid rgba(143, 220, 245, .28);
+
+    border-radius: 9px;
+
+    background: rgba(10, 40, 60, .7);
+
+    color: #e9fbff;
+
+    text-align: center;
+    text-decoration: none;
+
+    transition: .2s;
+}
+
+
+.biblioteca-enlaces a:hover {
+
+    border-color: rgba(126, 231, 135, .7);
+
+    background: rgba(20, 64, 74, .86);
+
+    box-shadow: 0 0 12px rgba(126, 231, 135, .22);
+
+    transform: translateY(-2px);
+}
+
+
+.biblioteca-enlaces a:active {
+    transform: translateY(0);
+}
+
+
+.biblioteca-enlaces a:focus-visible {
+
+    outline: 3px solid #fff;
+    outline-offset: 2px;
+}
+
+
+.biblioteca-icono {
+
+    font-size: 20px;
+    line-height: 1;
+}
+
+
+.biblioteca-enlaces strong {
+
+    color: #9ff3ff;
+
+    font-size: 10px;
+    letter-spacing: .5px;
+}
+
+
+.biblioteca-enlaces small {
+
+    color: #b7d6e2;
+
+    font-size: 9px;
+    line-height: 1.3;
+}
+
+
+/* Resumen del progreso educativo dentro de la biblioteca. */
+
+.educativo-progreso {
+
+    display: inline-flex;
+
+    flex: none;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 6px;
+
+    width: max-content;
+    max-width: 100%;
+
+    min-height: 24px;
+
+    margin: 0 0 12px;
+
+    padding: 0 10px;
+
+    border: 1px solid rgba(126, 231, 135, .34);
+
+    border-radius: 999px;
+
+    background: rgba(8, 34, 30, .72);
+
+    color: #c8f5da;
+
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: .4px;
+
+    text-decoration: none;
+
+    vertical-align: top;
+
+    transition: .2s;
+}
+
+
+.educativo-progreso[hidden] {
+
+    display: none !important;
+}
+
+
+.educativo-progreso .flecha {
+    color: #7ee787;
+}
+
+
+.educativo-progreso:hover {
+
+    border-color: rgba(126, 231, 135, .7);
+
+    background: rgba(20, 60, 48, .88);
+
+    color: #fff;
+
+    box-shadow: 0 0 12px rgba(126, 231, 135, .2);
+}
+
+
+.educativo-progreso:focus-visible {
+
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    .biblioteca-enlaces a,
+    .educativo-progreso,
+    .biblioteca-ceja-fila .asistente-launcher {
+        transition: none;
+    }
+
+    .biblioteca-enlaces a:hover,
+    .biblioteca-ceja-fila .asistente-launcher:hover {
+        transform: none;
+    }
+}

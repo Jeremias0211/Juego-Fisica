@@ -1,8 +1,18 @@
 /* Registro e inicio de sesión. */
 
 const { database } = require("../base-datos");
-const { responderJson, leerJson } = require("../respuestas");
+const { responderJson, leerJson, exigirOrigen } = require("../respuestas");
 const { crearHash, verificarHash, crearSesion } = require("../seguridad");
+const { ipDe, limitarPeticion, olvidarLimite } = require("../limites");
+const { normalizarCorreo, validarCuenta } = require("../validacion-cuenta");
+
+const MAX_CONTRASENA = 200;
+
+function usuarioValido(usuario) {
+  return usuario.length >= 3 &&
+    [...usuario].length <= 40 &&
+    !/[\u0000-\u001f\u007f]/.test(usuario);
+}
 
 async function manejarAutenticacion(request, response, pathname) {
   if (request.method !== "POST") {
@@ -10,6 +20,11 @@ async function manejarAutenticacion(request, response, pathname) {
     responderJson(response, 405, { ok: false, error: "Método no permitido." });
     return;
   }
+
+  if (!exigirOrigen(request, response)) return;
+
+  const ip = ipDe(request);
+  if (!limitarPeticion(request, response, `auth:${ip}`, 30, 5 * 60 * 1000)) return;
 
   let data;
   try {
@@ -23,26 +38,27 @@ async function manejarAutenticacion(request, response, pathname) {
   const contrasena = String(data.contrasena || "");
 
   if (pathname === "/api/registrar.php") {
-    const correo = String(data.correo || "").trim();
-    const largoUsuario = [...usuario].length;
+    if (!limitarPeticion(request, response, `registro:${ip}`, 10, 60 * 60 * 1000)) return;
 
-    if (largoUsuario < 3 || largoUsuario > 40) {
+    const correo = normalizarCorreo(data.correo);
+    const revision = validarCuenta(usuario, correo, contrasena);
+
+    if (!usuarioValido(usuario)) {
       responderJson(response, 422, { ok: false, error: "El usuario debe tener entre 3 y 40 caracteres." });
       return;
     }
-    if (correo.length > 254 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
-      responderJson(response, 422, { ok: false, error: "Ingresá un correo electrónico válido." });
-      return;
-    }
-    if ([...contrasena].length < 4) {
-      responderJson(response, 422, { ok: false, error: "La contraseña debe tener al menos 4 caracteres." });
+    if (!revision.ok) {
+      responderJson(response, 422, { ok: false, error: revision.error });
       return;
     }
 
     try {
       const hash = await crearHash(contrasena);
-      database.prepare("INSERT INTO jugadores (usuario, correo, contrasena_hash) VALUES (?, ?, ?)").run(usuario, correo, hash);
-      responderJson(response, 201, { ok: true });
+      const resultado = database
+        .prepare("INSERT INTO jugadores (usuario, correo, contrasena_hash) VALUES (?, ?, ?)")
+        .run(usuario, revision.correo, hash);
+      crearSesion(request, response, Number(resultado.lastInsertRowid));
+      responderJson(response, 201, { ok: true, usuario, correo: revision.correo });
     } catch (error) {
       if (error.code === "ERR_SQLITE_ERROR" && /UNIQUE constraint failed/i.test(error.message)) {
         responderJson(response, 409, { ok: false, error: "Ese usuario o correo ya está registrado." });
@@ -59,13 +75,22 @@ async function manejarAutenticacion(request, response, pathname) {
     return;
   }
 
+  if ([...usuario].length > 40 || [...contrasena].length > MAX_CONTRASENA) {
+    responderJson(response, 401, { ok: false, error: "Usuario o contraseña incorrectos." });
+    return;
+  }
+
+  const claveLimite = `login-usuario:${ip}:${usuario.toLowerCase()}`;
+  if (!limitarPeticion(request, response, claveLimite, 10, 10 * 60 * 1000)) return;
+
   try {
     const jugador = database.prepare("SELECT id, usuario, contrasena_hash FROM jugadores WHERE usuario = ? LIMIT 1").get(usuario);
     if (!jugador || !(await verificarHash(contrasena, jugador.contrasena_hash))) {
       responderJson(response, 401, { ok: false, error: "Usuario o contraseña incorrectos." });
       return;
     }
-    crearSesion(response, jugador.id);
+    olvidarLimite(claveLimite);
+    crearSesion(request, response, jugador.id);
     responderJson(response, 200, { ok: true, usuario: jugador.usuario });
   } catch (error) {
     console.error("Error iniciando sesión:", error);

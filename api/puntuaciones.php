@@ -4,6 +4,7 @@ require_once __DIR__ . '/conexion.php';
 require_once __DIR__ . '/correo.php';
 
 if (($_SERVER['REQUEST_METHOD'] ?? '') === 'GET') {
+    limitarPorIp('ranking', 120, 60);
     try {
         $filas = conexion()->query(
             'SELECT j.usuario,
@@ -29,6 +30,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') === 'GET') {
 
 exigirMetodo('POST');
 $jugadorId = exigirJugadorSesion();
+limitarIntentos('puntuaciones:' . $jugadorId, 120, 60);
 $datos = entradaJson();
 $nivel = filter_var($datos['nivel'] ?? null, FILTER_VALIDATE_INT);
 if ($nivel === false || $nivel === null || $nivel < 1 || $nivel > 6) {

@@ -3,6 +3,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/conexion.php';
 exigirMetodo('GET');
 $jugadorId = exigirJugadorSesion();
+limitarIntentos('progreso:' . $jugadorId, 120, 60);
 
 try {
     $consulta = conexion()->prepare(

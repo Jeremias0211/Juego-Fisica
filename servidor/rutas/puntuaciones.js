@@ -1,8 +1,9 @@
 /* Consulta del ranking y guardado de niveles puntuados. */
 
 const { database } = require("../base-datos");
-const { responderJson, leerJson } = require("../respuestas");
+const { responderJson, leerJson, exigirOrigen } = require("../respuestas");
 const { exigirSesion } = require("../seguridad");
+const { limitarPeticion } = require("../limites");
 
 function manejarPuntuaciones(request, response, pathname) {
   const apiGet = pathname === "/api/puntuaciones.php" || pathname === "/api/puntuaciones";
@@ -32,8 +33,12 @@ function manejarPuntuaciones(request, response, pathname) {
   }
 
   if (apiPost && request.method === "POST") {
+    if (!exigirOrigen(request, response)) return;
+
     const sesion = exigirSesion(request, response);
     if (!sesion) return;
+
+    if (!limitarPeticion(request, response, `puntuaciones:${sesion.jugadorId}`, 120, 60 * 1000)) return;
 
     leerJson(request).then((data) => {
       const nivel = Number(data.nivel);

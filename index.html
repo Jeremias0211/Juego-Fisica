@@ -255,13 +255,6 @@
     </p>
   </main>
 
-  <script>
-    document.getElementById("jugarInvitado").addEventListener("click", () => {
-      localStorage.removeItem("sesionActiva");
-      localStorage.setItem("modoInvitado", "true");
-      localStorage.setItem("jugadorActual", "Invitado");
-      location.href = "html/Index.html";
-    });
-  </script>
+  <script src="js/portal/invitado.js"></script>
 </body>
 </html>

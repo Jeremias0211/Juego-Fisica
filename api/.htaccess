@@ -1,6 +1,6 @@
 # Protege los archivos internos del backend.
 # Los endpoints PHP los incluyen desde el servidor; nadie debería abrirlos por URL.
-<FilesMatch "^(config\.local|config\.example|configuracion|conexion|correo)\.php$">
+<FilesMatch "^(?:config\.local|config\.example|configuracion|conexion|correo|validacion-cuenta)\.php$">
     <IfModule mod_authz_core.c>
         Require all denied
     </IfModule>
@@ -9,3 +9,15 @@
         Deny from all
     </IfModule>
 </FilesMatch>
+
+<IfModule mod_headers.c>
+    Header always set Cache-Control "no-store, max-age=0"
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header unset X-Powered-By
+</IfModule>
+
+<IfModule mod_autoindex.c>
+    Options -Indexes
+</IfModule>

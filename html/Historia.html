@@ -23,7 +23,10 @@
     <div id="pantallaHistoria">
 
 
-        <div class="historia">
+        <div class="contenido-historia">
+
+
+            <div class="historia">
 
             <h2>
                 MISIÓN: EL ÉXODO DE LA HUMANIDAD
@@ -71,28 +74,94 @@
         </div>
 
 
-        <div class="indicador oxigeno">
+        <div class="columna-biblioteca">
 
-            OXÍGENO
+        <section class="biblioteca" aria-labelledby="tituloBiblioteca">
 
-            <div class="barra-indicador">
+            <div class="biblioteca-cabecera">
 
-                <div class="nivel oxigeno-nivel"></div>
+                <div class="biblioteca-ceja-fila" data-asistente-launcher>
+
+                    <p class="biblioteca-ceja">BIBLIOTECA DE LA MISIÓN</p>
+
+                </div>
+
+                <h3 id="tituloBiblioteca">Aprendé mientras explorás</h3>
+
+            </div>
+
+            <p class="biblioteca-texto">
+                Contenido opcional para entender la física de cada planeta.
+                Tu progreso del juego no cambia.
+            </p>
+
+            <a class="educativo-progreso" id="educativoProgreso" href="Logros.html" hidden>
+
+                <span id="educativoProgresoTexto">0 de 11 logros</span>
+                <span class="flecha" aria-hidden="true">→</span>
+
+            </a>
+
+            <nav class="biblioteca-enlaces" aria-label="Secciones educativas">
+
+                <a href="Universo.html">
+                    <span class="biblioteca-icono" aria-hidden="true">🪐</span>
+                    <strong>FICHAS</strong>
+                    <small>8 planetas y la Luna</small>
+                </a>
+
+                <a href="Quiz.html">
+                    <span class="biblioteca-icono" aria-hidden="true">✦</span>
+                    <strong>CUESTIONARIO</strong>
+                    <small>Rondas de 10 preguntas</small>
+                </a>
+
+                <a href="Laboratorio.html">
+                    <span class="biblioteca-icono" aria-hidden="true">🧪</span>
+                    <strong>LABORATORIO</strong>
+                    <small>3 experimentos</small>
+                </a>
+
+                <a href="Logros.html">
+                    <span class="biblioteca-icono" aria-hidden="true">🏅</span>
+                    <strong>LOGROS</strong>
+                    <small>11 desafíos</small>
+                </a>
+
+            </nav>
+
+        </section>
+
+        <div class="estado-nave" aria-label="Estado de la nave">
+
+            <div class="indicador oxigeno">
+
+                <span class="indicador-texto">OXÍGENO</span>
+
+                <div class="barra-indicador">
+
+                    <div class="nivel oxigeno-nivel"></div>
+
+                </div>
+
+            </div>
+
+            <div class="indicador combustible">
+
+                <span class="indicador-texto">COMBUSTIBLE</span>
+
+                <div class="barra-indicador">
+
+                    <div class="nivel combustible-nivel"></div>
+
+                </div>
 
             </div>
 
         </div>
 
+        </div>
 
-        <div class="indicador combustible">
-
-            COMBUSTIBLE
-
-            <div class="barra-indicador">
-
-                <div class="nivel combustible-nivel"></div>
-
-            </div>
 
         </div>
 
@@ -102,18 +171,8 @@
 
     <script type="module" src="../js/portal/menu.js"></script>
 
+    <script src="../js/portal/historia.js"></script>
 
-    <script>
-
-    const continuar = document.getElementById("continuar");
-
-    continuar.addEventListener("click", () => {
-
-        window.location.href = "Niveles.html";
-
-    });
-
-</script>
 <script type="module" src="../js/asistente/index.js"></script>
 
 </body>

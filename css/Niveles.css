@@ -2,22 +2,23 @@
 body{width:100vw;height:100vh;overflow:hidden;font-family:Arial,sans-serif;color:#fff;background:radial-gradient(circle at center,rgba(30,80,120,.35),rgba(0,5,20,.95)),url("../img/fondo-niveles.jpeg");background-size:cover;background-position:center;background-repeat:no-repeat}
 .mapa{position:relative;width:100vw;height:100vh}
 h1{position:absolute;top:30px;left:50%;transform:translateX(-50%);font-size:28px;letter-spacing:2px;color:#6cefff;text-shadow:0 0 5px #fff,0 0 15px #00eaff,0 0 30px #00eaff;z-index:10;white-space:nowrap}
-.instrucciones-mapa{position:absolute;top:72px;left:50%;transform:translateX(-50%);z-index:10;color:#d0f6ff;font-size:13px;text-align:center}
-.progreso-jugador{position:absolute;top:96px;right:22px;max-width:40vw;z-index:10;color:#c6efff;font-size:13px;text-align:right}
+.instrucciones-mapa{position:absolute;top:72px;left:50%;transform:translateX(-50%);z-index:10;padding:4px 10px;border-radius:999px;background:rgba(2,10,24,.58);color:#d0f6ff;font-size:13px;text-align:center;white-space:nowrap;backdrop-filter:blur(2px)}
+.progreso-jugador{position:absolute;top:96px;right:22px;max-width:40vw;z-index:10;padding:4px 8px;border-radius:8px;background:rgba(2,10,24,.45);color:#c6efff;font-size:13px;text-align:right}
 .ruta{position:absolute;width:100%;height:100%;top:0;left:0;pointer-events:none;z-index:1}
-.nivel{position:absolute;width:130px;background:none;border:0;color:white;cursor:pointer;text-align:center;z-index:5;transition:.25s}
+.nivel{position:absolute;left:0;top:0;width:130px;background:none;border:0;color:white;cursor:pointer;text-align:center;z-index:5;transition:opacity .25s;offset-path:var(--orbita-nivel);offset-distance:var(--inicio,0%);offset-rotate:0deg;offset-anchor:50% 50%;animation:orbita-planeta var(--periodo,150s) linear infinite;animation-delay:var(--retraso,0s)}
 .planeta{width:80px;height:80px;margin:auto;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:45px;background:radial-gradient(circle at 30% 30%,white,#39bde8 20%,#075080 55%,#02152b 100%);border:2px solid #61edff;box-shadow:0 0 10px white,0 0 20px #00eaff,0 0 35px rgba(0,234,255,.7);transition:.25s}
-.nivel span{display:block;margin-top:8px;font-size:14px;font-weight:bold;color:white;text-shadow:0 0 5px black}
-.nivel small{display:block;margin-top:3px;font-size:9px;color:#a8edff;text-shadow:0 0 5px black}
-.nivel1{left:50%;bottom:5%;transform:translateX(-50%)}
-.nivel2{left:21%;bottom:16%}
-.nivel3{left:7%;top:48%}
-.nivel4{left:17%;top:18%}
-.nivel5{left:43%;top:9%}
-.nivel6{right:20%;top:16%}
-.desbloqueado:hover{transform:scale(1.08)}
-.nivel1.desbloqueado:hover{transform:translateX(-50%) scale(1.08)}
-.desbloqueado:hover .planeta{box-shadow:0 0 15px white,0 0 30px #00eaff,0 0 55px #00eaff}
+.nivel span{display:table;margin:8px auto 0;padding:1px 7px;border-radius:999px;background:rgba(2,10,24,.66);font-size:14px;font-weight:bold;color:white;text-shadow:0 0 5px black}
+.nivel small{display:table;margin:3px auto 0;padding:1px 6px;border-radius:999px;background:rgba(2,10,24,.5);font-size:9px;color:#a8edff;text-shadow:0 0 5px black}
+.nivel1{--orbita-nivel:ellipse(22% 17% at 50% 51%);--periodo:152s;--inicio:80%;--retraso:-121.6s}
+.nivel2{--orbita-nivel:ellipse(15% 13% at 50% 51%);--periodo:128s;--inicio:22%;--retraso:-28.16s}
+.nivel3{--orbita-nivel:ellipse(28% 18% at 50% 51%);--periodo:168s;--inicio:62%;--retraso:-104.16s}
+.nivel4{--orbita-nivel:ellipse(33% 19% at 50% 51%);--periodo:186s;--inicio:37%;--retraso:-68.82s}
+.nivel5{--orbita-nivel:ellipse(38% 19% at 50% 51%);--periodo:206s;--inicio:0%;--retraso:0s}
+.nivel6{--orbita-nivel:ellipse(40% 20% at 50% 51%);--periodo:232s;--inicio:49%;--retraso:-113.68s}
+@media(hover:hover) and (pointer:fine){.nivel:hover{animation-play-state:paused;z-index:8}.mapa:has(.nivel:hover) .nivel{animation-play-state:paused}}
+.nivel:focus-visible{animation-play-state:paused;z-index:8}
+.mapa:has(.nivel:focus-visible) .nivel{animation-play-state:paused}
+.desbloqueado:hover .planeta{transform:scale(1.08);box-shadow:0 0 15px white,0 0 30px #00eaff,0 0 55px #00eaff}
 .nivel:focus-visible{outline:none}
 .nivel:focus-visible .planeta{outline:3px solid #fff;outline-offset:4px;box-shadow:0 0 18px #fff,0 0 34px #00eaff,0 0 52px rgba(0,234,255,.8)}
 .bloqueado{cursor:pointer;opacity:.55}
@@ -26,8 +27,9 @@ h1{position:absolute;top:30px;left:50%;transform:translateX(-50%);font-size:28px
 .candado{position:absolute;top:20px;right:10px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(20,30,40,.9);border:1px solid #aaa;font-size:13px}
 .volver{position:absolute;bottom:25px;left:30px;width:100px;height:35px;border:1px solid #73eaff;border-radius:8px;background:rgba(10,50,70,.8);color:white;cursor:pointer;transition:.2s}
 .volver:hover{background:rgba(50,130,160,.8);box-shadow:0 0 12px #00eaff}
-@media(max-width:900px){h1{top:25px;font-size:24px}.instrucciones-mapa{top:61px;font-size:11px}.progreso-jugador{top:86px;right:12px;font-size:11px}.nivel{width:110px}.planeta{width:65px;height:65px;font-size:36px}.nivel span{font-size:12px}.nivel small{font-size:8px}.candado{width:23px;height:23px;font-size:11px;top:15px;right:5px}.nivel2{left:16%;bottom:13%}.nivel3{left:3%;top:48%}.nivel4{left:13%;top:19%}.nivel5{left:40%;top:10%}.nivel6{right:16%;top:17%}}
-@media(max-width:600px){h1{top:16px;width:100%;text-align:center;font-size:18px;letter-spacing:1px}.instrucciones-mapa{top:43px;width:100%;font-size:10px}.progreso-jugador{top:63px;right:8px;font-size:9px}.nivel{width:85px}.planeta{width:55px;height:55px;font-size:29px;border-width:1px;box-shadow:0 0 7px white,0 0 14px #00eaff,0 0 22px rgba(0,234,255,.7)}.nivel span{margin-top:5px;font-size:10px}.nivel small{margin-top:2px;font-size:7px}.candado{width:20px;height:20px;top:10px;right:0;font-size:9px}.nivel1{left:50%;bottom:4%}.nivel2{left:8%;bottom:14%}.nivel3{left:1%;top:48%}.nivel4{left:8%;top:22%}.nivel5{left:37%;top:11%}.nivel6{right:8%;top:18%}.volver{bottom:15px;left:15px;width:85px;height:32px;font-size:11px}.desbloqueado:hover{transform:none}.nivel1.desbloqueado:hover{transform:translateX(-50%)}}
+@media(min-width:601px){body>.asistente-launcher{right:220px;bottom:24px}}
+@media(max-width:900px){h1{top:25px;font-size:24px}.instrucciones-mapa{top:61px;font-size:11px}.progreso-jugador{top:86px;right:12px;font-size:11px}.nivel{width:110px}.planeta{width:65px;height:65px;font-size:36px}.nivel span{font-size:12px}.nivel small{font-size:8px}.candado{width:23px;height:23px;font-size:11px;top:15px;right:5px}}
+@media(max-width:600px){h1{top:16px;width:100%;text-align:center;font-size:18px;letter-spacing:1px}.instrucciones-mapa{top:43px;width:100%;font-size:10px}.progreso-jugador{top:63px;right:8px;font-size:9px}.nivel{width:85px}.planeta{width:55px;height:55px;font-size:29px;border-width:1px;box-shadow:0 0 7px white,0 0 14px #00eaff,0 0 22px rgba(0,234,255,.7)}.nivel span{margin-top:5px;font-size:10px}.nivel small{margin-top:2px;font-size:7px}.candado{width:20px;height:20px;top:10px;right:0;font-size:9px}.volver{bottom:15px;left:15px;width:85px;height:32px;font-size:11px}}
 @media(max-width:380px){h1{font-size:16px}.instrucciones-mapa{top:40px;font-size:9px}.nivel{width:75px}.planeta{width:48px;height:48px;font-size:25px}.nivel span{font-size:9px}.nivel small{font-size:6px}.candado{width:18px;height:18px;font-size:8px}}
 
 .ranking-trigger{position:absolute;right:24px;bottom:24px;z-index:12;padding:11px 16px;border:1px solid #6cefff;border-radius:10px;background:rgba(5,23,42,.92);color:#e9fdff;font-weight:bold;letter-spacing:.4px;cursor:pointer;box-shadow:0 0 15px rgba(0,234,255,.35);transition:.2s}
@@ -41,23 +43,24 @@ h1{position:absolute;top:30px;left:50%;transform:translateX(-50%);font-size:28px
 
 
 /* Vista orbital del mapa: el Sol ocupa el centro y cada cuerpo queda en su órbita. */
-.sistema-solar{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.sistema-solar{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;--orbita-mercurio:ellipse(8% 11% at 50% 51%);--orbita-urano:ellipse(45% 38% at 50% 51%);--orbita-neptuno:ellipse(46% 41% at 50% 51%)}
 .orbita{position:absolute;left:50%;top:51%;border:1px solid rgba(145,213,238,.16);border-radius:50%;transform:translate(-50%,-50%);box-shadow:0 0 14px rgba(91,194,238,.035)}
-.orbita1{width:21%;height:31%}.orbita2{width:37%;height:52%}.orbita3{width:54%;height:73%}.orbita4{width:72%;height:94%}.orbita5{width:91%;height:116%}
+.orbita1{width:16%;height:22%}.orbita2{width:30%;height:38%}.orbita3{width:44%;height:50%}.orbita4{width:56%;height:62%}.orbita5{width:66%;height:66%}.orbita6{width:76%;height:68%}.orbita7{width:84%;height:70%}.orbita8{width:90%;height:76%}.orbita9{width:96%;height:82%}
 .sol{position:absolute;left:50%;top:51%;width:clamp(64px,8vw,112px);height:clamp(64px,8vw,112px);display:grid;place-items:center;border:2px solid rgba(255,240,157,.95);border-radius:50%;transform:translate(-50%,-50%);background:radial-gradient(circle at 42% 40%,#fffce0 0,#ffe77b 18%,#ffb529 48%,#ed6418 74%,#8c260e 100%);box-shadow:0 0 20px #fff2a8,0 0 55px rgba(255,163,28,.85),0 0 120px rgba(255,103,18,.48);color:#fff8c9;font-size:clamp(30px,4vw,50px);z-index:1}
-.cuerpo-planetario{position:absolute;z-index:2;display:flex;flex-direction:column;align-items:center;gap:4px;transform:translate(-50%,-50%);color:#d7ecf5;font-size:8px;font-weight:bold;letter-spacing:.45px;text-shadow:0 1px 4px #000;white-space:nowrap}
+.cuerpo-planetario{position:absolute;left:0;top:0;z-index:2;display:flex;flex-direction:column;align-items:center;gap:4px;transform:none;offset-path:var(--orbita);offset-distance:var(--inicio,0%);offset-rotate:0deg;offset-anchor:50% 50%;animation:orbita-planeta var(--periodo,46s) linear infinite;animation-delay:var(--retraso,0s);color:#d7ecf5;font-size:8px;font-weight:bold;letter-spacing:.45px;text-shadow:0 1px 4px #000;white-space:nowrap}
+/* Respaldo para navegadores sin offset-path: niveles quietos y repartidos. */
+@supports not (offset-path: ellipse(50% 50% at 50% 50%)){
+  .nivel{left:auto;top:auto;transform:translate(-50%,-50%);animation:none}
+  .nivel1{left:55%;top:40%}.nivel2{left:52%;top:66%}.nivel3{left:32%;top:38%}
+  .nivel4{left:30%;top:66%}.nivel5{left:84%;top:52%}.nivel6{left:12%;top:52%}
+  .cuerpo-planetario{display:none}
+}
+@keyframes orbita-planeta{from{offset-distance:0%}to{offset-distance:100%}}
 .cuerpo-planetario i{display:block;width:var(--size,38px);height:var(--size,38px);border:1px solid rgba(230,249,255,.56);border-radius:50%;box-shadow:inset -8px -6px 12px rgba(0,0,0,.5),0 0 15px rgba(138,220,255,.22)}
-.mercurio-decorativo{left:57%;top:35%;--size:26px}.mercurio-decorativo i{background:radial-gradient(circle at 30% 28%,#c6c2ba,#6c6b6d 56%,#292b32)}
-.urano-decorativo{left:15%;top:31%;--size:38px}.urano-decorativo i{background:radial-gradient(circle at 30% 28%,#c9ffff,#64dce5 52%,#18758e)}
-.neptuno-decorativo{left:89%;top:29%;--size:39px}.neptuno-decorativo i{background:radial-gradient(circle at 30% 28%,#a9d4ff,#3c77df 53%,#182d87)}
-.nivel{width:130px;z-index:5}
-.nivel1{left:25%!important;top:55%!important;bottom:auto!important;transform:translate(-50%,-50%)!important}
-.nivel2{left:35%!important;top:20%!important;bottom:auto!important;transform:translate(-50%,-50%)!important}
-.nivel3{left:12%!important;top:68%!important;bottom:auto!important;transform:translate(-50%,-50%)!important}
-.nivel4{left:66%!important;top:19%!important;right:auto!important;bottom:auto!important;transform:translate(-50%,-50%)!important}
-.nivel5{left:82%!important;top:48%!important;right:auto!important;bottom:auto!important;transform:translate(-50%,-50%)!important}
-.nivel6{left:70%!important;top:75%!important;right:auto!important;bottom:auto!important;transform:translate(-50%,-50%)!important}
-.nivel.desbloqueado:hover{transform:translate(-50%,-50%) scale(1.07)!important}
+.mercurio-decorativo{--size:26px;--orbita:var(--orbita-mercurio);--periodo:26s;--retraso:-22.1s;--inicio:85%}.mercurio-decorativo i{background:radial-gradient(circle at 30% 28%,#c6c2ba,#6c6b6d 56%,#292b32)}
+.urano-decorativo{--size:38px;--orbita:var(--orbita-urano);--periodo:70s;--retraso:-39.9s;--inicio:57%}.urano-decorativo i{background:radial-gradient(circle at 30% 28%,#c9ffff,#64dce5 52%,#18758e)}
+.neptuno-decorativo{--size:39px;--orbita:var(--orbita-neptuno);--periodo:95s;--retraso:-88.35s;--inicio:93%}.neptuno-decorativo i{background:radial-gradient(circle at 30% 28%,#a9d4ff,#3c77df 53%,#182d87)}
+.urano-decorativo span,.neptuno-decorativo span{display:none}
 .nivel .planeta{width:clamp(56px,6.3vw,82px);height:clamp(56px,6.3vw,82px);font-size:clamp(31px,3.4vw,45px)}
 .nivel1 .planeta{background:radial-gradient(circle at 30% 27%,#e8ffff,#54d7eb 28%,#146bad 64%,#06172d);box-shadow:0 0 12px #abffff,0 0 27px rgba(40,212,255,.72)}
 .nivel2 .planeta{background:radial-gradient(circle at 30% 28%,#fff2bd,#f8bf65 35%,#9b5538 72%,#34223a)}
@@ -79,14 +82,36 @@ h1{position:absolute;top:30px;left:50%;transform:translateX(-50%);font-size:28px
   .nivel span{margin-top:4px;font-size:8px}
   .nivel small{margin-top:1px;font-size:6px;white-space:nowrap}
   .candado{width:18px;height:18px;top:6px;right:1px;font-size:8px}
-  .nivel1{left:24%!important;top:54%!important}.nivel2{left:38%!important;top:22%!important}
-  .nivel3{left:10%!important;top:70%!important}.nivel4{left:66%!important;top:20%!important}
-  .nivel5{left:84%!important;top:49%!important}.nivel6{left:70%!important;top:76%!important}
-  .cuerpo-planetario{font-size:6px;gap:2px}.mercurio-decorativo{left:55%;top:36%;--size:19px}
-  .urano-decorativo{left:14%;top:29%;--size:28px}.neptuno-decorativo{left:89%;top:28%;--size:28px}
-  .sol{width:55px;height:55px;font-size:27px}.orbita1{width:24%;height:33%}.orbita2{width:42%;height:56%}.orbita3{width:61%;height:78%}.orbita4{width:81%;height:100%}.orbita5{width:100%;height:122%}
-  .nivel.desbloqueado:hover{transform:translate(-50%,-50%)!important}
+  .nivel1{--orbita-nivel:ellipse(22% 21% at 50% 51%)}
+  .nivel2{--orbita-nivel:ellipse(14% 12% at 50% 51%)}
+  .nivel3{--orbita-nivel:ellipse(27% 27% at 50% 51%)}
+  .nivel4{--orbita-nivel:ellipse(30% 27% at 50% 51%)}
+  .nivel5{--orbita-nivel:ellipse(33% 28% at 50% 51%)}
+  .nivel6{--orbita-nivel:ellipse(36% 28% at 50% 51%)}
+  .cuerpo-planetario{font-size:6px;gap:2px}.mercurio-decorativo{--size:19px}
+  .urano-decorativo span,.neptuno-decorativo span,.mercurio-decorativo span{display:none}
+  .sistema-solar{--orbita-mercurio:ellipse(9% 11% at 50% 51%);--orbita-urano:ellipse(40% 35% at 50% 51%);--orbita-neptuno:ellipse(42% 37% at 50% 51%)}
+  .urano-decorativo{--size:28px}.neptuno-decorativo{--size:28px}
+  .sol{width:55px;height:55px;font-size:27px}
   .volver{bottom:12px;left:12px}.ranking-trigger{right:12px;bottom:12px;padding:8px 10px;font-size:10px}
+}
+@media(max-width:600px) and (max-height:740px){
+  .nivel1{--orbita-nivel:ellipse(22% 18% at 50% 51%)}
+  .nivel2{--orbita-nivel:ellipse(14% 10% at 50% 51%)}
+  .nivel3{--orbita-nivel:ellipse(27% 20% at 50% 51%)}
+  .nivel4{--orbita-nivel:ellipse(30% 20% at 50% 51%)}
+  .nivel5{--orbita-nivel:ellipse(33% 21% at 50% 51%)}
+  .nivel6{--orbita-nivel:ellipse(36% 21% at 50% 51%)}
+}
+@media(max-width:600px) and (max-height:520px){
+  .nivel1{--orbita-nivel:ellipse(22% 14% at 50% 51%)}
+  .nivel2{--orbita-nivel:ellipse(14% 8% at 50% 51%)}
+  .nivel3{--orbita-nivel:ellipse(27% 15% at 50% 51%)}
+  .nivel4{--orbita-nivel:ellipse(30% 15% at 50% 51%)}
+  .nivel5{--orbita-nivel:ellipse(33% 16% at 50% 51%)}
+  .nivel6{--orbita-nivel:ellipse(36% 16% at 50% 51%)}
+  body>.asistente-launcher{right:12px;bottom:60px;gap:0;width:40px;min-height:40px;padding:0;justify-content:center;border-radius:50%}
+  .asistente-launcher-texto{display:none}
 }
 
 /* Informe de misión: se abre al elegir un planeta. */
@@ -113,6 +138,15 @@ h1{position:absolute;top:30px;left:50%;transform:translateX(-50%);font-size:28px
 .briefing-identidad h2{color:#f5feff;font-size:clamp(29px,4vw,38px);line-height:1;letter-spacing:.3px;overflow-wrap:anywhere}
 .briefing-concepto{margin-top:7px;color:#8fe9ff;font-size:12px;font-weight:bold;letter-spacing:1.5px;line-height:1.4;text-transform:uppercase}
 .briefing-descripcion{margin:0 0 20px;color:#d7ecf5;font-size:15px;line-height:1.65}
+.briefing-consejo{margin:0 0 18px;padding:14px 16px 15px;border:1px solid rgba(126,231,135,.3);border-left:3px solid #7ee787;border-radius:0 12px 12px 0;background:linear-gradient(135deg,rgba(126,231,135,.085),rgba(94,231,255,.035))}
+.briefing-consejo[hidden]{display:none!important}
+.briefing-consejo-ceja{margin:0 0 4px;color:#7ee787;font-size:9px;font-weight:bold;letter-spacing:1.6px}
+.briefing-consejo h3{margin:0 0 6px;color:#e9fbff;font-size:17px;line-height:1.25;letter-spacing:.2px}
+.briefing-consejo-texto{margin:0;color:#c8dde9;font-size:13px;line-height:1.65}
+.briefing-consejo-formula{margin:9px 0 0;padding:7px 10px;border:1px solid rgba(126,231,135,.22);border-radius:7px;background:rgba(5,15,28,.35);color:#bfffd3;font-family:"Courier New",monospace;font-size:12px;letter-spacing:.3px}
+.briefing-consejo-enlace{display:inline-block;margin-top:9px;color:#8ff5ff;font-size:10px;font-weight:bold;letter-spacing:.7px;text-decoration:none}
+.briefing-consejo-enlace:hover{color:#fff;text-decoration:underline}
+.briefing-consejo-enlace:focus-visible{outline:2px solid #fff;outline-offset:3px}
 .briefing-datos{display:grid;grid-template-columns:minmax(145px,.75fr) minmax(0,1.6fr);gap:10px;margin:0 0 16px}
 .briefing-dato{min-width:0;padding:12px 14px;border:1px solid rgba(143,220,245,.16);border-radius:12px;background:rgba(255,255,255,.035)}
 .briefing-dato dt{margin-bottom:6px;color:#79e6ff;font-size:9px;font-weight:bold;letter-spacing:1.4px;text-transform:uppercase}
@@ -141,6 +175,10 @@ h1{position:absolute;top:30px;left:50%;transform:translateX(-50%);font-size:28px
   .briefing-identidad h2{font-size:27px}
   .briefing-concepto{margin-top:5px;font-size:10px;letter-spacing:1px}
   .briefing-descripcion{margin-bottom:16px;font-size:14px;line-height:1.6}
+  .briefing-consejo{padding:12px 13px 13px;margin-bottom:13px}
+  .briefing-consejo h3{font-size:15px}
+  .briefing-consejo-texto{font-size:12px}
+  .briefing-consejo-formula{font-size:11px}
   .briefing-datos{grid-template-columns:1fr;gap:8px;margin-bottom:13px}
   .briefing-dato{padding:10px 12px}
   .briefing-estado{margin:0;font-size:12px}
@@ -154,3 +192,29 @@ h1{position:absolute;top:30px;left:50%;transform:translateX(-50%);font-size:28px
   .briefing-descripcion{font-size:13px}
 }
 @media(prefers-reduced-motion:reduce){.briefing-card{animation:none}.briefing-acciones button{transition:none}}
+
+/* Los planetas mantienen su posición si el usuario prefiere menos movimiento. */
+@media(prefers-reduced-motion:reduce){
+  .cuerpo-planetario,.nivel{animation:none;offset-distance:var(--inicio,0%)}
+  .nivel .planeta,.briefing-acciones button{transition:none}
+}
+
+/* Con el informe abierto las órbitas se detienen para leer sin distracciones. */
+body.orbitas-pausadas .nivel,body.orbitas-pausadas .cuerpo-planetario{animation-play-state:paused}
+
+/* Ventanas bajas: cabecera compacta, progreso al pie y planetas más chicos. */
+@media(max-height:520px) and (min-width:601px){
+  h1{top:8px;font-size:20px}
+  .instrucciones-mapa{display:none}
+  .progreso-jugador{top:auto;right:auto;bottom:12px;left:50%;max-width:60vw;transform:translateX(-50%);font-size:10px;text-align:center}
+  .nivel{width:104px}.nivel .planeta{width:52px;height:52px;font-size:29px}
+  .nivel span{font-size:11px}.nivel small{font-size:7px}
+  body>.asistente-launcher{gap:0;width:40px;min-height:40px;padding:0;justify-content:center;border-radius:50%}
+  .asistente-launcher-texto{display:none}
+}
+
+@media(max-height:500px) and (max-width:600px){
+  h1{top:6px;font-size:15px}
+  .instrucciones-mapa{display:none}
+  .progreso-jugador{top:auto;right:auto;bottom:8px;left:50%;max-width:64vw;transform:translateX(-50%);font-size:8px;text-align:center}
+}

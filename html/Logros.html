@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Logros educativos de Nuevo Hogar: fichas, cuestionario y experimentos de física.">
+  <title>Mis logros · Nuevo Hogar</title>
+  <link rel="stylesheet" href="../css/Educativo.css?v=20261117-2">
+  <link rel="stylesheet" href="../css/Logros.css?v=20261112-1">
+  <link rel="stylesheet" href="../css/Asistente.css">
+  <script type="module" src="../js/audio/index.js"></script>
+</head>
+<body data-musica="menu">
+  <main class="edu-pagina">
+    <div class="edu-barra">
+      <a class="edu-volver" href="Index.html">← MENÚ</a>
+      <nav class="edu-subnav" aria-label="Secciones educativas">
+        <a href="Universo.html">FICHAS</a>
+        <a href="Quiz.html">CUESTIONARIO</a>
+        <a href="Laboratorio.html">LABORATORIO</a>
+        <a class="activo" href="Logros.html" aria-current="page">LOGROS</a>
+      </nav>
+    </div>
+
+    <header class="edu-heroe">
+      <p class="edu-ceja">PROGRESO EDUCATIVO · RECONOCIMIENTOS</p>
+      <h1>MIS LOGROS</h1>
+      <p class="edu-intro">
+        Cada ficha leída, ronda respondida y experimento probado suma para desbloquear reconocimientos.
+        Todo el progreso educativo se guarda en este dispositivo y es independiente del juego.
+      </p>
+      <div class="edu-heroe-datos" aria-label="Resumen de logros">
+        <span><b id="logrosTotalHero">10</b> logros</span>
+        <span><b>3</b> áreas</span>
+        <span><b>💾</b> guardado local</span>
+      </div>
+    </header>
+
+    <section class="edu-progreso" aria-live="polite">
+      <div class="edu-progreso-texto">
+        <span id="logrosProgresoTexto">0 de 11 logros desbloqueados</span>
+        <small>Fichas, cuestionario y laboratorio alimentan estos logros.</small>
+      </div>
+      <div class="edu-progreso-barra" role="progressbar" aria-label="Logros desbloqueados" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" id="logrosBarraContenedor">
+        <span id="logrosBarra"></span>
+      </div>
+    </section>
+
+    <p class="logros-aviso" id="logrosAviso" role="status" aria-live="polite" hidden></p>
+
+    <section class="logros-grid" id="logrosGrid" aria-label="Lista de logros educativos"></section>
+
+    <section class="edu-cta-quiz" aria-labelledby="logrosCtaTitulo">
+      <div>
+        <p class="edu-ceja">SEGUIR EXPLORANDO</p>
+        <h2 id="logrosCtaTitulo">¿Falta algún logro?</h2>
+        <p>El laboratorio tiene tres experimentos y el cuestionario tres modos. Cada recorrido puede completar reconocimientos nuevos.</p>
+      </div>
+      <a class="edu-cta-boton" href="Laboratorio.html">IR AL LABORATORIO →</a>
+    </section>
+
+    <p class="edu-nota">
+      Los logros son educativos y no entregan ventajas, monedas ni desbloqueos dentro de las misiones.
+      No modifican cuentas, ranking ni base de datos.
+    </p>
+  </main>
+
+  <script type="module" src="../js/educativo/paginas/logros.js"></script>
+  <script type="module" src="../js/asistente/index.js"></script>
+</body>
+</html>

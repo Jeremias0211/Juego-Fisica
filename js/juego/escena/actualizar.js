@@ -164,7 +164,10 @@ export function actualizarJuego(time, dt, floorY, { mission, state, callbacks })
         });
       }
 
-      if (direction) state.walkTime += dt * 11;
+      if (direction) {
+        player.facing = direction;
+        state.walkTime += dt * 11;
+      }
 
       const hazardHit = colisionaPeligro(state, floorY, time);
       if (hazardHit) perderVida(state, mission, callbacks, floorY, hazardHit);

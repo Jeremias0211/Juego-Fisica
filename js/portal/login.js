@@ -3,13 +3,7 @@
 import { JuegoDB } from "../datos/index.js";
 import { verificarCredencial } from "./credenciales.js";
 import { esEntornoEstatico } from "./entorno.js";
-
-function activarSesion(nombre) {
-  localStorage.setItem("sesionActiva", "true");
-  localStorage.setItem("jugadorActual", nombre);
-  localStorage.removeItem("modoInvitado");
-  location.assign("Index.html");
-}
+import { activarSesion } from "./sesion.js";
 
 async function iniciarSesionLocal(nombre, clave) {
   const revision = await verificarCredencial(nombre, clave);
@@ -26,6 +20,7 @@ async function iniciarSesionLocal(nombre, clave) {
   }
 
   activarSesion(jugador.usuario);
+  location.assign("Index.html");
 }
 
 async function pedirSesionAlServidor(nombre, clave) {
@@ -81,6 +76,7 @@ function iniciarLogin() {
       }
 
       activarSesion(result.usuario);
+      location.assign("Index.html");
     } catch (error) {
       alert(error.message);
     } finally {

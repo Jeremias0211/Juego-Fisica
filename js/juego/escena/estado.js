@@ -5,7 +5,7 @@ import { audioJuego, sfx } from "../audio.js";
 export function crearEstado(mission) {
   const state = {
     keys: new Set(),
-    player: { x: 34, y: 0, vx: 0, vy: 0, width: 34, height: 48, grounded: false },
+    player: { x: 34, y: 0, vx: 0, vy: 0, width: 34, height: 48, grounded: false, facing: 1 },
     orbs: mission.orbs.map((orb) => ({ x: orb[0], lift: orb[1], collected: false })),
     energyCells: (mission.energyCells || []).map((cell) => ({ x: cell[0], lift: cell[1], collected: false })),
     impulsePads: (mission.impulsePads || []).map((x) => ({ x, activated: false })),

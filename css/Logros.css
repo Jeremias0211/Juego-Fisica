@@ -1,0 +1,162 @@
+/* Estilos de la galería de logros educativos. */
+
+.logros-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.logro {
+  position: relative;
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid var(--edu-borde);
+  border-radius: 16px;
+  background: linear-gradient(145deg, var(--edu-panel), var(--edu-panel-2));
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.2);
+  animation: eduAparecer 0.3s ease both;
+}
+
+.logro.obtenido {
+  border-color: rgba(126, 231, 135, 0.45);
+  background: linear-gradient(145deg, rgba(15, 45, 40, 0.95), rgba(6, 23, 20, 0.98));
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.2), 0 0 20px rgba(126, 231, 135, 0.08);
+}
+
+.logro.bloqueado {
+  opacity: 0.72;
+}
+
+.logro-icono {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border: 1px solid rgba(94, 231, 255, 0.25);
+  border-radius: 14px;
+  background: rgba(94, 231, 255, 0.07);
+  font-size: 27px;
+  line-height: 1;
+  filter: grayscale(0.45);
+}
+
+.logro.obtenido .logro-icono {
+  border-color: rgba(126, 231, 135, 0.5);
+  background: rgba(126, 231, 135, 0.12);
+  filter: none;
+  box-shadow: 0 0 18px rgba(126, 231, 135, 0.14);
+}
+
+.logro-categoria {
+  margin: 0 0 3px;
+  color: var(--edu-cian);
+  font-size: 9px;
+  font-weight: bold;
+  letter-spacing: 1.2px;
+}
+
+.logro.obtenido .logro-categoria {
+  color: var(--edu-verde);
+}
+
+.logro h2 {
+  margin: 0 0 5px;
+  color: #e9fbff;
+  font-size: 17px;
+  letter-spacing: 0.2px;
+}
+
+.logro-descripcion {
+  margin: 0 0 10px;
+  color: #bdd5e3;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.logro-progreso {
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.logro-progreso span {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #5ee7ff, #7ee787);
+}
+
+.logro-detalle {
+  margin: 5px 0 0;
+  color: #8fb9cc;
+  font-size: 10px;
+}
+
+.logro-fecha {
+  margin: 4px 0 0;
+  color: #7e9cb0;
+  font-size: 10px;
+}
+
+.logro.obtenido .logro-fecha {
+  color: var(--edu-verde);
+}
+
+.logros-aviso {
+  margin: 0 0 18px;
+  padding: 14px 16px;
+  border: 1px solid rgba(126, 231, 135, 0.5);
+  border-radius: 12px;
+  background: rgba(126, 231, 135, 0.1);
+  color: #dfffe9;
+  font-size: 13px;
+  font-weight: bold;
+  animation: eduAparecer 0.25s ease both;
+}
+
+.logros-aviso[hidden] {
+  display: none !important;
+}
+
+@media (max-width: 760px) {
+  .logros-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .logro {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 11px;
+    padding: 15px;
+  }
+
+  .logro-icono {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    font-size: 22px;
+  }
+
+  .logro h2 {
+    font-size: 16px;
+  }
+
+  .logro-descripcion {
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logro,
+  .logros-aviso {
+    animation: none;
+  }
+}

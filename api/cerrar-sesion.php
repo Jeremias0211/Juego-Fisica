@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require_once __DIR__ . '/conexion.php';
 exigirMetodo('POST');
+exigirOrigenPermitido();
 iniciarSesionSegura();
 $_SESSION = [];
 if (ini_get('session.use_cookies')) {

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Laboratorio de física: caída libre, masa y peso, e impulso del jetpack aplicados al Sistema Solar.">
+  <title>Laboratorio de física · Nuevo Hogar</title>
+  <link rel="stylesheet" href="../css/Educativo.css?v=20261117-2">
+  <link rel="stylesheet" href="../css/Laboratorio.css?v=20261112-1">
+  <link rel="stylesheet" href="../css/Asistente.css">
+  <script type="module" src="../js/audio/index.js"></script>
+</head>
+<body data-musica="menu">
+  <main class="edu-pagina">
+    <div class="edu-barra">
+      <a class="edu-volver" href="Index.html">← MENÚ</a>
+      <nav class="edu-subnav" aria-label="Secciones educativas">
+        <a href="Universo.html">FICHAS</a>
+        <a href="Quiz.html">CUESTIONARIO</a>
+        <a class="activo" href="Laboratorio.html" aria-current="page">LABORATORIO</a>
+        <a href="Logros.html">LOGROS</a>
+      </nav>
+    </div>
+
+    <header class="edu-heroe">
+      <p class="edu-ceja">EXPERIMENTOS · FÍSICA EN ACCIÓN</p>
+      <h1>LABORATORIO DE FÍSICA</h1>
+      <p class="edu-intro">
+        Tres experimentos para poner a prueba las ideas de las misiones: la gravedad que acelera una caída,
+        la diferencia entre masa y peso, y el impulso que enciende el jetpack.
+      </p>
+      <div class="edu-heroe-datos" aria-label="Resumen del laboratorio">
+        <span><b>3</b> experimentos</span>
+        <span><b>9</b> cuerpos del Sistema Solar</span>
+        <span><b>🧪</b> progreso local</span>
+      </div>
+    </header>
+
+    <section class="edu-progreso" aria-live="polite">
+      <div class="edu-progreso-texto">
+        <span id="labProgresoTexto">0 de 3 experimentos explorados</span>
+        <small>Tu progreso se guarda en este dispositivo y no modifica el juego.</small>
+      </div>
+      <div class="edu-progreso-barra" role="progressbar" aria-label="Experimentos explorados" aria-valuemin="0" aria-valuemax="3" aria-valuenow="0" id="labProgresoBarraContenedor">
+        <span id="labProgresoBarra"></span>
+      </div>
+    </section>
+
+    <p class="lab-aviso-logro" id="labAvisoLogro" role="status" aria-live="polite" hidden></p>
+
+    <section class="lab-experimentos" aria-label="Experimentos de física">
+      <article class="lab-experimento" data-experimento="caida" aria-labelledby="labCaidaTitulo">
+        <header class="lab-cabecera">
+          <span class="lab-icono" aria-hidden="true">🍎</span>
+          <div class="lab-cabecera-texto">
+            <p class="lab-categoria">EXPERIMENTO 01 · GRAVEDAD</p>
+            <h2 id="labCaidaTitulo">Caída libre</h2>
+            <p class="lab-descripcion">
+              Elegí un cuerpo y una altura. El objeto cae sin resistencia del aire: la gravedad
+              lo acelera y la distancia recorrida crece con el cuadrado del tiempo.
+            </p>
+          </div>
+          <span class="lab-hecho" data-hecho="caida" hidden>EXPLORADO ✓</span>
+        </header>
+
+        <div class="lab-cuerpo">
+          <div class="lab-controles">
+            <div class="lab-campo">
+              <label for="caidaCuerpo">Cuerpo del Sistema Solar</label>
+              <select id="caidaCuerpo" class="lab-select-cuerpo"></select>
+            </div>
+            <div class="lab-campo">
+              <label for="caidaAltura">Altura de caída <output class="lab-valor" id="caidaAlturaValor" for="caidaAltura">10 m</output></label>
+              <input id="caidaAltura" type="range" min="2" max="20" step="1" value="10">
+              <div class="lab-rango-pie"><span>2 m</span><span>20 m</span></div>
+            </div>
+            <button class="lab-boton" id="caidaSoltar" type="button">SOLTAR EL OBJETO</button>
+            <p class="lab-nota">
+              Modelo sin atmósfera. En los gigantes no hay superficie sólida: la gravedad se toma a 1 bar.
+            </p>
+          </div>
+
+          <div class="lab-visual">
+            <div class="lab-pista" id="caidaPista" aria-hidden="true">
+              <span class="lab-pelota" id="caidaPelota"></span>
+              <span class="lab-suelo"></span>
+            </div>
+            <div class="lab-pista-pie"><span>0 m</span><span id="caidaAlturaPista">10 m</span></div>
+
+            <dl class="lab-lecturas">
+              <div>
+                <dt>Gravedad</dt>
+                <dd id="caidaGravedad">9,81 m/s²</dd>
+              </div>
+              <div>
+                <dt>Tiempo de caída</dt>
+                <dd id="caidaTiempo">1,43 s</dd>
+              </div>
+              <div>
+                <dt>Velocidad final</dt>
+                <dd id="caidaVelocidad">14,01 m/s</dd>
+              </div>
+            </dl>
+            <p class="lab-formula">t = √(2h / g) · v = √(2gh)</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="lab-experimento" data-experimento="peso" aria-labelledby="labPesoTitulo">
+        <header class="lab-cabecera">
+          <span class="lab-icono" aria-hidden="true">⚖️</span>
+          <div class="lab-cabecera-texto">
+            <p class="lab-categoria">EXPERIMENTO 02 · FUERZA</p>
+            <h2 id="labPesoTitulo">Masa y peso</h2>
+            <p class="lab-descripcion">
+              La masa es la cantidad de materia y se mide en kilogramos. El peso es la fuerza
+              con que la gravedad atrae esa masa y se mide en newtons.
+            </p>
+          </div>
+          <span class="lab-hecho" data-hecho="peso" hidden>EXPLORADO ✓</span>
+        </header>
+
+        <div class="lab-cuerpo">
+          <div class="lab-controles">
+            <div class="lab-campo">
+              <label for="pesoCuerpo">Cuerpo del Sistema Solar</label>
+              <select id="pesoCuerpo" class="lab-select-cuerpo"></select>
+            </div>
+            <div class="lab-campo">
+              <label for="pesoMasa">Masa del objeto <output class="lab-valor" id="pesoMasaValor" for="pesoMasa">60 kg</output></label>
+              <input id="pesoMasa" type="range" min="10" max="100" step="1" value="60">
+              <div class="lab-rango-pie"><span>10 kg</span><span>100 kg</span></div>
+            </div>
+            <p class="lab-nota">
+              Mové la masa o cambiá de cuerpo: la masa no cambia al viajar, pero el peso sí.
+            </p>
+          </div>
+
+          <div class="lab-visual">
+            <p class="lab-resultado-etiqueta">PESO CALCULADO</p>
+            <p class="lab-resultado" id="pesoResultado" aria-live="polite">588,6 N</p>
+            <p class="lab-comparacion" id="pesoComparacion">1,00 × tu peso en la Tierra</p>
+
+            <div class="lab-escala" aria-hidden="true">
+              <span id="pesoBarra"></span>
+            </div>
+            <div class="lab-escala-pie"><span>0</span><span>Júpiter = 100%</span></div>
+
+            <dl class="lab-lecturas">
+              <div>
+                <dt>Masa (no cambia)</dt>
+                <dd id="pesoMasaLectura">60 kg</dd>
+              </div>
+              <div>
+                <dt>Gravedad</dt>
+                <dd id="pesoGravedad">9,81 m/s²</dd>
+              </div>
+              <div>
+                <dt>Fórmula</dt>
+                <dd>P = m · g</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </article>
+
+      <article class="lab-experimento" data-experimento="impulso" aria-labelledby="labImpulsoTitulo">
+        <header class="lab-cabecera">
+          <span class="lab-icono" aria-hidden="true">🚀</span>
+          <div class="lab-cabecera-texto">
+            <p class="lab-categoria">EXPERIMENTO 03 · MOVIMIENTO</p>
+            <h2 id="labImpulsoTitulo">Impulso del jetpack</h2>
+            <p class="lab-descripcion">
+              El jetpack aplica una fuerza durante un intervalo de tiempo. Ese impulso cambia
+              la cantidad de movimiento y la velocidad de la nave.
+            </p>
+          </div>
+          <span class="lab-hecho" data-hecho="impulso" hidden>EXPLORADO ✓</span>
+        </header>
+
+        <div class="lab-cuerpo">
+          <div class="lab-controles">
+            <div class="lab-campo">
+              <label for="impulsoFuerza">Fuerza del jetpack <output class="lab-valor" id="impulsoFuerzaValor" for="impulsoFuerza">400 N</output></label>
+              <input id="impulsoFuerza" type="range" min="100" max="800" step="10" value="400">
+              <div class="lab-rango-pie"><span>100 N</span><span>800 N</span></div>
+            </div>
+            <div class="lab-campo">
+              <label for="impulsoTiempo">Tiempo de encendido <output class="lab-valor" id="impulsoTiempoValor" for="impulsoTiempo">0,6 s</output></label>
+              <input id="impulsoTiempo" type="range" min="0.2" max="1.5" step="0.1" value="0.6">
+              <div class="lab-rango-pie"><span>0,2 s</span><span>1,5 s</span></div>
+            </div>
+            <div class="lab-campo">
+              <label for="impulsoMasa">Masa de la nave <output class="lab-valor" id="impulsoMasaValor" for="impulsoMasa">80 kg</output></label>
+              <input id="impulsoMasa" type="range" min="60" max="120" step="5" value="80">
+              <div class="lab-rango-pie"><span>60 kg</span><span>120 kg</span></div>
+            </div>
+            <button class="lab-boton" id="impulsoLanzar" type="button">ENCENDER EL JETPACK</button>
+            <p class="lab-nota">Después del impulso, la inercia mantiene el movimiento de la nave.</p>
+          </div>
+
+          <div class="lab-visual">
+            <div class="lab-pista-horizontal" id="impulsoPista" aria-hidden="true">
+              <span class="lab-nave" id="impulsoNave">🚀</span>
+              <span class="lab-pista-linea"></span>
+            </div>
+            <div class="lab-escala-pie"><span>0 m/s</span><span>10 m/s</span><span>20 m/s</span></div>
+
+            <dl class="lab-lecturas">
+              <div>
+                <dt>Impulso</dt>
+                <dd id="impulsoResultado">240 N·s</dd>
+              </div>
+              <div>
+                <dt>Cambio de velocidad</dt>
+                <dd id="impulsoDeltaV" aria-live="polite">3,00 m/s</dd>
+              </div>
+              <div>
+                <dt>Fórmula</dt>
+                <dd>J = F · Δt · Δv = J / m</dd>
+              </div>
+            </dl>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="edu-cta-quiz" aria-labelledby="labCtaTitulo">
+      <div>
+        <p class="edu-ceja">REGISTRO DE PROGRESO</p>
+        <h2 id="labCtaTitulo">Tus experimentos cuentan para los logros</h2>
+        <p>Completá los tres experimentos y revisá qué reconocimientos ya desbloqueaste en tu recorrido educativo.</p>
+      </div>
+      <a class="edu-cta-boton" href="Logros.html">VER MIS LOGROS →</a>
+    </section>
+
+    <p class="edu-nota">
+      Los experimentos son modelos educativos. No incluyen resistencia del aire ni cambios de presión.
+      En los gigantes, la gravedad se indica a 1 bar de presión.
+    </p>
+  </main>
+
+  <script type="module" src="../js/educativo/paginas/laboratorio.js"></script>
+  <script type="module" src="../js/asistente/index.js"></script>
+</body>
+</html>

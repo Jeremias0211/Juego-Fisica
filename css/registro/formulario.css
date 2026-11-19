@@ -204,6 +204,37 @@
 
 
 /* =========================
+   REQUISITOS DE LA CONTRASEÑA
+========================= */
+
+.ayuda-cuenta {
+
+    width: 100%;
+
+    margin: -10px 0 22px;
+
+    padding: 10px 14px;
+
+    border-left: 3px solid rgba(126, 231, 135, .75);
+
+    border-radius: 0 8px 8px 0;
+
+    background: rgba(8, 38, 42, .6);
+
+    color: #c9f5dd;
+
+    font-size: 13px;
+
+    line-height: 1.45;
+
+    text-align: left;
+
+    text-shadow: 0 1px 3px #000;
+
+}
+
+
+/* =========================
    BOTÓN CREAR CUENTA
 ========================= */
 

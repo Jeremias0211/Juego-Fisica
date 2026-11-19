@@ -1,8 +1,14 @@
 /* Progreso del jugador, reinicio de la cuenta y cierre de sesión. */
 
 const { database } = require("../base-datos");
-const { responderJson } = require("../respuestas");
-const { exigirSesion, leerTokenSesion, eliminarSesion } = require("../seguridad");
+const { responderJson, exigirOrigen } = require("../respuestas");
+const {
+  exigirSesion,
+  leerTokenSesion,
+  eliminarSesion,
+  borrarCookieSesion,
+} = require("../seguridad");
+const { limitarPeticion } = require("../limites");
 
 function manejarProgreso(request, response) {
   if (request.method !== "GET") {
@@ -13,6 +19,8 @@ function manejarProgreso(request, response) {
 
   const sesion = exigirSesion(request, response);
   if (!sesion) return;
+
+  if (!limitarPeticion(request, response, `progreso:${sesion.jugadorId}`, 120, 60 * 1000)) return;
 
   try {
     const rows = database.prepare(`
@@ -44,8 +52,12 @@ function manejarReinicioProgreso(request, response) {
     return;
   }
 
+  if (!exigirOrigen(request, response)) return;
+
   const sesion = exigirSesion(request, response);
   if (!sesion) return;
+
+  if (!limitarPeticion(request, response, `reinicio:${sesion.jugadorId}`, 5, 10 * 60 * 1000)) return;
 
   try {
     database.prepare("DELETE FROM niveles_puntuados WHERE jugador_id = ?").run(sesion.jugadorId);
@@ -63,9 +75,11 @@ function manejarCierreSesion(request, response) {
     return;
   }
 
+  if (!exigirOrigen(request, response)) return;
+
   const token = leerTokenSesion(request);
   eliminarSesion(token);
-  response.setHeader("Set-Cookie", "nh_session=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0");
+  borrarCookieSesion(request, response);
   responderJson(response, 200, { ok: true });
 }
 

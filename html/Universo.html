@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explorando el Universo: fichas educativas de los ocho planetas del Sistema Solar y la Luna.">
+  <title>Explorando el Universo · Nuevo Hogar</title>
+  <link rel="stylesheet" href="../css/Educativo.css?v=20261117-2">
+  <link rel="stylesheet" href="../css/Asistente.css">
+  <script type="module" src="../js/audio/index.js"></script>
+</head>
+<body data-musica="menu">
+  <main class="edu-pagina">
+    <div class="edu-barra">
+      <a class="edu-volver" href="Index.html">← MENÚ</a>
+      <nav class="edu-subnav" aria-label="Secciones educativas">
+        <a class="activo" href="Universo.html" aria-current="page">FICHAS</a>
+        <a href="Quiz.html">CUESTIONARIO</a>
+        <a href="Laboratorio.html">LABORATORIO</a>
+        <a href="Logros.html">LOGROS</a>
+      </nav>
+    </div>
+
+    <header class="edu-heroe">
+      <p class="edu-ceja">BIBLIOTECA DE MISIÓN · SISTEMA SOLAR</p>
+      <h1>EXPLORANDO EL UNIVERSO</h1>
+      <p class="edu-intro">
+        Ocho planetas, una Luna, ocho conceptos de física y las ideas que los conectan.
+        Abrí una ficha para leer datos verificados, historia, curiosidades y el concepto científico detrás de cada mundo.
+      </p>
+      <div class="edu-heroe-datos" aria-label="Resumen de la biblioteca">
+        <span><b>8</b> planetas</span>
+        <span><b>1</b> satélite natural</span>
+        <span><b>8</b> conceptos</span>
+        <span><b>📘</b> fichas con fuentes</span>
+      </div>
+    </header>
+
+    <section class="edu-progreso" aria-live="polite">
+      <div class="edu-progreso-texto">
+        <span id="progresoTexto">0 de 8 fichas vistas</span>
+        <small>Tu progreso educativo se guarda en este dispositivo.</small>
+      </div>
+      <div class="edu-progreso-barra" role="progressbar" aria-label="Fichas planetarias vistas" aria-valuemin="0" aria-valuemax="8" aria-valuenow="0" id="progresoBarraContenedor">
+        <span id="progresoBarra"></span>
+      </div>
+    </section>
+
+    <nav class="edu-filtros" aria-label="Filtrar planetas por tipo">
+      <button type="button" class="edu-filtro activo" data-filtro="todos" aria-pressed="true">TODOS</button>
+      <button type="button" class="edu-filtro" data-filtro="rocoso" aria-pressed="false">ROCOCOS</button>
+      <button type="button" class="edu-filtro" data-filtro="gaseoso" aria-pressed="false">GIGANTES GASEOSOS</button>
+      <button type="button" class="edu-filtro" data-filtro="helado" aria-pressed="false">GIGANTES HELADOS</button>
+    </nav>
+
+    <section id="gridPlanetas" class="edu-grid" aria-label="Fichas de los planetas"></section>
+
+    <section class="edu-especiales" aria-labelledby="tituloEspeciales">
+      <div class="edu-seccion-cabecera">
+        <p class="edu-ceja">CUERPO ESPECIAL</p>
+        <h2 id="tituloEspeciales">La Luna</h2>
+        <p>No es un planeta: es el satélite natural de la Tierra. Su ficha ayuda a entender la gravedad, la inercia y las mareas.</p>
+      </div>
+      <div id="gridEspeciales" class="edu-grid edu-grid-especial"></div>
+    </section>
+
+    <section class="edu-conceptos" aria-labelledby="tituloConceptos">
+      <div class="edu-seccion-cabecera">
+        <p class="edu-ceja">CONCEPTOS CLAVE</p>
+        <h2 id="tituloConceptos">Las leyes detrás de la misión</h2>
+        <p>Ocho ideas de física que aparecen en las misiones y en las fichas. Abrí cada tarjeta para ver la fórmula, el detalle y dónde se aplica.</p>
+        <p class="edu-conceptos-progreso" id="progresoConceptos" aria-live="polite">0 de 8 conceptos abiertos</p>
+      </div>
+      <div id="gridConceptos" class="edu-conceptos-grid"></div>
+    </section>
+
+    <section class="edu-cta-quiz" aria-labelledby="ctaQuizTitulo">
+      <div>
+        <p class="edu-ceja">DESAFÍO EDUCATIVO</p>
+        <h2 id="ctaQuizTitulo">¿Cuánto recordás del Sistema Solar?</h2>
+        <p>Probá el cuestionario con rondas de 10 preguntas, modos de planetas y física, y explicación después de cada respuesta.</p>
+      </div>
+      <a class="edu-cta-boton" href="Quiz.html">IR AL CUESTIONARIO →</a>
+    </section>
+
+    <p class="edu-nota" id="notaGeneral"></p>
+  </main>
+
+  <p class="edu-aviso-logro" id="fichaAvisoLogro" role="status" aria-live="polite" hidden></p>
+
+  <section class="edu-modal-overlay" id="fichaOverlay" hidden>
+    <article class="edu-modal" role="dialog" aria-modal="true" aria-labelledby="fichaTitulo" aria-describedby="fichaResumen" tabindex="-1">
+      <button class="edu-modal-cerrar" id="cerrarFicha" type="button" aria-label="Cerrar ficha">×</button>
+
+      <header class="edu-modal-cabecera">
+        <div class="edu-orb" id="fichaOrb" aria-hidden="true"><span id="fichaSimbolo"></span></div>
+        <div class="edu-modal-identidad">
+          <p class="edu-modal-kicker" id="fichaKicker">PLANETA 01 · ROCOSO</p>
+          <h2 id="fichaTitulo">Mercurio</h2>
+          <p class="edu-modal-resumen" id="fichaResumen"></p>
+        </div>
+      </header>
+
+      <div class="edu-modal-cuerpo">
+        <section class="edu-bloque">
+          <h3><span aria-hidden="true">📊</span> Datos científicos</h3>
+          <dl class="edu-datos-grid" id="fichaDatos"></dl>
+          <p class="edu-nota-datos" id="fichaNota" hidden></p>
+        </section>
+
+        <section class="edu-bloque">
+          <h3><span aria-hidden="true">📜</span> Historia</h3>
+          <p id="fichaHistoria"></p>
+        </section>
+
+        <section class="edu-bloque">
+          <h3><span aria-hidden="true">✨</span> Curiosidades</h3>
+          <ul class="edu-curiosidades" id="fichaCuriosidades"></ul>
+        </section>
+
+        <section class="edu-bloque edu-concepto">
+          <p class="edu-concepto-ceja">CONCEPTO DE FÍSICA</p>
+          <h3 id="fichaConceptoTitulo"></h3>
+          <p id="fichaConceptoTexto"></p>
+        </section>
+
+        <p class="edu-fuente" id="fichaFuente"></p>
+      </div>
+
+      <footer class="edu-modal-acciones">
+        <span class="edu-vista" id="fichaEstado">✓ FICHA VISTA</span>
+        <button class="edu-modal-volver" id="cerrarFichaAbajo" type="button">VOLVER A LA BIBLIOTECA</button>
+      </footer>
+    </article>
+  </section>
+
+  <script type="module" src="../js/educativo/paginas/universo.js"></script>
+  <script type="module" src="../js/asistente/index.js"></script>
+</body>
+</html>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Selección de niveles</title>
-  <link rel="stylesheet" href="../css/Niveles.css?v=20261104-5">
+  <link rel="stylesheet" href="../css/Niveles.css?v=20261119-8">
   <link rel="stylesheet" href="../css/Asistente.css">
   <script type="module" src="../js/audio/index.js"></script>
 </head>
@@ -14,7 +14,9 @@
     <p class="instrucciones-mapa">SISTEMA SOLAR · ELEGÍ UN PLANETA PARA LEER SU INFORME</p>
     <p id="progresoJugador" class="progreso-jugador"></p>
     <div class="sistema-solar" aria-label="Sistema solar con el Sol en el centro">
-      <div class="orbita orbita1"></div><div class="orbita orbita2"></div><div class="orbita orbita3"></div><div class="orbita orbita4"></div><div class="orbita orbita5"></div>
+      <div class="orbita orbita1"></div><div class="orbita orbita2"></div><div class="orbita orbita3"></div>
+      <div class="orbita orbita4"></div><div class="orbita orbita5"></div><div class="orbita orbita6"></div>
+      <div class="orbita orbita7"></div><div class="orbita orbita8"></div><div class="orbita orbita9"></div>
       <div class="sol" role="img" aria-label="Sol"></div>
       <div class="cuerpo-planetario mercurio-decorativo" role="img" aria-label="Mercurio"><i></i><span>MERCURIO</span></div>
       <div class="cuerpo-planetario urano-decorativo" role="img" aria-label="Urano"><i></i><span>URANO</span></div>
@@ -22,11 +24,11 @@
     </div>
     <div class="ruta"></div>
     <button class="nivel nivel1" data-nivel="1" data-sin-sonido
-      data-planeta="Tierra" data-concepto="Despegue · Punto de partida" data-gravedad="9,81 m/s²"
-      data-objetivo="Despegá desde la Tierra y completá el tramo de impulso rumbo a Mercurio."
-      data-info="El último hogar de la humanidad. Desde su superficie comienza la Operación Éxodo: el tramo jugable transcurre en Mercurio, con una gravedad de 3,70 m/s²."
-      aria-label="Misión 1, Tierra: punto de partida">
-      <div class="planeta planeta1">🌎</div><span>NIVEL 1</span><small>TIERRA · DESPEGUE</small>
+      data-planeta="Tierra → Mercurio" data-concepto="Despegue · Impulso en Mercurio" data-gravedad="3,70 m/s²"
+      data-objetivo="Despegá desde la Tierra y activá E en las plataformas amarillas para cruzar los cráteres de Mercurio."
+      data-info="El último hogar de la humanidad. La Operación Éxodo despega desde la Tierra y su primer tramo jugable transcurre en Mercurio, con una gravedad de 3,70 m/s²."
+      aria-label="Misión 1, despegue desde la Tierra hacia Mercurio">
+      <div class="planeta planeta1">🌎</div><span>NIVEL 1</span><small>TIERRA → MERCURIO</small>
     </button>
     <button class="nivel nivel2" data-nivel="2" data-sin-sonido
       data-planeta="Venus" data-concepto="Gravedad" data-gravedad="8,90 m/s²"
@@ -74,11 +76,18 @@
         <div class="briefing-hero">
           <div class="briefing-icono n1" id="briefingIcono" aria-hidden="true">🌎</div>
           <div class="briefing-identidad">
-            <h2 id="briefingTitulo">Tierra</h2>
+            <h2 id="briefingTitulo">Tierra → Mercurio</h2>
             <p class="briefing-concepto" id="briefingConcepto">Despegue · Punto de partida</p>
           </div>
         </div>
         <p class="briefing-descripcion" id="briefingDescripcion"></p>
+        <section class="briefing-consejo" id="briefingConsejo" aria-labelledby="briefingConsejoTitulo" hidden>
+          <p class="briefing-consejo-ceja">CONSEJO DE FÍSICA</p>
+          <h3 id="briefingConsejoTitulo"></h3>
+          <p class="briefing-consejo-texto" id="briefingConsejoTexto"></p>
+          <p class="briefing-consejo-formula" id="briefingConsejoFormula"></p>
+          <a class="briefing-consejo-enlace" href="Universo.html">VER FICHAS DEL SISTEMA SOLAR →</a>
+        </section>
         <dl class="briefing-datos">
           <div class="briefing-dato">
             <dt>Gravedad</dt>

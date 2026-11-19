@@ -25,6 +25,12 @@ export function requerirSesion(destino = "Login.html") {
   return sesion;
 }
 
+export function activarSesion(nombre) {
+  localStorage.setItem(SESION_KEY, "true");
+  localStorage.setItem(JUGADOR_KEY, String(nombre || "").trim());
+  localStorage.removeItem(INVITADO_KEY);
+}
+
 export function cerrarSesionLocal() {
   localStorage.removeItem(SESION_KEY);
   localStorage.removeItem(INVITADO_KEY);

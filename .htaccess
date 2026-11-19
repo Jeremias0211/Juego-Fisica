@@ -1,7 +1,52 @@
 # En InfinityFree (Apache) se ejecuta primero index.php, que lleva al login.
 # En GitHub Pages este archivo se ignora y se sigue usando index.html.
 DirectoryIndex index.php index.html
+ServerSignature Off
 
 <IfModule mod_autoindex.c>
     Options -Indexes
 </IfModule>
+
+<IfModule mod_negotiation.c>
+    Options -MultiViews
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header always set X-Content-Type-Options "nosniff"
+    Header always set X-Frame-Options "DENY"
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+    Header always set Cross-Origin-Opener-Policy "same-origin"
+    Header always set Cross-Origin-Resource-Policy "same-origin"
+    Header always set Content-Security-Policy "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; font-src 'self' data:; connect-src 'self'; worker-src 'self' blob:"
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
+    Header unset X-Powered-By
+</IfModule>
+
+# Fuerza HTTPS en el dominio público, sin romper localhost ni la red local de XAMPP.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTPS} !=on
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https [NC]
+    RewriteCond %{HTTP_HOST} ^(.+)$
+    RewriteCond %{HTTP_HOST} !^(?:localhost|127\.0\.0\.1|\[::1\]|10\.[0-9.]+|192\.168\.[0-9.]+|172\.(?:1[6-9]|2[0-9]|3[01])\.[0-9.]+)(?::[0-9]+)?$ [NC]
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L,NE]
+</IfModule>
+
+# Bloquea carpetas y archivos que nunca deben descargarse desde el navegador.
+<IfModule mod_alias.c>
+    RedirectMatch 404 "(?i)^/(?:\.git|\.env|database|servidor|scripts|node_modules|paquete-infinityfree|despliegue)(?:/|$)"
+    RedirectMatch 404 "(?i)^/vendor/phpmailer(?:/|$)"
+    RedirectMatch 404 "(?i)^/(?:server\.js|package(?:-lock)?\.json|paquete-infinityfree\.zip)$"
+    RedirectMatch 404 "(?i)\.(?:sqlite3?|sql|zip|log|env|bak|old|orig|md|ini|lock)$"
+</IfModule>
+
+<FilesMatch "^(?:\.htaccess|\.gitignore|\.nojekyll|server\.js|package(?:-lock)?\.json)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>

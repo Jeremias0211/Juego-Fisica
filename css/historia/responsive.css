@@ -15,6 +15,12 @@
     }
 
 
+    .columna-biblioteca {
+
+        width: min(500px, 70vw);
+    }
+
+
     .historia h2 {
 
         font-size: 23px;
@@ -43,22 +49,6 @@
         font-size: 20px;
 
         bottom: -23px;
-    }
-
-
-    .indicador {
-
-        bottom: 40px;
-    }
-
-
-    .oxigeno {
-        left: 18%;
-    }
-
-
-    .combustible {
-        right: 18%;
     }
 }
 
@@ -148,25 +138,22 @@
     }
 
 
-    /* INDICADORES */
+    /* ESTADO DE LA NAVE */
+
+    .estado-nave {
+
+        gap: 7px 16px;
+
+        padding: 9px 12px;
+    }
+
 
     .indicador {
 
-        bottom: 20px;
-
-        width: 90px;
+        gap: 7px;
 
         font-size: 8px;
-    }
-
-
-    .oxigeno {
-        left: 8%;
-    }
-
-
-    .combustible {
-        right: 8%;
+        letter-spacing: 1px;
     }
 
 
@@ -174,10 +161,8 @@
 
     .barra-indicador {
 
-        width: 75px;
-        height: 6px;
-
-        margin-top: 3px;
+        width: 70px;
+        height: 5px;
     }
 }
 
@@ -231,29 +216,26 @@
     }
 
 
+    .estado-nave {
+
+        gap: 6px 12px;
+
+        padding: 8px 10px;
+    }
+
+
     .indicador {
 
-        bottom: 14px;
-
-        width: 75px;
+        gap: 6px;
 
         font-size: 7px;
-    }
-
-
-    .oxigeno {
-        left: 5%;
-    }
-
-
-    .combustible {
-        right: 5%;
+        letter-spacing: .8px;
     }
 
 
     .barra-indicador {
 
-        width: 65px;
+        width: 58px;
         height: 5px;
     }
 }
@@ -308,10 +290,118 @@
 
         font-size: 15px;
     }
+}
 
 
-    .indicador {
+/* =================================================
+   BIBLIOTECA EDUCATIVA RESPONSIVE
+================================================ */
 
-        bottom: 8px;
+@media (max-width: 600px) {
+
+    #pantallaHistoria {
+
+        padding: 18px 12px 24px;
     }
+
+
+    .contenido-historia {
+
+        gap: 24px;
+    }
+
+
+    .columna-biblioteca {
+
+        width: 88vw;
+    }
+
+
+    .biblioteca {
+
+        padding: 14px 14px 16px;
+    }
+
+
+    .biblioteca-cabecera {
+
+        margin-bottom: 5px;
+    }
+
+
+    .biblioteca h3 {
+
+        font-size: 16px;
+    }
+
+
+    .biblioteca-texto {
+
+        font-size: 11px;
+
+        margin-bottom: 10px;
+    }
+
+
+    .biblioteca-enlaces {
+
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        gap: 7px;
+    }
+
+
+    .biblioteca-enlaces a {
+
+        padding: 9px 5px;
+    }
+
+
+    .biblioteca-icono {
+
+        font-size: 18px;
+    }
+}
+
+
+@media (max-width: 380px) {
+
+    .columna-biblioteca {
+
+        width: 92vw;
+    }
+
+
+    .biblioteca {
+
+        padding: 12px 11px 14px;
+    }
+
+
+    .biblioteca h3 {
+
+        font-size: 15px;
+    }
+
+
+    .biblioteca-enlaces strong {
+
+        font-size: 9px;
+    }
+
+
+    .biblioteca-enlaces small {
+
+        font-size: 8px;
+    }
+}
+
+
+/* La tarjeta comparte el flujo con la biblioteca: no se centra en absoluto. */
+.historia {
+
+    top: auto;
+    left: auto;
+
+    transform: none;
 }

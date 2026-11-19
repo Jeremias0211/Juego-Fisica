@@ -3,6 +3,8 @@
 import { JuegoDB } from "../datos/index.js";
 import { guardarCredencial } from "./credenciales.js";
 import { esEntornoEstatico } from "./entorno.js";
+import { activarSesion } from "./sesion.js";
+import { validarCuenta } from "./validacion-cuenta.js";
 
 async function registrarLocal(nombre, email, clave) {
   const db = JuegoDB.read();
@@ -15,15 +17,22 @@ async function registrarLocal(nombre, email, clave) {
     throw new Error("Ese usuario ya está registrado en este dispositivo.");
   }
 
+  const correoBuscado = email.toLowerCase();
+  const correoExiste = (db.jugadores || []).some(
+    (persona) => String(persona.correo || "").toLowerCase() === correoBuscado
+  );
+  if (correoExiste) {
+    throw new Error("Ese correo ya está registrado en este dispositivo.");
+  }
+
   const resultado = JuegoDB.create({ usuario: nombre, correo: email });
   if (!resultado.ok) throw new Error(resultado.error);
 
   const guardado = await guardarCredencial(nombre, clave);
   if (!guardado) throw new Error("No se pudo guardar la contraseña local.");
 
-  localStorage.removeItem("modoInvitado");
-  alert("Cuenta local creada en este dispositivo. Iniciá sesión para continuar.");
-  location.assign("Login.html");
+  activarSesion(resultado.player?.usuario || nombre);
+  location.assign("Index.html");
 }
 
 async function registrarEnServidor(nombre, email, clave) {
@@ -65,38 +74,40 @@ function iniciarRegistro() {
       alert("Completá todos los campos.");
       return;
     }
-    if (clave !== confirmar.value) {
-      alert("Las contraseñas no coinciden.");
+
+    const revision = validarCuenta(nombre, email, clave);
+    if (!revision.ok) {
+      alert(revision.error);
+      const destino = revision.error.toLowerCase().includes("contraseña") ? password : correo;
+      destino?.focus();
       return;
     }
-    if (clave.length < 4) {
-      alert("La contraseña debe tener al menos 4 caracteres.");
+
+    if (clave !== confirmar.value) {
+      alert("Las contraseñas no coinciden.");
+      confirmar.focus();
       return;
     }
 
     button.disabled = true;
     try {
       if (esEntornoEstatico()) {
-        await registrarLocal(nombre, email, clave);
+        await registrarLocal(nombre, revision.correo, clave);
         return;
       }
 
       let result;
       try {
-        result = await registrarEnServidor(nombre, email, clave);
+        result = await registrarEnServidor(nombre, revision.correo, clave);
       } catch (error) {
         /* Fuera de un sitio estático no se crean cuentas locales: se informa el error real. */
         if (error.servidor) throw error;
         throw new Error("No se pudo conectar con el servidor del juego. Revisá tu conexión e intentá de nuevo.");
       }
 
-      localStorage.removeItem("modoInvitado");
-      const mensaje = result.correoEnviado
-        ? "Cuenta creada correctamente. Te enviamos un correo de bienvenida. Iniciá sesión para continuar."
-        : "Cuenta creada correctamente. Iniciá sesión para continuar." +
-          (result.avisoCorreo ? "\n\n" + result.avisoCorreo : "");
-      alert(mensaje);
-      location.assign("Login.html");
+      activarSesion(result.usuario || nombre);
+      if (result.avisoCorreo) alert(result.avisoCorreo);
+      location.assign("Index.html");
     } catch (error) {
       alert(error.message || "No se pudo crear la cuenta. Comprobá que el servidor esté iniciado.");
     } finally {

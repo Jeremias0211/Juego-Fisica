@@ -116,6 +116,13 @@ export function crearAsistente() {
 
   inyectarEstilos();
   const { launcher, panel } = crearEstructura();
-  document.body.append(launcher, panel);
+
+  /* Algunas pantallas integran el acceso al asistente dentro de su propio
+     contenido; si no hay punto de montaje, se conserva el botón flotante. */
+  const destino = document.querySelector("[data-asistente-launcher]");
+  if (destino) destino.append(launcher);
+  else document.body.append(launcher);
+
+  document.body.append(panel);
   conectarEventos(launcher, panel);
 }

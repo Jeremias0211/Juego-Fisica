@@ -216,4 +216,109 @@ h1 span {
 }
 
 
+/* =========================
+   ACCESO A LA BIBLIOTECA EDUCATIVA
+========================= */
+
+.secundario.educativo {
+    width: 252px;
+    height: 46px;
+
+    margin-top: 24px;
+
+    border-color: rgba(126, 231, 135, .72);
+
+    background: linear-gradient(
+        180deg,
+        rgba(24, 70, 78, .84),
+        rgba(12, 40, 58, .84)
+    );
+
+    color: #e4fff2;
+
+    font-size: 13px;
+    letter-spacing: 1.1px;
+
+    box-shadow:
+        0 0 10px rgba(126, 231, 135, .22),
+        inset 0 0 14px rgba(94, 231, 255, .08);
+}
+
+.secundario.educativo .icono {
+    margin-right: 6px;
+
+    font-size: 16px;
+}
+
+.secundario.educativo:hover {
+    background: linear-gradient(
+        180deg,
+        rgba(38, 104, 104, .92),
+        rgba(18, 58, 82, .92)
+    );
+
+    box-shadow:
+        0 0 16px rgba(126, 231, 135, .42),
+        inset 0 0 18px rgba(94, 231, 255, .12);
+}
+
+
+/* =========================
+   RESUMEN EDUCATIVO DEL MENÚ
+========================= */
+
+.educativo-progreso {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    width: max-content;
+    max-width: 252px;
+
+    min-height: 24px;
+
+    margin: -5px auto 12px;
+    padding: 0 10px;
+
+    border: 1px solid rgba(126, 231, 135, .34);
+    border-radius: 999px;
+
+    background: rgba(8, 34, 30, .72);
+
+    color: #c8f5da;
+
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: .4px;
+
+    text-decoration: none;
+
+    transition: .2s;
+}
+
+.educativo-progreso[hidden] {
+    display: none !important;
+}
+
+.educativo-progreso .flecha {
+    color: #7ee787;
+}
+
+.educativo-progreso:hover {
+    border-color: rgba(126, 231, 135, .7);
+
+    background: rgba(20, 60, 48, .88);
+
+    color: #fff;
+
+    box-shadow: 0 0 12px rgba(126, 231, 135, .2);
+}
+
+.educativo-progreso:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 3px;
+}
+
+
 

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cuestionario educativo sobre los planetas del Sistema Solar y conceptos básicos de física.">
+  <title>Cuestionario espacial · Nuevo Hogar</title>
+  <link rel="stylesheet" href="../css/Educativo.css?v=20261117-2">
+  <link rel="stylesheet" href="../css/Cuestionario.css?v=20261112-2">
+  <link rel="stylesheet" href="../css/Asistente.css">
+  <script type="module" src="../js/audio/index.js"></script>
+</head>
+<body data-musica="menu">
+  <main class="edu-pagina">
+    <div class="edu-barra">
+      <a class="edu-volver" href="Index.html">← MENÚ</a>
+      <nav class="edu-subnav" aria-label="Secciones educativas">
+        <a href="Universo.html">FICHAS</a>
+        <a class="activo" href="Quiz.html" aria-current="page">CUESTIONARIO</a>
+        <a href="Laboratorio.html">LABORATORIO</a>
+        <a href="Logros.html">LOGROS</a>
+      </nav>
+    </div>
+
+    <header class="edu-heroe">
+      <p class="edu-ceja">ENTRENAMIENTO · FÍSICA Y SISTEMA SOLAR</p>
+      <h1>CUESTIONARIO ESPACIAL</h1>
+      <p class="edu-intro">
+        Poné a prueba lo que aprendiste en las fichas. Cada ronda tiene 10 preguntas,
+        corrección inmediata y una explicación para entender el porqué de cada respuesta.
+      </p>
+      <div class="edu-heroe-datos" aria-label="Resumen del cuestionario">
+        <span><b>42</b> preguntas</span>
+        <span><b>10</b> por ronda</span>
+        <span><b>3</b> modos</span>
+      </div>
+    </header>
+
+    <section class="quiz-panel" id="quizInicio" aria-labelledby="quizInicioTitulo">
+      <div class="quiz-panel-cabecera">
+        <p class="edu-ceja">ELEGÍ TU DESAFÍO</p>
+        <h2 id="quizInicioTitulo">¿Qué querés repasar?</h2>
+        <p>Podés combinar planetas y física, o concentrarte en un solo tema.</p>
+      </div>
+
+      <div class="quiz-modos" role="group" aria-label="Modos del cuestionario">
+        <button type="button" class="quiz-modo" data-modo="planetas" aria-pressed="false">
+          <span class="quiz-modo-icono" aria-hidden="true">🪐</span>
+          <span class="quiz-modo-nombre">PLANETAS</span>
+          <span class="quiz-modo-texto">Datos, historia y curiosidades del Sistema Solar.</span>
+          <span class="quiz-modo-mejor" data-mejor="planetas">Mejor: —</span>
+        </button>
+        <button type="button" class="quiz-modo" data-modo="fisica" aria-pressed="false">
+          <span class="quiz-modo-icono" aria-hidden="true">⚛️</span>
+          <span class="quiz-modo-nombre">FÍSICA</span>
+          <span class="quiz-modo-texto">Masa, peso, gravedad, inercia y energía.</span>
+          <span class="quiz-modo-mejor" data-mejor="fisica">Mejor: —</span>
+        </button>
+        <button type="button" class="quiz-modo activo" data-modo="mixto" aria-pressed="true">
+          <span class="quiz-modo-icono" aria-hidden="true">✦</span>
+          <span class="quiz-modo-nombre">MIXTO</span>
+          <span class="quiz-modo-texto">Cinco preguntas de cada tema, en orden sorpresa.</span>
+          <span class="quiz-modo-mejor" data-mejor="mixto">Mejor: —</span>
+        </button>
+      </div>
+
+      <div class="quiz-inicio-pie">
+        <div>
+          <p class="quiz-mejor" id="quizMejorGeneral">Mejor resultado general: —</p>
+          <p class="quiz-aviso">Tu progreso educativo se guarda en este dispositivo y no modifica el progreso del juego.</p>
+        </div>
+        <button type="button" class="quiz-primario" id="comenzarQuiz">COMENZAR RONDA</button>
+      </div>
+    </section>
+
+    <section class="quiz-panel quiz-juego" id="quizJuego" aria-labelledby="quizPregunta" hidden>
+      <header class="quiz-juego-cabecera">
+        <div>
+          <p class="quiz-etiqueta" id="quizProgreso">PREGUNTA 1 DE 10</p>
+          <p class="quiz-categoria" id="quizCategoria">PLANETAS</p>
+        </div>
+        <p class="quiz-marcador" id="quizPuntaje" aria-live="polite">0 ACIERTOS</p>
+      </header>
+
+      <div class="quiz-barra" role="progressbar" aria-labelledby="quizProgreso" aria-valuemin="0" aria-valuemax="10" aria-valuenow="0" id="quizBarraContenedor">
+        <span id="quizBarra"></span>
+      </div>
+
+      <h2 id="quizPregunta" tabindex="-1"></h2>
+      <div class="quiz-opciones" id="quizOpciones" role="group" aria-labelledby="quizPregunta"></div>
+
+      <div class="quiz-feedback" id="quizFeedback" tabindex="-1" hidden aria-live="polite">
+        <p class="quiz-feedback-titulo" id="quizFeedbackTitulo"></p>
+        <p class="quiz-feedback-texto" id="quizFeedbackTexto"></p>
+      </div>
+
+      <div class="quiz-acciones">
+        <button type="button" class="quiz-secundario" id="abandonarQuiz">SALIR AL INICIO</button>
+        <button type="button" class="quiz-primario" id="siguientePregunta" hidden>SIGUIENTE →</button>
+      </div>
+    </section>
+
+    <section class="quiz-panel quiz-resultado" id="quizResultado" aria-labelledby="quizResultadoTitulo" hidden>
+      <p class="quiz-etiqueta">RONDA COMPLETADA</p>
+      <div class="quiz-resultado-puntaje">
+        <strong id="quizResultadoPuntaje">0%</strong>
+        <span id="quizResultadoAciertos">0 de 10 respuestas correctas</span>
+      </div>
+      <h2 id="quizResultadoTitulo">Buen intento</h2>
+      <p id="quizResultadoTexto"></p>
+      <p class="quiz-resultado-mejor" id="quizResultadoMejor"></p>
+      <p class="quiz-logros" id="quizResultadoLogros" hidden></p>
+      <div class="quiz-acciones">
+        <button type="button" class="quiz-primario" id="repetirQuiz">REPETIR RONDA</button>
+        <button type="button" class="quiz-secundario" id="cambiarModo">CAMBIAR MODO</button>
+        <a class="quiz-secundario quiz-enlace" href="Universo.html">VER FICHAS →</a>
+        <a class="quiz-secundario quiz-enlace" href="Logros.html">VER LOGROS →</a>
+      </div>
+    </section>
+
+    <p class="edu-nota">
+      Preguntas basadas en las fichas de NASA y en conceptos básicos de física.
+      Las explicaciones buscan diferenciar datos, historia y modelos científicos.
+    </p>
+  </main>
+
+  <script type="module" src="../js/educativo/paginas/quiz.js"></script>
+  <script type="module" src="../js/asistente/index.js"></script>
+</body>
+</html>

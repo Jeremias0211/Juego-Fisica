@@ -8,12 +8,14 @@ import { iniciarReinicio } from "./opciones/reinicio.js";
 import { iniciarNavegacion } from "./navegacion.js";
 import { iniciarSalida } from "./salida.js";
 import { requerirSesion } from "./sesion.js";
+import { iniciarResumenEducativo } from "../educativo/menu.js";
 
 function iniciarMenu() {
   const sesion = requerirSesion();
   if (!sesion) return;
 
   iniciarNavegacion();
+  iniciarResumenEducativo(sesion);
   iniciarAudioOpciones();
   iniciarPantallaCompleta();
   iniciarReinicio();

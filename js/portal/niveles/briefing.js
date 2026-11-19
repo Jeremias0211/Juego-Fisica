@@ -1,6 +1,7 @@
 /* Informe de misión: detalle de cada planeta y botón para despegar. */
 
 import SonidoJuego from "../../audio/index.js";
+import { obtenerConsejoMision } from "../../educativo/datos/consejos.js";
 
 export function crearBriefing({ progreso, nombresNivel, alAbrir, alIniciarMision }) {
   const panelBriefing = document.getElementById("panelBriefing");
@@ -16,6 +17,10 @@ export function crearBriefing({ progreso, nombresNivel, alAbrir, alIniciarMision
     gravedad: document.getElementById("briefingGravedad"),
     objetivo: document.getElementById("briefingObjetivo"),
     estado: document.getElementById("briefingEstado"),
+    consejo: document.getElementById("briefingConsejo"),
+    consejoTitulo: document.getElementById("briefingConsejoTitulo"),
+    consejoTexto: document.getElementById("briefingConsejoTexto"),
+    consejoFormula: document.getElementById("briefingConsejoFormula"),
   };
   const mapa = document.querySelector(".mapa");
   let disparador = null;
@@ -24,6 +29,7 @@ export function crearBriefing({ progreso, nombresNivel, alAbrir, alIniciarMision
   function cerrar() {
     if (!panelBriefing || panelBriefing.hidden) return;
     panelBriefing.hidden = true;
+    document.body.classList.remove("orbitas-pausadas");
     mapa?.removeAttribute("inert");
 
     const anterior = disparador;
@@ -48,6 +54,16 @@ export function crearBriefing({ progreso, nombresNivel, alAbrir, alIniciarMision
     campos.gravedad.textContent = btn.dataset.gravedad || "—";
     campos.objetivo.textContent = btn.dataset.objetivo || "—";
     campos.estado.classList.remove("disponible", "completada", "bloqueada");
+
+    const consejo = obtenerConsejoMision(level);
+    if (campos.consejo) {
+      campos.consejo.hidden = !consejo;
+      if (consejo) {
+        if (campos.consejoTitulo) campos.consejoTitulo.textContent = consejo.titulo;
+        if (campos.consejoTexto) campos.consejoTexto.textContent = consejo.texto;
+        if (campos.consejoFormula) campos.consejoFormula.textContent = consejo.formula;
+      }
+    }
 
     if (!desbloqueado) {
       const siguiente = Number(progreso.nivel);
@@ -74,6 +90,7 @@ export function crearBriefing({ progreso, nombresNivel, alAbrir, alIniciarMision
     }
 
     panelBriefing.hidden = false;
+    document.body.classList.add("orbitas-pausadas");
     mapa?.setAttribute("inert", "");
     SonidoJuego.play(desbloqueado ? "select" : "denied");
     tarjetaBriefing.focus();

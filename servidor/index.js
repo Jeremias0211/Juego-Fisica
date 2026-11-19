@@ -4,6 +4,8 @@ const http = require("node:http");
 const os = require("node:os");
 const { host, port, databasePath } = require("./config");
 const { responderJson } = require("./respuestas");
+const { aplicarCabeceras } = require("./cabeceras");
+const { ipDe, limitarPeticion } = require("./limites");
 const { manejarAutenticacion } = require("./rutas/autenticacion");
 const { manejarPuntuaciones } = require("./rutas/puntuaciones");
 const {
@@ -13,8 +15,18 @@ const {
 } = require("./rutas/progreso");
 const { servirEstatico } = require("./estaticos");
 
+const METODOS_PERMITIDOS = new Set(["GET", "HEAD", "POST"]);
+
 function crearServidor() {
-  return http.createServer((request, response) => {
+  const servidor = http.createServer((request, response) => {
+    aplicarCabeceras(request, response);
+
+    if (!METODOS_PERMITIDOS.has(request.method)) {
+      response.setHeader("Allow", "GET, HEAD, POST");
+      responderJson(response, 405, { ok: false, error: "Método no permitido." });
+      return;
+    }
+
     let pathname;
     try {
       pathname = decodeURIComponent(new URL(request.url, "http://localhost").pathname);
@@ -26,6 +38,13 @@ function crearServidor() {
     if (pathname === "/" || pathname === "/index.html") {
       response.writeHead(302, { Location: "/html/Login.html" });
       response.end();
+      return;
+    }
+
+    if (
+      pathname.startsWith("/api/") &&
+      !limitarPeticion(request, response, `api:${ipDe(request)}`, 300, 60 * 1000)
+    ) {
       return;
     }
 
@@ -59,8 +78,23 @@ function crearServidor() {
       return;
     }
 
-    servirEstatico(response, pathname);
+    servirEstatico(request, response, pathname);
   });
+
+  servidor.headersTimeout = 20000;
+  servidor.requestTimeout = 30000;
+  servidor.keepAliveTimeout = 5000;
+  servidor.maxHeadersCount = 100;
+
+  servidor.on("clientError", (error, socket) => {
+    if (socket.writable) {
+      socket.end("HTTP/1.1 400 Bad Request\r\nConnection: close\r\n\r\n");
+    } else {
+      socket.destroy();
+    }
+  });
+
+  return servidor;
 }
 
 function iniciarServidor() {
