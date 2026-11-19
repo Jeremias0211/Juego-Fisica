@@ -6,6 +6,7 @@ import { crearEscena } from "./escena/escena.js";
 import { audioJuego, sfx } from "./audio.js";
 import { JuegoDB as DB } from "../datos/index.js";
 import { esEntornoEstatico } from "../portal/entorno.js";
+import { conectarMando } from "./mando.js";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const user = localStorage.getItem("jugadorActual");
@@ -65,6 +66,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const jetpackValue = document.getElementById("valorJetpack");
 
   let solved = progress.completados.includes(level);
+  let mando = null;
   let paused = false;
   const launch = DB.startLevel(user, level, 15);
   const noFuel = !launch.ok;
@@ -101,6 +103,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   function updateHearts(lives) {
+    mando?.enviarEstado({ vidas: lives });
     hearts.textContent = [0, 1, 2].map((index) => index < lives ? "♥" : "♡").join(" ");
     hearts.setAttribute("aria-label", lives + (lives === 1 ? " vida" : " vidas"));
   }
@@ -154,6 +157,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   function updateOxygenHud(oxygenPercent, collected, totalOrbs) {
     const value = Math.max(0, Math.ceil(oxygenPercent));
+    mando?.enviarEstado({ oxigeno: Math.min(100, value) / 100 });
     oxygenFill.style.width = value + "%";
     oxygenFill.parentElement.setAttribute("aria-valuenow", String(value));
     oxygenFill.classList.toggle("critico", value <= 25);
@@ -199,6 +203,29 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   let game;
+  mando = conectarMando({
+    host: sceneHost,
+    onControl(accion, activo) {
+      try { game?.controlar(accion, activo); } catch (_) { /* p5 todavía no está listo. */ }
+    },
+    onAccion(accion) {
+      try {
+        if (accion === "pause") paused ? game?.resumeGame() : game?.pauseGame();
+        else game?.useAbility();
+      } catch (_) { /* p5 todavía no está listo. */ }
+    },
+  });
+  mando.enviarEstado({
+    nivel: level,
+    planeta: mission.planet.split("·").pop().trim(),
+    habilidad: mission.jetpack ? "JETPACK" : mission.ability.label,
+    jetpack: Boolean(mission.jetpack),
+    pausado: false,
+    vidas: 3,
+    oxigeno: 1,
+    fin: null,
+  });
+
   try {
     game = new window.p5((sketch) => crearEscena(sketch, mission, {
       onOxygenChange(value, collected, total) {
@@ -213,6 +240,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       onGameOver() {
         platformMessage.textContent = "Perdiste las 3 vidas. Reintentá el nivel; no se vuelve a cobrar el combustible de esta misión.";
         retry.hidden = false;
+        mando.enviarEstado({ fin: "derrota" });
         pauseButton.disabled = true;
         audioJuego()?.setJetpack(false);
         audioJuego()?.stopMusic();
@@ -220,12 +248,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       },
       onRestart() {
         retry.hidden = true;
+        mando.enviarEstado({ fin: null, pausado: false });
         pauseButton.disabled = false;
         next.hidden = !solved;
         audioJuego()?.startMusic("juego");
       },
       onPauseChange(isPaused) {
         paused = isPaused;
+        mando.enviarEstado({ pausado: isPaused });
         pauseOverlay.hidden = !isPaused;
         pauseButton.textContent = isPaused ? "▶ REANUDAR" : "⏸ PAUSAR";
         pauseButton.setAttribute("aria-expanded", String(isPaused));
@@ -237,6 +267,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         audioJuego()?.setJetpack(false);
         audioJuego()?.stopMusic();
         sfx("win");
+        mando.enviarEstado({ fin: "completado" });
         completeLevel();
       },
     }, sceneHost), sceneHost);

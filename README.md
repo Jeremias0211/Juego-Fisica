@@ -62,6 +62,31 @@ npm.cmd run server
 
 Node muestra las direcciones locales de acceso al iniciarse y crea `database/nuevo_hogar.sqlite`. Si el puerto 3000 ya está ocupado porque quedó otro servidor abierto, detenelo con `Ctrl+C` en esa terminal. También podés elegir otro puerto con `$env:PORT=3001; npm.cmd run server` y abrir `http://localhost:3001/`. Esta alternativa conserva registro, inicio de sesión y ranking, pero no reemplaza PHP/MySQL para la entrega obligatoria.
 
+## Mando Android por Wi-Fi
+
+El juego puede controlarse desde una app Android que se conecta por IP y puerto. Como el navegador no puede abrir un puerto, un puente WebSocket en Node (`servidor/mando.js`) une el celular con la página del juego.
+
+1. Iniciá el puente:
+   - Con el servidor Node: `npm.cmd run server` ya lo levanta en el puerto **3001**.
+   - Con XAMPP/PHP: dejá Apache como siempre y, en otra terminal, ejecutá `npm.cmd run mando`.
+   - Otro puerto: `$env:MANDO_PORT=3002; npm.cmd run mando` (y cambiá `PUERTO_MANDO` en `js/juego/mando.js`).
+2. Abrí un nivel. En la esquina del escenario aparece `📱 MANDO · IP … · PUERTO 3001 · SALA 1234`.
+3. En la app, ingresá esa IP, el puerto y el código de sala. La insignia cambia a **MANDO CONECTADO**.
+
+El código de sala se conserva mientras la pestaña siga abierta, así que el mando sigue conectado al pasar de nivel. La insignia no aparece si el puente no está corriendo ni en la demo de GitHub Pages (https no permite `ws://` hacia la red local).
+
+Protocolo (JSON por WebSocket):
+
+- Mando → `ws://IP:3001/mando?sala=1234`
+  - `{"tipo":"control","accion":"left|right|jump|jetpack","activo":true|false}` al presionar y al soltar.
+  - `{"tipo":"accion","accion":"ability"}` (tecla E) y `{"tipo":"accion","accion":"pause"}` (tecla P).
+  - `{"tipo":"ping","t":123}` → responde `{"tipo":"pong","t":123}`.
+- Juego → mando:
+  - `{"tipo":"estado","nivel":1,"planeta":"MERCURIO","habilidad":"IMPULSO","jetpack":false,"pausado":false,"vidas":3,"oxigeno":0.8,"fin":null}`; `fin` vale `"completado"` o `"derrota"` al terminar.
+  - `{"tipo":"juego","conectado":true|false}` cuando la página del juego se abre o se cierra.
+
+Si el celular se desconecta con un botón apretado, el juego suelta esas teclas automáticamente. El puente descarta cualquier mensaje con un formato distinto.
+
 ## Cuenta, invitado y puntuaciones
 
 - Una cuenta registra el puntaje y los niveles completados en MySQL/SQLite; el mapa recupera ese avance al iniciar sesión desde otro dispositivo.
