@@ -21,6 +21,12 @@ Videojuego educativo de plataformas 2D sobre gravedad, impulso, inercia, propuls
 - La portada `index.html` permite que la raíz del sitio funcione en GitHub Pages. Cuando se ejecuta con Apache/PHP, `index.php` sigue siendo la entrada y redirige al inicio de sesión.
 - Supabase no sirve para hostear este proyecto tal como está: es base de datos/backend y no ejecuta PHP. Para usarlo habría que reescribir la API. La demo de Pages no lo necesita.
 
+## Sitio en producción (InfinityFree)
+
+- URL: **https://juego-fisica.fwh.is/**
+- Versión completa con PHP 8 y MySQL: cuentas compartidas, progreso guardado en el servidor y ranking global.
+- La configuración privada (`api/config.local.php`) se mantiene solo en el hosting y no se publica en GitHub.
+
 ## Ejecutar con PHP y MySQL
 
 1. Copiá el proyecto dentro de `C:\xampp\htdocs\Juego-Fisica`.
